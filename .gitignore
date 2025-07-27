@@ -1,0 +1,35 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# VSCode
+.vscode/
+*.code-workspace
+
+# Conda/venv environments
+.conda/
+venv/
+env/
+ENV/
+
+# Model checkpoints and results
+results/checkpoints/
+*.pt
+*.pth
+
+# Data archives
+*.tar.gz
+*.zip
+*.rar
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
