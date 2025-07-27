@@ -1,0 +1,506 @@
+{
+  "step": [
+    20,
+    40,
+    60,
+    80,
+    100,
+    120,
+    140,
+    160,
+    180,
+    200,
+    220,
+    240,
+    260,
+    280,
+    300,
+    320,
+    340,
+    360,
+    380,
+    400,
+    420,
+    440,
+    460,
+    480,
+    500,
+    520,
+    540,
+    560,
+    580,
+    600,
+    620,
+    640,
+    660,
+    680,
+    700,
+    720,
+    740,
+    760,
+    780,
+    800,
+    820,
+    840,
+    860,
+    880,
+    900,
+    920,
+    940,
+    960,
+    980,
+    1000
+  ],
+  "metrics": [
+    {
+      "CTR_true": 0.0,
+      "CTR_pred": 0.5097718238830566,
+      "MSE_play_time": 37574.22265625,
+      "LongView_true": 0.0,
+      "LongView_pred": 0.0,
+      "play_time_true": 43.349998474121094,
+      "play_time_pred": 0.04829680174589157
+    },
+    {
+      "CTR_true": 0.0,
+      "CTR_pred": 0.5038465261459351,
+      "MSE_play_time": 579016.5625,
+      "LongView_true": 0.0,
+      "LongView_pred": 0.0,
+      "play_time_true": 140.02499389648438,
+      "play_time_pred": 0.07609579712152481
+    },
+    {
+      "CTR_true": 0.01666666753590107,
+      "CTR_pred": 0.5009811520576477,
+      "MSE_play_time": 4812986.5,
+      "LongView_true": 0.01666666753590107,
+      "LongView_pred": 0.0,
+      "play_time_true": 364.98333740234375,
+      "play_time_pred": 0.11499223858118057
+    },
+    {
+      "CTR_true": 0.012500000186264515,
+      "CTR_pred": 0.4994673728942871,
+      "MSE_play_time": 3890756.75,
+      "LongView_true": 0.012500000186264515,
+      "LongView_pred": 0.0,
+      "play_time_true": 356.7124938964844,
+      "play_time_pred": 0.1563166081905365
+    },
+    {
+      "CTR_true": 0.009999999776482582,
+      "CTR_pred": 0.4976983964443207,
+      "MSE_play_time": 3118291.5,
+      "LongView_true": 0.009999999776482582,
+      "LongView_pred": 0.0,
+      "play_time_true": 292.94000244140625,
+      "play_time_pred": 0.197444349527359
+    },
+    {
+      "CTR_true": 0.008333333767950535,
+      "CTR_pred": 0.4963683485984802,
+      "MSE_play_time": 2598548.5,
+      "LongView_true": 0.008333333767950535,
+      "LongView_pred": 0.0,
+      "play_time_true": 244.11666870117188,
+      "play_time_pred": 0.24469511210918427
+    },
+    {
+      "CTR_true": 0.0071428571827709675,
+      "CTR_pred": 0.49322259426116943,
+      "MSE_play_time": 2240157.0,
+      "LongView_true": 0.0071428571827709675,
+      "LongView_pred": 0.0,
+      "play_time_true": 222.6857147216797,
+      "play_time_pred": 0.3362653851509094
+    },
+    {
+      "CTR_true": 0.012500000186264515,
+      "CTR_pred": 0.48919638991355896,
+      "MSE_play_time": 61527788.0,
+      "LongView_true": 0.012500000186264515,
+      "LongView_pred": 0.0,
+      "play_time_true": 828.6187744140625,
+      "play_time_pred": 0.4324707090854645
+    },
+    {
+      "CTR_true": 0.02777777798473835,
+      "CTR_pred": 0.4839368164539337,
+      "MSE_play_time": 135875136.0,
+      "LongView_true": 0.02777777798473835,
+      "LongView_pred": 0.0,
+      "play_time_true": 1819.45556640625,
+      "play_time_pred": 0.54490727186203
+    },
+    {
+      "CTR_true": 0.02500000037252903,
+      "CTR_pred": 0.47743740677833557,
+      "MSE_play_time": 122296112.0,
+      "LongView_true": 0.02500000037252903,
+      "LongView_pred": 0.0,
+      "play_time_true": 1644.300048828125,
+      "play_time_pred": 0.6650205850601196
+    },
+    {
+      "CTR_true": 0.027272727340459824,
+      "CTR_pred": 0.46885740756988525,
+      "MSE_play_time": 112960816.0,
+      "LongView_true": 0.027272727340459824,
+      "LongView_pred": 0.0,
+      "play_time_true": 1615.6864013671875,
+      "play_time_pred": 0.8063458800315857
+    },
+    {
+      "CTR_true": 0.03750000149011612,
+      "CTR_pred": 0.4568318724632263,
+      "MSE_play_time": 111902128.0,
+      "LongView_true": 0.03333333507180214,
+      "LongView_pred": 0.0,
+      "play_time_true": 1768.495849609375,
+      "play_time_pred": 0.9681826829910278
+    },
+    {
+      "CTR_true": 0.042307693511247635,
+      "CTR_pred": 0.43277662992477417,
+      "MSE_play_time": 126852152.0,
+      "LongView_true": 0.03846153989434242,
+      "LongView_pred": 0.0,
+      "play_time_true": 2002.019287109375,
+      "play_time_pred": 1.2376102209091187
+    },
+    {
+      "CTR_true": 0.04642857238650322,
+      "CTR_pred": 0.40196242928504944,
+      "MSE_play_time": 137532032.0,
+      "LongView_true": 0.04285714402794838,
+      "LongView_pred": 0.0,
+      "play_time_true": 2237.696533203125,
+      "play_time_pred": 1.560468316078186
+    },
+    {
+      "CTR_true": 0.0533333346247673,
+      "CTR_pred": 0.3632512092590332,
+      "MSE_play_time": 133552576.0,
+      "LongView_true": 0.04333333298563957,
+      "LongView_pred": 0.0,
+      "play_time_true": 2275.02001953125,
+      "play_time_pred": 1.952920913696289
+    },
+    {
+      "CTR_true": 0.05937499925494194,
+      "CTR_pred": 0.3170202970504761,
+      "MSE_play_time": 145477696.0,
+      "LongView_true": 0.05000000074505806,
+      "LongView_pred": 0.0,
+      "play_time_true": 2546.887451171875,
+      "play_time_pred": 2.447824001312256
+    },
+    {
+      "CTR_true": 0.05588235333561897,
+      "CTR_pred": 0.26676586270332336,
+      "MSE_play_time": 136913360.0,
+      "LongView_true": 0.0470588244497776,
+      "LongView_pred": 0.0,
+      "play_time_true": 2397.070556640625,
+      "play_time_pred": 3.0507919788360596
+    },
+    {
+      "CTR_true": 0.0555555559694767,
+      "CTR_pred": 0.21681174635887146,
+      "MSE_play_time": 132118824.0,
+      "LongView_true": 0.04722222313284874,
+      "LongView_pred": 0.0,
+      "play_time_true": 2372.966552734375,
+      "play_time_pred": 3.764943838119507
+    },
+    {
+      "CTR_true": 0.06315789371728897,
+      "CTR_pred": 0.16686241328716278,
+      "MSE_play_time": 167952560.0,
+      "LongView_true": 0.055263157933950424,
+      "LongView_pred": 0.0,
+      "play_time_true": 2940.368408203125,
+      "play_time_pred": 4.681461811065674
+    },
+    {
+      "CTR_true": 0.06750000268220901,
+      "CTR_pred": 0.11468268185853958,
+      "MSE_play_time": 168258144.0,
+      "LongView_true": 0.057500001043081284,
+      "LongView_pred": 0.0,
+      "play_time_true": 3000.655029296875,
+      "play_time_pred": 6.134522914886475
+    },
+    {
+      "CTR_true": 0.06666667014360428,
+      "CTR_pred": 0.07813850790262222,
+      "MSE_play_time": 161857472.0,
+      "LongView_true": 0.05714285746216774,
+      "LongView_pred": 0.0,
+      "play_time_true": 2934.0166015625,
+      "play_time_pred": 7.97219705581665
+    },
+    {
+      "CTR_true": 0.06818182021379471,
+      "CTR_pred": 0.05743877962231636,
+      "MSE_play_time": 157003968.0,
+      "LongView_true": 0.05681818351149559,
+      "LongView_pred": 0.0,
+      "play_time_true": 2899.377197265625,
+      "play_time_pred": 10.127256393432617
+    },
+    {
+      "CTR_true": 0.06956521421670914,
+      "CTR_pred": 0.041114892810583115,
+      "MSE_play_time": 152090288.0,
+      "LongView_true": 0.05869565159082413,
+      "LongView_pred": 0.0,
+      "play_time_true": 2875.084716796875,
+      "play_time_pred": 13.046892166137695
+    },
+    {
+      "CTR_true": 0.07708333432674408,
+      "CTR_pred": 0.03513101860880852,
+      "MSE_play_time": 163047232.0,
+      "LongView_true": 0.0625,
+      "LongView_pred": 0.0,
+      "play_time_true": 3085.89990234375,
+      "play_time_pred": 16.35747528076172
+    },
+    {
+      "CTR_true": 0.07800000160932541,
+      "CTR_pred": 0.030179642140865326,
+      "MSE_play_time": 158299296.0,
+      "LongView_true": 0.06199999898672104,
+      "LongView_pred": 0.0,
+      "play_time_true": 3047.090087890625,
+      "play_time_pred": 20.987728118896484
+    },
+    {
+      "CTR_true": 0.08076923340559006,
+      "CTR_pred": 0.027083449065685272,
+      "MSE_play_time": 155824304.0,
+      "LongView_true": 0.0634615421295166,
+      "LongView_pred": 0.0,
+      "play_time_true": 3069.7578125,
+      "play_time_pred": 27.949230194091797
+    },
+    {
+      "CTR_true": 0.0833333358168602,
+      "CTR_pred": 0.026742029935121536,
+      "MSE_play_time": 162463264.0,
+      "LongView_true": 0.06481481343507767,
+      "LongView_pred": 0.0,
+      "play_time_true": 3173.987060546875,
+      "play_time_pred": 36.20500183105469
+    },
+    {
+      "CTR_true": 0.08392857015132904,
+      "CTR_pred": 0.025828471407294273,
+      "MSE_play_time": 162192656.0,
+      "LongView_true": 0.06607142835855484,
+      "LongView_pred": 0.0,
+      "play_time_true": 3190.4697265625,
+      "play_time_pred": 45.62827682495117
+    },
+    {
+      "CTR_true": 0.08793103694915771,
+      "CTR_pred": 0.027228323742747307,
+      "MSE_play_time": 160507152.0,
+      "LongView_true": 0.06896551698446274,
+      "LongView_pred": 0.0,
+      "play_time_true": 3226.618896484375,
+      "play_time_pred": 57.96992874145508
+    },
+    {
+      "CTR_true": 0.08666666597127914,
+      "CTR_pred": 0.029288174584507942,
+      "MSE_play_time": 156147904.0,
+      "LongView_true": 0.06833333522081375,
+      "LongView_pred": 0.0,
+      "play_time_true": 3169.32666015625,
+      "play_time_pred": 72.57735443115234
+    },
+    {
+      "CTR_true": 0.08548387140035629,
+      "CTR_pred": 0.03558754920959473,
+      "MSE_play_time": 151068400.0,
+      "LongView_true": 0.06612902879714966,
+      "LongView_pred": 0.0,
+      "play_time_true": 3088.774169921875,
+      "play_time_pred": 89.62156677246094
+    },
+    {
+      "CTR_true": 0.08749999850988388,
+      "CTR_pred": 0.046857573091983795,
+      "MSE_play_time": 173053584.0,
+      "LongView_true": 0.06875000149011612,
+      "LongView_pred": 0.0,
+      "play_time_true": 3317.46240234375,
+      "play_time_pred": 110.75666809082031
+    },
+    {
+      "CTR_true": 0.08787878602743149,
+      "CTR_pred": 0.10041672736406326,
+      "MSE_play_time": 170850944.0,
+      "LongView_true": 0.06818182021379471,
+      "LongView_pred": 0.0,
+      "play_time_true": 3302.3076171875,
+      "play_time_pred": 143.660888671875
+    },
+    {
+      "CTR_true": 0.0882352963089943,
+      "CTR_pred": 0.25552165508270264,
+      "MSE_play_time": 165967552.0,
+      "LongView_true": 0.06911765038967133,
+      "LongView_pred": 0.0,
+      "play_time_true": 3254.039794921875,
+      "play_time_pred": 182.72067260742188
+    },
+    {
+      "CTR_true": 0.08714285492897034,
+      "CTR_pred": 0.1198042631149292,
+      "MSE_play_time": 161586736.0,
+      "LongView_true": 0.06857142597436905,
+      "LongView_pred": 0.0,
+      "play_time_true": 3208.472900390625,
+      "play_time_pred": 231.3055877685547
+    },
+    {
+      "CTR_true": 0.08749999850988388,
+      "CTR_pred": 0.1709420382976532,
+      "MSE_play_time": 182673472.0,
+      "LongView_true": 0.0694444477558136,
+      "LongView_pred": 0.0,
+      "play_time_true": 3329.74853515625,
+      "play_time_pred": 290.34912109375
+    },
+    {
+      "CTR_true": 0.0878378376364708,
+      "CTR_pred": 0.1714317351579666,
+      "MSE_play_time": 183743808.0,
+      "LongView_true": 0.07027027010917664,
+      "LongView_pred": 0.0,
+      "play_time_true": 3367.786376953125,
+      "play_time_pred": 368.0950622558594
+    },
+    {
+      "CTR_true": 0.08815789222717285,
+      "CTR_pred": 0.1662842482328415,
+      "MSE_play_time": 199024448.0,
+      "LongView_true": 0.07105263322591782,
+      "LongView_pred": 0.0,
+      "play_time_true": 3472.9091796875,
+      "play_time_pred": 458.6967468261719
+    },
+    {
+      "CTR_true": 0.08974359184503555,
+      "CTR_pred": 0.3261461555957794,
+      "MSE_play_time": 203853360.0,
+      "LongView_true": 0.07051282376050949,
+      "LongView_pred": 0.0,
+      "play_time_true": 3525.696044921875,
+      "play_time_pred": 588.1119995117188
+    },
+    {
+      "CTR_true": 0.09000000357627869,
+      "CTR_pred": 0.0801069363951683,
+      "MSE_play_time": 201648048.0,
+      "LongView_true": 0.07124999910593033,
+      "LongView_pred": 0.0,
+      "play_time_true": 3544.43115234375,
+      "play_time_pred": 728.4390869140625
+    },
+    {
+      "CTR_true": 0.09024390578269958,
+      "CTR_pred": 0.057047028094530106,
+      "MSE_play_time": 196083952.0,
+      "LongView_true": 0.07073170691728592,
+      "LongView_pred": 0.0,
+      "play_time_true": 3505.957275390625,
+      "play_time_pred": 867.77197265625
+    },
+    {
+      "CTR_true": 0.09166666865348816,
+      "CTR_pred": 0.07634860277175903,
+      "MSE_play_time": 213029856.0,
+      "LongView_true": 0.07261905074119568,
+      "LongView_pred": 0.0,
+      "play_time_true": 3655.452392578125,
+      "play_time_pred": 1037.521728515625
+    },
+    {
+      "CTR_true": 0.08953488618135452,
+      "CTR_pred": 0.2140297293663025,
+      "MSE_play_time": 206759104.0,
+      "LongView_true": 0.07093023508787155,
+      "LongView_pred": 0.0,
+      "play_time_true": 3575.934814453125,
+      "play_time_pred": 1211.5213623046875
+    },
+    {
+      "CTR_true": 0.0886363610625267,
+      "CTR_pred": 0.17010033130645752,
+      "MSE_play_time": 200535360.0,
+      "LongView_true": 0.06931818276643753,
+      "LongView_pred": 0.0,
+      "play_time_true": 3504.647705078125,
+      "play_time_pred": 1406.2879638671875
+    },
+    {
+      "CTR_true": 0.09000000357627869,
+      "CTR_pred": 0.3791658580303192,
+      "MSE_play_time": 197721984.0,
+      "LongView_true": 0.07111111283302307,
+      "LongView_pred": 0.0,
+      "play_time_true": 3533.216552734375,
+      "play_time_pred": 1664.344482421875
+    },
+    {
+      "CTR_true": 0.08804348111152649,
+      "CTR_pred": 0.08683474361896515,
+      "MSE_play_time": 191801296.0,
+      "LongView_true": 0.06956521421670914,
+      "LongView_pred": 0.0,
+      "play_time_true": 3470.29345703125,
+      "play_time_pred": 1907.8519287109375
+    },
+    {
+      "CTR_true": 0.0904255285859108,
+      "CTR_pred": 0.01787416823208332,
+      "MSE_play_time": 192542192.0,
+      "LongView_true": 0.07234042882919312,
+      "LongView_pred": 0.0010638297535479069,
+      "play_time_true": 3556.164794921875,
+      "play_time_pred": 2149.62158203125
+    },
+    {
+      "CTR_true": 0.09270833432674408,
+      "CTR_pred": 0.014172237366437912,
+      "MSE_play_time": 212710544.0,
+      "LongView_true": 0.07500000298023224,
+      "LongView_pred": 0.0010416667209938169,
+      "play_time_true": 3781.18115234375,
+      "play_time_pred": 2423.30712890625
+    },
+    {
+      "CTR_true": 0.09081632643938065,
+      "CTR_pred": 0.012623670510947704,
+      "MSE_play_time": 207908112.0,
+      "LongView_true": 0.0734693855047226,
+      "LongView_pred": 0.0020408162381500006,
+      "play_time_true": 3707.6611328125,
+      "play_time_pred": 2675.834716796875
+    },
+    {
+      "CTR_true": 0.08900000154972076,
+      "CTR_pred": 0.010237066075205803,
+      "MSE_play_time": 203859744.0,
+      "LongView_true": 0.07199999690055847,
+      "LongView_pred": 0.004000000189989805,
+      "play_time_true": 3637.114013671875,
+      "play_time_pred": 2907.966796875
+    }
+  ]
+}
