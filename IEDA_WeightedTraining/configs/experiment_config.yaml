@@ -1,0 +1,44 @@
+# 路径配置
+# 请根据实际数据集路径调整 data_path
+
+# 数据集设置
+# Pure 或 1K
+# data_path 建议软链接到 KuaiRand 目录
+
+dataset_name: "Pure"
+data_path: "../KuaiRand/Pure/data/"
+results_path: "../results/"
+
+# 实验设置
+experiment_method: "weighted" # 可选: weighted, pooling, splitting, snapshot
+repetitions: 100
+p_treatment: 0.5
+
+
+# 动态模拟循环参数
+total_simulation_steps: 1000
+candidate_pool_size: 100
+initial_dataset_size: 5000
+train_every_n_steps: 20
+batch_size: 128
+
+
+# 模型超参数
+prediction_model:
+  input_dim: 102
+  hidden_dims: [128, 64]
+  output_dim: 2
+weighting_model:
+  hidden_dims: [64, 32]
+
+# 推荐器参数
+recommender:
+  treatment_alpha: 0.5
+  control_alpha: 0.05
+
+# 日志与保存
+log_path: "../results/logs/"
+checkpoint_path: "../results/checkpoints/"
+plot_path: "../results/plots/"
+
+# 其他参数可根据需要补充
