@@ -24,8 +24,12 @@ class DataManager:
         logs = []
         for fname in log_files:
             fpath = os.path.join(data_path, fname)
+            print(f"[DEBUG] Checking log file: {fpath} exists={os.path.exists(fpath)}", flush=True)
             if os.path.exists(fpath):
                 logs.append(pd.read_csv(fpath))
+            else:
+                print(f"[WARNING] Log file not found: {fpath}", flush=True)
+        print(f"[DEBUG] logs length: {len(logs)}", flush=True)
         self.master_df = pd.concat(logs, ignore_index=True)
         self.master_df.sort_values('time_ms', inplace=True)
         # 加载用户特征

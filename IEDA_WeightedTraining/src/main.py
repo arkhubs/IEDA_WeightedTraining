@@ -1,5 +1,7 @@
 import sys
 import os
+import sys
+import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import yaml
 import torch
@@ -13,8 +15,11 @@ from src.recommender import Recommender
 from src.utils import setup_logging, save_model, save_results, compute_metrics
 from torch.utils.data import DataLoader
 
-with open('configs/experiment_config.yaml', 'r', encoding='utf-8') as f:
+config_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../configs/experiment_config.yaml')
+with open(config_path, 'r', encoding='utf-8') as f:
     config = yaml.safe_load(f)
+# 强制修正 data_path 为实际数据集绝对路径
+config['data_path'] = '/home/zhixuanhu/IEDA_WeightedTraining/KuaiRand/Pure/data'
 
 def run_experiment(config):
     logger = setup_logging(config)
@@ -26,27 +31,40 @@ def run_experiment(config):
     weight_hidden_dims = config.get('weighting_model', {}).get('hidden_dims', [64, 32])
     method = config.get('experiment_method', 'weighted')
 
+    # 设备选择
+    device_cfg = config.get('device', 'auto')
+    available_devices = []
+    if torch.cuda.is_available():
+        available_devices.append('cuda')
+    available_devices.append('cpu')
+    if device_cfg == 'auto':
+        device = 'cuda' if 'cuda' in available_devices else 'cpu'
+    else:
+        device = device_cfg if device_cfg in available_devices else 'cpu'
+    print(f"[Device] Available devices: {available_devices}, selected: {device}")
+    logger.info(f"Using device: {device}")
+
     # 初始化模型和训练器
     if method == 'weighted':
-        model_T = PredictionModel(input_dim, pred_hidden_dims, output_dim)
-        model_C = PredictionModel(input_dim, pred_hidden_dims, output_dim)
-        weight_model = WeightingModel(input_dim, weight_hidden_dims)
-        trainer = WeightedTrainer(config, model_T, model_C, weight_model)
+        model_T = PredictionModel(input_dim, pred_hidden_dims, output_dim).to(device)
+        model_C = PredictionModel(input_dim, pred_hidden_dims, output_dim).to(device)
+        weight_model = WeightingModel(input_dim, weight_hidden_dims).to(device)
+        trainer = WeightedTrainer(config, model_T, model_C, weight_model, device=device)
         recommender_T = Recommender(model_T, alpha=config['recommender']['treatment_alpha'])
         recommender_C = Recommender(model_C, alpha=config['recommender']['control_alpha'])
     elif method == 'pooling':
-        model = PredictionModel(input_dim, pred_hidden_dims, output_dim)
-        trainer = PoolingTrainer(config, model)
+        model = PredictionModel(input_dim, pred_hidden_dims, output_dim).to(device)
+        trainer = PoolingTrainer(config, model, device=device)
         recommender_T = recommender_C = Recommender(model)
     elif method == 'splitting':
-        model_T = PredictionModel(input_dim, pred_hidden_dims, output_dim)
-        model_C = PredictionModel(input_dim, pred_hidden_dims, output_dim)
-        trainer = SplittingTrainer(config, model_T, model_C)
+        model_T = PredictionModel(input_dim, pred_hidden_dims, output_dim).to(device)
+        model_C = PredictionModel(input_dim, pred_hidden_dims, output_dim).to(device)
+        trainer = SplittingTrainer(config, model_T, model_C, device=device)
         recommender_T = Recommender(model_T)
         recommender_C = Recommender(model_C)
     elif method == 'snapshot':
-        model = PredictionModel(input_dim, pred_hidden_dims, output_dim)
-        trainer = SnapshotTrainer(config, model)
+        model = PredictionModel(input_dim, pred_hidden_dims, output_dim).to(device)
+        trainer = SnapshotTrainer(config, model, device=device)
         recommender_T = recommender_C = Recommender(model)
     else:
         raise ValueError(f'Unknown experiment_method: {method}')
@@ -100,4 +118,9 @@ def run_experiment(config):
     save_results(results, os.path.join(config['results_path'], 'exp_results.json'))
 
 if __name__ == '__main__':
-    run_experiment(config)
+    try:
+        run_experiment(config)
+    except Exception as e:
+        import traceback
+        print("[ERROR] Exception occurred:")
+        traceback.print_exc()
