@@ -20,8 +20,6 @@ import datetime
 config_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../configs/experiment_config.yaml')
 with open(config_path, 'r', encoding='utf-8') as f:
     config = yaml.safe_load(f)
-# 强制修正 data_path 为实际数据集绝对路径
-config['data_path'] = '/home/zhixuanhu/IEDA_WeightedTraining/KuaiRand/Pure/data'
 # 设置实验结果保存目录为 /home/zhixuanhu/IEDA_WeightedTraining/results/时间戳/
 timestamp = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
 base_results_dir = '/home/zhixuanhu/IEDA_WeightedTraining/results'

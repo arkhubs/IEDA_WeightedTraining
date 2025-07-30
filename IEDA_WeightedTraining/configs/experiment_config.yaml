@@ -5,10 +5,10 @@ device: "auto"  # 可选: auto, cuda, cpu
 
 # 数据集设置
 # Pure 或 1K 或 27K
-# data_path 建议软链接到 KuaiRand 目录
+data_path: "KuaiRand/27K/data/"
 
-dataset_name: "Pure"
-data_path: "../KuaiRand/Pure/data/"
+dataset_name: "27K"
+data_path: "KuaiRand/27K/data/"
 results_path: "../results/"
 
 # 实验设置

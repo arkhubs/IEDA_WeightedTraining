@@ -14,35 +14,55 @@ class DataManager:
         """
         dataset_name = config.get('dataset_name', 'Pure')
         data_path = config.get('data_path', './data/')
-        # 日志文件列表
-        log_files = [
-            f'log_standard_4_08_to_4_21_{dataset_name.lower()}.csv',
-            f'log_standard_4_22_to_5_08_{dataset_name.lower()}.csv',
-            f'log_random_4_22_to_5_08_{dataset_name.lower()}.csv'
-        ]
-        # 加载日志数据
+        # 日志文件自动分片支持
+        import glob
+        # 新的日志文件pattern，确保分片和单文件都能被加载，且顺序合并
         logs = []
-        for fname in log_files:
-            fpath = os.path.join(data_path, fname)
-            print(f"[DEBUG] Checking log file: {fpath} exists={os.path.exists(fpath)}", flush=True)
-            if os.path.exists(fpath):
-                logs.append(pd.read_csv(fpath))
+        log_types = [
+            'log_standard_4_08_to_4_21',
+            'log_standard_4_22_to_5_08',
+            'log_random_4_22_to_5_08'
+        ]
+        for log_type in log_types:
+            part_pattern = os.path.join(data_path, f'{log_type}_{dataset_name.lower()}_part*.csv')
+            print(f"[DEBUG] Pattern: {part_pattern}", flush=True)
+            part_files = sorted(glob.glob(part_pattern))
+            print(f"[DEBUG] Matched files: {part_files}", flush=True)
+            if part_files:
+                for fpath in part_files:
+                    print(f"[DEBUG] Loading log file: {fpath}", flush=True)
+                    try:
+                        logs.append(pd.read_csv(fpath))
+                    except Exception as e:
+                        print(f"[ERROR] Failed to load {fpath}: {e}", flush=True)
             else:
-                print(f"[WARNING] Log file not found: {fpath}", flush=True)
+                single_file = os.path.join(data_path, f'{log_type}_{dataset_name.lower()}.csv')
+                print(f"[DEBUG] Check single file: {single_file}, exists={os.path.exists(single_file)}", flush=True)
+                if os.path.exists(single_file):
+                    print(f"[DEBUG] Loading log file: {single_file}", flush=True)
+                    logs.append(pd.read_csv(single_file))
+                else:
+                    print(f"[WARNING] No log file found for {log_type}", flush=True)
         print(f"[DEBUG] logs length: {len(logs)}", flush=True)
+        if not logs:
+            raise RuntimeError("No log files found for dataset. Please check data_path and file names.")
         self.master_df = pd.concat(logs, ignore_index=True)
         self.master_df.sort_values('time_ms', inplace=True)
         # 加载用户特征
         user_feat_file = f'user_features_{dataset_name.lower()}.csv'
         user_feat_path = os.path.join(data_path, user_feat_file)
         self.user_features = pd.read_csv(user_feat_path)
-        # 加载视频特征（基础+统计）
+        # 加载视频特征（基础+统计，支持分片）
         video_basic_file = f'video_features_basic_{dataset_name.lower()}.csv'
-        video_stat_file = f'video_features_statistic_{dataset_name.lower()}.csv'
         video_basic_path = os.path.join(data_path, video_basic_file)
-        video_stat_path = os.path.join(data_path, video_stat_file)
         video_basic = pd.read_csv(video_basic_path)
-        video_stat = pd.read_csv(video_stat_path)
+        # 统计特征分片
+        video_stat_pattern = f'video_features_statistic_{dataset_name.lower()}*.csv'
+        video_stat_files = sorted(glob.glob(os.path.join(data_path, video_stat_pattern)))
+        if not video_stat_files:
+            raise RuntimeError("No video statistic feature files found for dataset.")
+        video_stat_list = [pd.read_csv(f) for f in video_stat_files]
+        video_stat = pd.concat(video_stat_list, ignore_index=True)
         self.video_features = pd.merge(video_basic, video_stat, on='video_id', how='left')
         # 建立索引，便于快速查找
         self.user_feat_dict = self.user_features.set_index('user_id').to_dict(orient='index')
