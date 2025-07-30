@@ -49,6 +49,11 @@ class DataManager:
         self.video_feat_dict = self.video_features.set_index('video_id').to_dict(orient='index')
         self.master_df.reset_index(drop=True, inplace=True)
 
+    def get_all_interactions(self):
+        """返回所有交互数据，用于预训练时随机采样"""
+        for _, interaction in self.master_df.iterrows():
+            yield interaction
+
     def get_simulation_stream(self, num_steps):
         """返回一个生成器，模拟 num_steps 次用户-视频交互（按时间流）"""
         for _, interaction in self.master_df.head(num_steps).iterrows():
@@ -127,7 +132,7 @@ class DataManager:
         # 对齐长度（one-hot后不同样本可能长度不同，需补零）
         maxlen = max(len(f) for f in feats)
         feats_pad = np.array([np.pad(f, (0, maxlen-len(f)), 'constant') for f in feats])
-        print(f"[调试] 当前特征维度: {feats_pad.shape[1]}")
+        # print(f"[调试] 当前特征维度: {feats_pad.shape[1]}")
         # 检查是否还有 NaN
         if np.isnan(feats_pad).any():
             print("[警告] 特征矩阵仍含有 NaN！")

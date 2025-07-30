@@ -1,10 +1,17 @@
+
 import json
 import matplotlib.pyplot as plt
 import os
+import sys
 
-# 读取结果文件
-dir_path = os.path.dirname(__file__)
-json_path = os.path.join(dir_path, 'exp_results.json')
+# 支持命令行参数指定结果目录
+if len(sys.argv) > 1:
+    result_dir = sys.argv[1]
+else:
+    result_dir = os.path.dirname(__file__)
+json_path = os.path.join(result_dir, 'exp_results.json')
+if not os.path.exists(json_path):
+    raise FileNotFoundError(f"未找到结果文件: {json_path}")
 with open(json_path, 'r', encoding='utf-8') as f:
     data = json.load(f)
 
@@ -57,7 +64,7 @@ plt.title('Play Time True vs Pred')
 plt.legend()
 
 plt.tight_layout()
-save_path = os.path.join(dir_path, 'exp_results_plot.png')
+save_path = os.path.join(result_dir, 'exp_results_plot.png')
 plt.savefig(save_path, dpi=200)
 print(f"图像已保存到: {save_path}")
 plt.show()

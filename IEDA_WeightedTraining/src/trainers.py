@@ -22,8 +22,14 @@ class WeightedTrainer:
         self.checkpoint_path = config.get('checkpoint_path', './results/checkpoints/')
 
     def train_on_history(self, history_loader):
-        for X, Y, Z in history_loader:
+        global_epoch = 1
+        for (X, Y, Z) in history_loader:
+            if X.shape[0] == 1:
+                print(f"[调试] 跳过 batch_size=1 (epoch={global_epoch})")
+                global_epoch += 1
+                continue
             X, Y, Z = X.to(self.device), Y.to(self.device), Z.to(self.device)
+            print(f"[调试] epoch={global_epoch}, batch_size={X.shape[0]}")
             print(f"[调试] X 是否有 NaN: {torch.isnan(X).any().item()}, 是否有 Inf: {torch.isinf(X).any().item()}")
             # 训练权重模型 G
             self.weight_model.train()
@@ -49,6 +55,7 @@ class WeightedTrainer:
             loss_c = self.model_C.loss_function(pred_click_c, pred_time_c, Y, weights=weight_C)
             loss_c.backward()
             self.optimizer_C.step()
+            global_epoch += 1
 
     def save_models(self, step):
         os.makedirs(self.checkpoint_path, exist_ok=True)
@@ -67,14 +74,42 @@ class PoolingTrainer:
         self.checkpoint_path = config.get('checkpoint_path', './results/checkpoints/')
 
     def train_on_history(self, history_loader):
-        for X, Y, Z in history_loader:
+        global_epoch = 1
+        for (X, Y, Z) in history_loader:
+            if X.shape[0] == 1:
+                print(f"[调试] 跳过 batch_size=1 (epoch={global_epoch})")
+                global_epoch += 1
+                continue
             X, Y = X.to(self.device), Y.to(self.device)
+            print(f"[调试] epoch={global_epoch}, batch_size={X.shape[0]}")
             self.model.train()
             self.optimizer.zero_grad()
             pred_click, pred_time = self.model(X)
             loss = self.model.loss_function(pred_click, pred_time, Y)
             loss.backward()
             self.optimizer.step()
+            global_epoch += 1
+
+    def train_on_pooling(self, pooling_loader):
+        """专门用于预训练的pooling方法"""
+        epochs = 5  # 预训练轮数
+        for epoch in range(epochs):
+            epoch_loss = 0
+            batch_count = 0
+            for (X, Y, Z) in pooling_loader:
+                if X.shape[0] == 1:
+                    continue
+                X, Y = X.to(self.device), Y.to(self.device)
+                self.model.train()
+                self.optimizer.zero_grad()
+                pred_click, pred_time = self.model(X)
+                loss = self.model.loss_function(pred_click, pred_time, Y)
+                loss.backward()
+                self.optimizer.step()
+                epoch_loss += loss.item()
+                batch_count += 1
+            if batch_count > 0:
+                print(f"[Pretrain] Epoch {epoch+1}/{epochs}, Avg Loss: {epoch_loss/batch_count:.4f}")
 
     def save_model(self, step):
         os.makedirs(self.checkpoint_path, exist_ok=True)
@@ -93,8 +128,14 @@ class SplittingTrainer:
         self.checkpoint_path = config.get('checkpoint_path', './results/checkpoints/')
 
     def train_on_history(self, history_loader):
-        for X, Y, Z in history_loader:
+        global_epoch = 1
+        for (X, Y, Z) in history_loader:
+            if X.shape[0] == 1:
+                print(f"[调试] 跳过 batch_size=1 (epoch={global_epoch})")
+                global_epoch += 1
+                continue
             X, Y, Z = X.to(self.device), Y.to(self.device), Z.to(self.device)
+            print(f"[调试] epoch={global_epoch}, batch_size={X.shape[0]}")
             # 实验组
             mask_T = (Z == 1)
             if mask_T.any():
@@ -115,6 +156,7 @@ class SplittingTrainer:
                 loss_c = self.model_C.loss_function(pred_click_c, pred_time_c, Y_C)
                 loss_c.backward()
                 self.optimizer_C.step()
+            global_epoch += 1
 
     def save_models(self, step):
         os.makedirs(self.checkpoint_path, exist_ok=True)
@@ -132,14 +174,21 @@ class SnapshotTrainer:
         self.checkpoint_path = config.get('checkpoint_path', './results/checkpoints/')
 
     def train_on_snapshot(self, snapshot_loader):
-        for X, Y, Z in snapshot_loader:
+        global_epoch = 1
+        for (X, Y, Z) in snapshot_loader:
+            if X.shape[0] == 1:
+                print(f"[调试] 跳过 batch_size=1 (epoch={global_epoch})")
+                global_epoch += 1
+                continue
             X, Y = X.to(self.device), Y.to(self.device)
+            print(f"[调试] epoch={global_epoch}, batch_size={X.shape[0]}")
             self.model.train()
             self.optimizer.zero_grad()
             pred_click, pred_time = self.model(X)
             loss = self.model.loss_function(pred_click, pred_time, Y)
             loss.backward()
             self.optimizer.step()
+            global_epoch += 1
 
     def save_model(self, step):
         os.makedirs(self.checkpoint_path, exist_ok=True)

@@ -4,7 +4,7 @@ device: "auto"  # 可选: auto, cuda, cpu
 # 请根据实际数据集路径调整 data_path
 
 # 数据集设置
-# Pure 或 1K
+# Pure 或 1K 或 27K
 # data_path 建议软链接到 KuaiRand 目录
 
 dataset_name: "Pure"
@@ -28,10 +28,11 @@ batch_size: 128
 # 模型超参数
 prediction_model:
   input_dim: 102
-  hidden_dims: [128, 64]
-  output_dim: 2
+  shared_dims: [32]
+  ctr_head_dims: [16, 8]
+  playtime_head_dims: [16, 8]
 weighting_model:
-  hidden_dims: [64, 32]
+  hidden_dims: [16, 8]
 
 # 推荐器参数
 recommender:

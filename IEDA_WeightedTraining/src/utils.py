@@ -1,11 +1,42 @@
 
+from sklearn.metrics import roc_auc_score, roc_curve
+import numpy as np
+
+def compute_roc_auc(y_true, y_score):
+    """
+    y_true: 1D array, 0/1
+    y_score: 1D array, 概率
+    返回: fpr, tpr, auc
+    """
+    y_true = np.array(y_true)
+    y_score = np.array(y_score)
+    unique_labels, counts = np.unique(y_true, return_counts=True)
+    if unique_labels.shape[0] < 2:
+        print("[AUC调试] y_true类别数不足2，实际为:", unique_labels.tolist())
+        print("[AUC调试] y_true分布:", dict(zip(unique_labels.tolist(), counts.tolist())))
+        print("[AUC调试] y_true前20个样本:", y_true[:20].tolist())
+        raise ValueError(f"AUC计算失败：y_true类别数不足2，实际为{unique_labels.tolist()}。请检查数据采样/分割/预处理流程。")
+    fpr, tpr, _ = roc_curve(y_true, y_score)
+    auc = roc_auc_score(y_true, y_score)
+    return fpr, tpr, auc
+
+def compute_log_mae(y_true, y_pred):
+    """
+    y_true, y_pred: 1D array, play_time_ms
+    对 play_time 取 log1p 后计算 MAE
+    """
+    y_true_log = np.log1p(y_true)
+    y_pred_log = np.log1p(y_pred)
+    return np.mean(np.abs(y_true_log - y_pred_log))
+
 import logging
 import os
 import torch
 
 
 def setup_logging(config):
-    log_path = config.get('log_path', './results/logs/')
+    # 日志目录统一到 /home/zhixuanhu/IEDA_WeightedTraining/results/logs/
+    log_path = '/home/zhixuanhu/IEDA_WeightedTraining/results/logs/'
     os.makedirs(log_path, exist_ok=True)
     logging.basicConfig(
         filename=os.path.join(log_path, 'experiment.log'),
