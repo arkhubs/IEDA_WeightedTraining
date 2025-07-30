@@ -17,15 +17,30 @@ from torch.utils.data import DataLoader
 
 
 import datetime
-config_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../configs/experiment_config.yaml')
+import os
+
+# 确保当前工作目录为项目根目录
+project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+os.chdir(project_root)
+
+config_path = os.path.join('IEDA_WeightedTraining', 'configs', 'experiment_config.yaml')
 with open(config_path, 'r', encoding='utf-8') as f:
     config = yaml.safe_load(f)
-# 设置实验结果保存目录为 /home/zhixuanhu/IEDA_WeightedTraining/results/时间戳/
+
+# 处理所有路径为绝对路径，基于项目根目录
+base_dir = config.get('base_dir', '.')
+config['data_path'] = os.path.abspath(os.path.join(base_dir, config['data_path']))
+config['results_path'] = os.path.abspath(os.path.join(base_dir, config['results_path']))
+config['cache_dir'] = os.path.abspath(os.path.join(base_dir, config.get('cache_dir', 'KuaiRand/cache/')))
+
+# 设置实验结果保存目录
 timestamp = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
-base_results_dir = '/home/zhixuanhu/IEDA_WeightedTraining/results'
-result_dir = os.path.join(base_results_dir, timestamp)
+result_dir = os.path.join(config['results_path'], timestamp)
 os.makedirs(result_dir, exist_ok=True)
 config['results_path'] = result_dir
+
+# 确保缓存目录存在
+os.makedirs(config['cache_dir'], exist_ok=True)
 
 def pretrain_models(config, logger, data_manager, device):
     """预训练阶段：从数据集纯随机选择5000个交互进行预训练"""
@@ -253,7 +268,7 @@ if __name__ == '__main__':
         run_experiment(config)
         # 自动运行画图脚本
         import subprocess
-        plot_script = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../results/plot_exp_results.py')
+        plot_script = os.path.join('results', 'plot_exp_results.py')
         if os.path.exists(plot_script):
             print("[INFO] 自动运行画图脚本...")
             # 传递结果目录作为参数

@@ -40,7 +40,14 @@ class PredictionModel(nn.Module):
         ctr = torch.clamp(ctr, -10, 10)
         return ctr, playtime
 
-    def loss_function(self, pred_click_logit, pred_play_time, Y, weights=None):
+    def loss_function(self, pred_click_logit, pred_play_time, Y, weights=None, loss_weights=None):
+        # 获取损失权重
+        if loss_weights is None:
+            ctr_weight, playtime_weight = 1.0, 1.0
+        else:
+            ctr_weight = loss_weights.get('ctr_weight', 1.0)
+            playtime_weight = loss_weights.get('playtime_weight', 1.0)
+            
         # 直接用原始 play_time
         safe_weights = weights.detach() if weights is not None and weights.requires_grad else weights
         loss_click = F.binary_cross_entropy_with_logits(pred_click_logit, Y[:, 0], weight=safe_weights)
@@ -49,7 +56,64 @@ class PredictionModel(nn.Module):
             loss_time = (loss_time * safe_weights).mean()
         else:
             loss_time = loss_time.mean()
-        return loss_click + loss_time
+        
+        # 应用损失权重
+        total_loss = ctr_weight * loss_click + playtime_weight * loss_time
+        return total_loss, loss_click, loss_time
+
+
+class CTRModel(nn.Module):
+    """独立的CTR预测模型"""
+    def __init__(self, input_dim, hidden_dims):
+        super().__init__()
+        self.bn = nn.BatchNorm1d(input_dim)
+        layers = []
+        dims = [input_dim] + hidden_dims + [1]
+        for i in range(len(dims)-1):
+            layers.append(nn.Linear(dims[i], dims[i+1]))
+            if i < len(dims)-2:  # 最后一层不加激活函数
+                layers.append(nn.ReLU())
+                layers.append(nn.Dropout(0.1))
+        self.model = nn.Sequential(*layers)
+
+    def forward(self, x):
+        x = self.bn(x)
+        logit = self.model(x).squeeze(-1)
+        return torch.clamp(logit, -10, 10)
+    
+    def loss_function(self, pred_logit, Y_click, weights=None):
+        safe_weights = weights.detach() if weights is not None and weights.requires_grad else weights
+        return F.binary_cross_entropy_with_logits(pred_logit, Y_click, weight=safe_weights)
+
+
+class PlaytimeModel(nn.Module):
+    """独立的播放时间预测模型"""
+    def __init__(self, input_dim, hidden_dims):
+        super().__init__()
+        self.bn = nn.BatchNorm1d(input_dim)
+        layers = []
+        dims = [input_dim] + hidden_dims + [1]
+        for i in range(len(dims)-1):
+            layers.append(nn.Linear(dims[i], dims[i+1]))
+            if i < len(dims)-2:  # 最后一层不加激活函数
+                layers.append(nn.ReLU())
+                layers.append(nn.Dropout(0.1))
+        self.model = nn.Sequential(*layers)
+
+    def forward(self, x):
+        x = self.bn(x)
+        playtime = self.model(x).squeeze(-1)
+        return F.relu(playtime)  # 播放时间不能为负
+    
+    def loss_function(self, pred_playtime, Y_playtime, weights=None):
+        loss = F.mse_loss(pred_playtime, Y_playtime, reduction='none')
+        if weights is not None:
+            safe_weights = weights.detach() if weights is not None and weights.requires_grad else weights
+            loss = (loss * safe_weights).mean()
+        else:
+            loss = loss.mean()
+        return loss
+
 
 class WeightingModel(nn.Module):
     def __init__(self, input_dim, hidden_dims):
@@ -66,15 +130,7 @@ class WeightingModel(nn.Module):
     def forward(self, x):
         # 特征归一化
         x_norm = self.bn(x)
-        # 调试：输入特征分布
-        if isinstance(x_norm, torch.Tensor):
-            x_np = x_norm.detach().cpu().numpy()
-            print(f"[WeightingModel] 归一化后输入: mean={x_np.mean():.4f}, std={x_np.std():.4f}, min={x_np.min():.4f}, max={x_np.max():.4f}")
         # logits 分布
         logits = self.net(x_norm).squeeze(-1)
-        if isinstance(logits, torch.Tensor):
-            logits_np = logits.detach().cpu().numpy()
-            print(f"[WeightingModel] logits: mean={logits_np.mean():.4f}, std={logits_np.std():.4f}, min={logits_np.min():.4f}, max={logits_np.max():.4f}")
         out = torch.sigmoid(logits)
-        print(f"[WeightingModel] sigmoid输出范围: min={out.min().item()}, max={out.max().item()}")
         return out

@@ -20,6 +20,7 @@ class WeightedTrainer:
         self.optimizer_W = torch.optim.Adam(self.weight_model.parameters(), lr=1e-3)
         self.p = config.get('p_treatment', 0.5)
         self.checkpoint_path = config.get('checkpoint_path', './results/checkpoints/')
+        self.loss_weights = config.get('loss_weights', {'ctr_weight': 1.0, 'playtime_weight': 1.0})
 
     def train_on_history(self, history_loader):
         global_epoch = 1
@@ -45,15 +46,31 @@ class WeightedTrainer:
             self.model_T.train()
             self.optimizer_T.zero_grad()
             pred_click_t, pred_time_t = self.model_T(X)
-            loss_t = self.model_T.loss_function(pred_click_t, pred_time_t, Y, weights=weight_T)
-            loss_t.backward()
+            if hasattr(self.model_T, 'loss_function'):
+                total_loss_t, loss_click_t, loss_time_t = self.model_T.loss_function(
+                    pred_click_t, pred_time_t, Y, weights=weight_T, loss_weights=self.loss_weights)
+            else:
+                # 兼容旧版本
+                loss_click_t = torch.nn.functional.binary_cross_entropy_with_logits(pred_click_t, Y[:, 0], weight=weight_T)
+                loss_time_t = torch.nn.functional.mse_loss(pred_time_t, Y[:, 1], reduction='none')
+                loss_time_t = (loss_time_t * weight_T).mean()
+                total_loss_t = self.loss_weights['ctr_weight'] * loss_click_t + self.loss_weights['playtime_weight'] * loss_time_t
+            total_loss_t.backward()
             self.optimizer_T.step()
             # 加权训练对照组模型
             self.model_C.train()
             self.optimizer_C.zero_grad()
             pred_click_c, pred_time_c = self.model_C(X)
-            loss_c = self.model_C.loss_function(pred_click_c, pred_time_c, Y, weights=weight_C)
-            loss_c.backward()
+            if hasattr(self.model_C, 'loss_function'):
+                total_loss_c, loss_click_c, loss_time_c = self.model_C.loss_function(
+                    pred_click_c, pred_time_c, Y, weights=weight_C, loss_weights=self.loss_weights)
+            else:
+                # 兼容旧版本
+                loss_click_c = torch.nn.functional.binary_cross_entropy_with_logits(pred_click_c, Y[:, 0], weight=weight_C)
+                loss_time_c = torch.nn.functional.mse_loss(pred_time_c, Y[:, 1], reduction='none')
+                loss_time_c = (loss_time_c * weight_C).mean()
+                total_loss_c = self.loss_weights['ctr_weight'] * loss_click_c + self.loss_weights['playtime_weight'] * loss_time_c
+            total_loss_c.backward()
             self.optimizer_C.step()
             global_epoch += 1
 
@@ -72,6 +89,7 @@ class PoolingTrainer:
         self.device = device
         self.optimizer = torch.optim.Adam(self.model.parameters(), lr=1e-3)
         self.checkpoint_path = config.get('checkpoint_path', './results/checkpoints/')
+        self.loss_weights = config.get('loss_weights', {'ctr_weight': 1.0, 'playtime_weight': 1.0})
 
     def train_on_history(self, history_loader):
         global_epoch = 1
@@ -85,8 +103,21 @@ class PoolingTrainer:
             self.model.train()
             self.optimizer.zero_grad()
             pred_click, pred_time = self.model(X)
-            loss = self.model.loss_function(pred_click, pred_time, Y)
-            loss.backward()
+            
+            # 适配新的loss_function返回值
+            if hasattr(self.model, 'loss_function'):
+                loss_result = self.model.loss_function(pred_click, pred_time, Y, loss_weights=self.loss_weights)
+                if isinstance(loss_result, tuple):
+                    total_loss = loss_result[0]  # 第一个是总损失
+                else:
+                    total_loss = loss_result
+            else:
+                # 手动计算损失
+                loss_click = torch.nn.functional.binary_cross_entropy_with_logits(pred_click, Y[:, 0])
+                loss_time = torch.nn.functional.mse_loss(pred_time, Y[:, 1])
+                total_loss = self.loss_weights['ctr_weight'] * loss_click + self.loss_weights['playtime_weight'] * loss_time
+            
+            total_loss.backward()
             self.optimizer.step()
             global_epoch += 1
 
@@ -103,10 +134,23 @@ class PoolingTrainer:
                 self.model.train()
                 self.optimizer.zero_grad()
                 pred_click, pred_time = self.model(X)
-                loss = self.model.loss_function(pred_click, pred_time, Y)
-                loss.backward()
+                
+                # 适配新的loss_function返回值
+                if hasattr(self.model, 'loss_function'):
+                    loss_result = self.model.loss_function(pred_click, pred_time, Y, loss_weights=self.loss_weights)
+                    if isinstance(loss_result, tuple):
+                        total_loss = loss_result[0]  # 第一个是总损失
+                    else:
+                        total_loss = loss_result
+                else:
+                    # 手动计算损失
+                    loss_click = torch.nn.functional.binary_cross_entropy_with_logits(pred_click, Y[:, 0])
+                    loss_time = torch.nn.functional.mse_loss(pred_time, Y[:, 1])
+                    total_loss = self.loss_weights['ctr_weight'] * loss_click + self.loss_weights['playtime_weight'] * loss_time
+                
+                total_loss.backward()
                 self.optimizer.step()
-                epoch_loss += loss.item()
+                epoch_loss += total_loss.item()
                 batch_count += 1
             if batch_count > 0:
                 print(f"[Pretrain] Epoch {epoch+1}/{epochs}, Avg Loss: {epoch_loss/batch_count:.4f}")

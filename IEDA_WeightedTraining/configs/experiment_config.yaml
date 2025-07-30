@@ -1,15 +1,18 @@
 # 设备设置
 device: "auto"  # 可选: auto, cuda, cpu
-# 路径配置
-# 请根据实际数据集路径调整 data_path
+
+# 基准目录配置（相对于项目根目录 IEDA_WeightedTraining）
+base_dir: "."  # 项目根目录
 
 # 数据集设置
 # Pure 或 1K 或 27K
-data_path: "KuaiRand/27K/data/"
+dataset_name: "Pure"
+data_path: "KuaiRand/Pure/data/"
+results_path: "results/"
 
-dataset_name: "27K"
-data_path: "KuaiRand/27K/data/"
-results_path: "../results/"
+# 缓存设置
+enable_cache: true
+cache_dir: "KuaiRand/cache/"
 
 # 实验设置
 experiment_method: "weighted" # 可选: weighted, pooling, splitting, snapshot
@@ -31,6 +34,23 @@ prediction_model:
   shared_dims: [32]
   ctr_head_dims: [16, 8]
   playtime_head_dims: [16, 8]
+  separate_models: false  # 是否分离CTR和播放时间预测模型
+  
+# CTR模型单独配置 (当 separate_models=true 时使用)
+ctr_model:
+  input_dim: 102
+  hidden_dims: [64, 32, 16]
+  
+# 播放时间模型单独配置 (当 separate_models=true 时使用)  
+playtime_model:
+  input_dim: 102
+  hidden_dims: [64, 32, 16]
+  
+# 损失函数权重调节
+loss_weights:
+  ctr_weight: 1.0          # CTR损失权重
+  playtime_weight: 0.0001  # 播放时间损失权重，大幅减小
+  
 weighting_model:
   hidden_dims: [16, 8]
 
@@ -40,8 +60,13 @@ recommender:
   control_alpha: 0.05
 
 # 日志与保存
-log_path: "../results/logs/"
-checkpoint_path: "../results/checkpoints/"
-plot_path: "../results/plots/"
+log_path: "results/logs/"
+checkpoint_path: "results/checkpoints/"
+plot_path: "results/plots/"
+
+# 数据加载优化
+load_features: ["user", "video_basic", "video_statistic"]  # 可选的特征类型
+chunk_size: 10000  # 分块加载大小
+use_multiprocessing: false  # 是否使用多进程加载
 
 # 其他参数可根据需要补充
