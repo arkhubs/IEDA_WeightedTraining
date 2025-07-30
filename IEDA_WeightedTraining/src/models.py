@@ -51,7 +51,12 @@ class PredictionModel(nn.Module):
         # 直接用原始 play_time
         safe_weights = weights.detach() if weights is not None and weights.requires_grad else weights
         loss_click = F.binary_cross_entropy_with_logits(pred_click_logit, Y[:, 0], weight=safe_weights)
-        loss_time = F.mse_loss(pred_play_time, Y[:, 1], reduction='none')
+        
+        # 使用LogMAE损失函数，对播放时间取log后计算MAE
+        pred_log_time = torch.log1p(pred_play_time)
+        true_log_time = torch.log1p(Y[:, 1])
+        loss_time = torch.abs(pred_log_time - true_log_time)
+        
         if weights is not None:
             loss_time = (loss_time * safe_weights).mean()
         else:
@@ -106,7 +111,11 @@ class PlaytimeModel(nn.Module):
         return F.relu(playtime)  # 播放时间不能为负
     
     def loss_function(self, pred_playtime, Y_playtime, weights=None):
-        loss = F.mse_loss(pred_playtime, Y_playtime, reduction='none')
+        # 使用LogMAE损失函数
+        pred_log_playtime = torch.log1p(pred_playtime)
+        true_log_playtime = torch.log1p(Y_playtime)
+        loss = torch.abs(pred_log_playtime - true_log_playtime)
+        
         if weights is not None:
             safe_weights = weights.detach() if weights is not None and weights.requires_grad else weights
             loss = (loss * safe_weights).mean()

@@ -23,15 +23,11 @@ class WeightedTrainer:
         self.loss_weights = config.get('loss_weights', {'ctr_weight': 1.0, 'playtime_weight': 1.0})
 
     def train_on_history(self, history_loader):
-        global_epoch = 1
+        # 移除全局epoch计数，因为这里只是训练一次
         for (X, Y, Z) in history_loader:
             if X.shape[0] == 1:
-                print(f"[调试] 跳过 batch_size=1 (epoch={global_epoch})")
-                global_epoch += 1
                 continue
             X, Y, Z = X.to(self.device), Y.to(self.device), Z.to(self.device)
-            print(f"[调试] epoch={global_epoch}, batch_size={X.shape[0]}")
-            print(f"[调试] X 是否有 NaN: {torch.isnan(X).any().item()}, 是否有 Inf: {torch.isinf(X).any().item()}")
             # 训练权重模型 G
             self.weight_model.train()
             self.optimizer_W.zero_grad()
@@ -72,7 +68,6 @@ class WeightedTrainer:
                 total_loss_c = self.loss_weights['ctr_weight'] * loss_click_c + self.loss_weights['playtime_weight'] * loss_time_c
             total_loss_c.backward()
             self.optimizer_C.step()
-            global_epoch += 1
 
     def save_models(self, step):
         os.makedirs(self.checkpoint_path, exist_ok=True)
@@ -92,14 +87,11 @@ class PoolingTrainer:
         self.loss_weights = config.get('loss_weights', {'ctr_weight': 1.0, 'playtime_weight': 1.0})
 
     def train_on_history(self, history_loader):
-        global_epoch = 1
+        # 移除全局epoch计数，因为这里只是训练一次
         for (X, Y, Z) in history_loader:
             if X.shape[0] == 1:
-                print(f"[调试] 跳过 batch_size=1 (epoch={global_epoch})")
-                global_epoch += 1
                 continue
             X, Y = X.to(self.device), Y.to(self.device)
-            print(f"[调试] epoch={global_epoch}, batch_size={X.shape[0]}")
             self.model.train()
             self.optimizer.zero_grad()
             pred_click, pred_time = self.model(X)
@@ -119,7 +111,6 @@ class PoolingTrainer:
             
             total_loss.backward()
             self.optimizer.step()
-            global_epoch += 1
 
     def train_on_pooling(self, pooling_loader):
         """专门用于预训练的pooling方法"""

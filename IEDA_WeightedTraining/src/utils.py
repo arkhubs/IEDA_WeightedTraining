@@ -1,4 +1,7 @@
 
+import os
+import json
+import logging
 from sklearn.metrics import roc_auc_score, roc_curve
 import numpy as np
 
@@ -34,15 +37,41 @@ import os
 import torch
 
 
-def setup_logging(config):
-    # 日志目录统一到 /home/zhixuanhu/IEDA_WeightedTraining/results/logs/
-    log_path = '/home/zhixuanhu/IEDA_WeightedTraining/results/logs/'
-    os.makedirs(log_path, exist_ok=True)
-    logging.basicConfig(
-        filename=os.path.join(log_path, 'experiment.log'),
-        level=logging.INFO,
-        format='%(asctime)s %(levelname)s %(message)s'
-    )
+def setup_logging(name, log_dir=None, log_file='experiment.log'):
+    """设置日志
+    
+    Args:
+        name: 日志记录器名称
+        log_dir: 日志目录，默认为结果目录
+        log_file: 日志文件名，默认为experiment.log
+    """
+    import logging
+    import os
+    
+    if log_dir is None:
+        # 日志目录统一到 /home/zhixuanhu/IEDA_WeightedTraining/results/logs/
+        log_dir = '/home/zhixuanhu/IEDA_WeightedTraining/results/logs/'
+    
+    os.makedirs(log_dir, exist_ok=True)
+    
+    # 创建logger
+    logger = logging.getLogger(name)
+    logger.setLevel(logging.INFO)
+    
+    # 创建handler
+    fh = logging.FileHandler(os.path.join(log_dir, log_file))
+    ch = logging.StreamHandler()
+    
+    # 设置格式
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    fh.setFormatter(formatter)
+    ch.setFormatter(formatter)
+    
+    # 添加handler
+    logger.addHandler(fh)
+    logger.addHandler(ch)
+    
+    return logger
     return logging.getLogger()
 
 def save_model(model, path):

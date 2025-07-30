@@ -5,7 +5,6 @@ device: "auto"  # 可选: auto, cuda, cpu
 base_dir: "."  # 项目根目录
 
 # 数据集设置
-# Pure 或 1K 或 27K
 dataset_name: "Pure"
 data_path: "KuaiRand/Pure/data/"
 results_path: "results/"
@@ -23,7 +22,7 @@ p_treatment: 0.5
 # 动态模拟循环参数
 total_simulation_steps: 1000
 candidate_pool_size: 100
-initial_dataset_size: 5000
+initial_dataset_size": 50
 train_every_n_steps: 20
 batch_size: 128
 
@@ -34,7 +33,7 @@ prediction_model:
   shared_dims: [32]
   ctr_head_dims: [16, 8]
   playtime_head_dims: [16, 8]
-  separate_models: false  # 是否分离CTR和播放时间预测模型
+  separate_models: true  # 是否分离CTR和播放时间预测模型
   
 # CTR模型单独配置 (当 separate_models=true 时使用)
 ctr_model:
