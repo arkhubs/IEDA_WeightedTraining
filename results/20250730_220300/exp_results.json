@@ -1,0 +1,3085 @@
+{
+  "meta": {
+    "run_time": "2025-07-30 22:03:44",
+    "os": "Linux-5.14.0-503.40.1.el9_5.x86_64-x86_64-with-glibc2.34",
+    "python_version": "3.9.21 (main, Dec  5 2024, 00:00:00) \n[GCC 11.5.0 20240719 (Red Hat 11.5.0-2)]",
+    "device": "cpu",
+    "cuda_available": false,
+    "cuda_version": null,
+    "env": {
+      "SHELL": "/bin/bash",
+      "COLORTERM": "truecolor",
+      "HISTCONTROL": "ignoredups",
+      "TERM_PROGRAM_VERSION": "1.102.2",
+      "HOSTNAME": "login2",
+      "HISTSIZE": "1000",
+      "FPATH": "/usr/share/lmod/lmod/init/ksh_funcs",
+      "LMOD_DIR": "/usr/share/lmod/lmod/libexec",
+      "PWD": "/home/zhixuanhu/IEDA_WeightedTraining",
+      "LOGNAME": "zhixuanhu",
+      "XDG_SESSION_TYPE": "tty",
+      "MODULESHOME": "/usr/share/lmod/lmod",
+      "MANPATH": "/usr/share/lmod/lmod/share/man:",
+      "SPACK_PYTHON": "/usr/bin/python3",
+      "VSCODE_GIT_ASKPASS_NODE": "/home/zhixuanhu/.vscode-server/cli/servers/Stable-c306e94f98122556ca081f527b466015e1bc37b0/server/node",
+      "MOTD_SHOWN": "pam",
+      "HOME": "/home/zhixuanhu",
+      "LANG": "C.UTF-8",
+      "LS_COLORS": "rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=01;37;41:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=01;36:*.au=01;36:*.flac=01;36:*.m4a=01;36:*.mid=01;36:*.midi=01;36:*.mka=01;36:*.mp3=01;36:*.mpc=01;36:*.ogg=01;36:*.ra=01;36:*.wav=01;36:*.oga=01;36:*.opus=01;36:*.spx=01;36:*.xspf=01;36:",
+      "SSL_CERT_DIR": "/etc/pki/tls/certs",
+      "LMOD_SETTARG_FULL_SUPPORT": "no",
+      "GIT_ASKPASS": "/home/zhixuanhu/.vscode-server/cli/servers/Stable-c306e94f98122556ca081f527b466015e1bc37b0/server/extensions/git/dist/askpass.sh",
+      "LMOD_VERSION": "8.7.55",
+      "SSH_CONNECTION": "143.89.184.251 15212 10.12.41.4 22",
+      "SPACK_ROOT": "/opt/shared/spack",
+      "MODULEPATH_ROOT": "/usr/share/modulefiles",
+      "VSCODE_GIT_ASKPASS_EXTRA_ARGS": "",
+      "XDG_SESSION_CLASS": "user",
+      "LMOD_PKG": "/usr/share/lmod/lmod",
+      "TERM": "xterm-256color",
+      "LESSOPEN": "||/usr/bin/lesspipe.sh %s",
+      "USER": "zhixuanhu",
+      "GIT_PAGER": "cat",
+      "VSCODE_GIT_IPC_HANDLE": "/run/user/3896/vscode-git-19ce080560.sock",
+      "LMOD_ROOT": "/usr/share/lmod",
+      "SHLVL": "2",
+      "BASH_ENV": "/usr/share/lmod/lmod/init/bash",
+      "LMOD_sys": "Linux",
+      "XDG_SESSION_ID": "4775",
+      "XDG_RUNTIME_DIR": "/run/user/3896",
+      "SSL_CERT_FILE": "/etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem",
+      "SSH_CLIENT": "143.89.184.251 15212 22",
+      "which_declare": "declare -f",
+      "VSCODE_GIT_ASKPASS_MAIN": "/home/zhixuanhu/.vscode-server/cli/servers/Stable-c306e94f98122556ca081f527b466015e1bc37b0/server/extensions/git/dist/askpass-main.js",
+      "XDG_DATA_DIRS": "/home/zhixuanhu/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share",
+      "BROWSER": "/home/zhixuanhu/.vscode-server/cli/servers/Stable-c306e94f98122556ca081f527b466015e1bc37b0/server/bin/helpers/browser.sh",
+      "SLURM_CONF": "/run/slurm/conf/slurm.conf",
+      "PATH": "/opt/shared/spack/bin:/home/zhixuanhu/.vscode-server/cli/servers/Stable-c306e94f98122556ca081f527b466015e1bc37b0/server/bin/remote-cli:/opt/shared/spack/bin:/home/zhixuanhu/.local/bin:/home/zhixuanhu/bin:/opt/shared/spack/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/home/zhixuanhu/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand",
+      "MODULEPATH": "/opt/shared/spack/lmod/Core:/home/zhixuanhu/.spack/lmod/Core",
+      "DBUS_SESSION_BUS_ADDRESS": "unix:path=/run/user/3896/bus",
+      "LMOD_CMD": "/usr/share/lmod/lmod/libexec/lmod",
+      "MAIL": "/var/spool/mail/zhixuanhu",
+      "TERM_PROGRAM": "vscode",
+      "VSCODE_IPC_HOOK_CLI": "/run/user/3896/vscode-ipc-904f1fee-b31d-4987-a966-811389f2dcc6.sock",
+      "BASH_FUNC_ml%%": "() {  eval \"$($LMOD_DIR/ml_cmd \"$@\")\"\n}",
+      "BASH_FUNC_which%%": "() {  ( alias;\n eval ${which_declare} ) | /usr/bin/which --tty-only --read-alias --read-functions --show-tilde --show-dot $@\n}",
+      "BASH_FUNC_module%%": "() {  if [ -z \"${LMOD_SH_DBG_ON+x}\" ]; then\n case \"$-\" in \n *v*x*)\n __lmod_sh_dbg='vx'\n ;;\n *v*)\n __lmod_sh_dbg='v'\n ;;\n *x*)\n __lmod_sh_dbg='x'\n ;;\n esac;\n fi;\n if [ -n \"${__lmod_sh_dbg:-}\" ]; then\n set +$__lmod_sh_dbg;\n echo \"Shell debugging temporarily silenced: export LMOD_SH_DBG_ON=1 for Lmod's output\" 1>&2;\n fi;\n eval \"$($LMOD_CMD shell \"$@\")\" && eval \"$(${LMOD_SETTARG_CMD:-:} -s sh)\";\n __lmod_my_status=$?;\n if [ -n \"${__lmod_sh_dbg:-}\" ]; then\n echo \"Shell debugging restarted\" 1>&2;\n set -$__lmod_sh_dbg;\n fi;\n unset __lmod_sh_dbg;\n return $__lmod_my_status\n}",
+      "BASH_FUNC__spack_shell_wrapper%%": "() {  for var in DYLD_LIBRARY_PATH DYLD_FALLBACK_LIBRARY_PATH;\n do\n eval \"if [ -n \\\"\\${${var}-}\\\" ]; then export SPACK_$var=\\${${var}}; fi\";\n done;\n if [ -n \"${ZSH_VERSION:-}\" ]; then\n emulate -L sh;\n fi;\n _sp_flags=\"\";\n while [ ! -z ${1+x} ] && [ \"${1#-}\" != \"${1}\" ]; do\n _sp_flags=\"$_sp_flags $1\";\n shift;\n done;\n if [ -n \"$_sp_flags\" ] && [ \"${_sp_flags#*h}\" != \"${_sp_flags}\" ] || [ \"${_sp_flags#*V}\" != \"${_sp_flags}\" ]; then\n command spack $_sp_flags \"$@\";\n return;\n fi;\n _sp_subcommand=\"\";\n if [ ! -z ${1+x} ]; then\n _sp_subcommand=\"$1\";\n shift;\n fi;\n case $_sp_subcommand in \n \"cd\")\n _sp_arg=\"\";\n if [ -n \"$1\" ]; then\n _sp_arg=\"$1\";\n shift;\n fi;\n if [ \"$_sp_arg\" = \"-h\" ] || [ \"$_sp_arg\" = \"--help\" ]; then\n command spack cd -h;\n else\n LOC=\"$(SPACK_COLOR=\"${SPACK_COLOR:-always}\" spack location $_sp_arg \"$@\")\";\n if [ -d \"$LOC\" ]; then\n cd \"$LOC\";\n else\n return 1;\n fi;\n fi;\n return\n ;;\n \"env\")\n _sp_arg=\"\";\n if [ -n \"$1\" ]; then\n _sp_arg=\"$1\";\n shift;\n fi;\n if [ \"$_sp_arg\" = \"-h\" ] || [ \"$_sp_arg\" = \"--help\" ]; then\n command spack env -h;\n else\n case $_sp_arg in \n activate)\n _a=\" $@\";\n if [ \"${_a#* --sh}\" != \"$_a\" ] || [ \"${_a#* --csh}\" != \"$_a\" ] || [ \"${_a#* -h}\" != \"$_a\" ] || [ \"${_a#* --help}\" != \"$_a\" ]; then\n command spack env activate \"$@\";\n else\n stdout=\"$(SPACK_COLOR=\"${SPACK_COLOR:-always}\" command spack $_sp_flags env activate --sh \"$@\")\" || return;\n eval \"$stdout\";\n fi\n ;;\n deactivate)\n _a=\" $@\";\n if [ \"${_a#* --sh}\" != \"$_a\" ] || [ \"${_a#* --csh}\" != \"$_a\" ]; then\n command spack env deactivate \"$@\";\n else\n if [ -n \"$*\" ]; then\n command spack env deactivate -h;\n else\n stdout=\"$(SPACK_COLOR=\"${SPACK_COLOR:-always}\" command spack $_sp_flags env deactivate --sh)\" || return;\n eval \"$stdout\";\n fi;\n fi\n ;;\n *)\n command spack env $_sp_arg \"$@\"\n ;;\n esac;\n fi;\n return\n ;;\n \"load\" | \"unload\")\n _a=\" $@\";\n if [ \"${_a#* --sh}\" != \"$_a\" ] || [ \"${_a#* --csh}\" != \"$_a\" ] || [ \"${_a#* -h}\" != \"$_a\" ] || [ \"${_a#* --list}\" != \"$_a\" ] || [ \"${_a#* --help}\" != \"$_a\" ]; then\n command spack $_sp_flags $_sp_subcommand \"$@\";\n else\n stdout=\"$(SPACK_COLOR=\"${SPACK_COLOR:-always}\" command spack $_sp_flags $_sp_subcommand --sh \"$@\")\" || return;\n eval \"$stdout\";\n fi\n ;;\n *)\n command spack $_sp_flags $_sp_subcommand \"$@\"\n ;;\n esac\n}",
+      "BASH_FUNC_spack%%": "() {  : this is a shell function from: /opt/shared/spack/share/spack/setup-env.sh;\n : the real spack script is here: /opt/shared/spack/bin/spack;\n _spack_shell_wrapper \"$@\";\n return $?\n}",
+      "OLDPWD": "/home/zhixuanhu",
+      "_": "/usr/bin/python3",
+      "KMP_DUPLICATE_LIB_OK": "True",
+      "KMP_INIT_AT_FORK": "FALSE"
+    },
+    "steps_per_epoch": 1000,
+    "eval_every_n_steps": 20
+  },
+  "step": [
+    20,
+    40,
+    60,
+    80,
+    100,
+    120,
+    140,
+    160,
+    180,
+    200,
+    220,
+    240,
+    260,
+    280,
+    300,
+    320,
+    340,
+    360,
+    380,
+    400,
+    420,
+    440,
+    460,
+    480,
+    500,
+    520,
+    540,
+    560,
+    580,
+    600,
+    620,
+    640,
+    660,
+    680,
+    700,
+    720,
+    740,
+    760,
+    780,
+    800,
+    820,
+    840,
+    860,
+    880,
+    900,
+    920,
+    940,
+    960,
+    980,
+    1000
+  ],
+  "epoch": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1
+  ],
+  "step_in_epoch": [
+    20,
+    40,
+    60,
+    80,
+    100,
+    120,
+    140,
+    160,
+    180,
+    200,
+    220,
+    240,
+    260,
+    280,
+    300,
+    320,
+    340,
+    360,
+    380,
+    400,
+    420,
+    440,
+    460,
+    480,
+    500,
+    520,
+    540,
+    560,
+    580,
+    600,
+    620,
+    640,
+    660,
+    680,
+    700,
+    720,
+    740,
+    760,
+    780,
+    800,
+    820,
+    840,
+    860,
+    880,
+    900,
+    920,
+    940,
+    960,
+    980,
+    1000
+  ],
+  "metrics": [
+    {
+      "train": {
+        "treatment": {
+          "CTR_true": 0.1666666716337204,
+          "CTR_pred": 0.5862383246421814,
+          "MSE_play_time": 71235368.0,
+          "LongView_true": 0.1666666716337204,
+          "LongView_pred": 0.0,
+          "play_time_true": 3445.666748046875,
+          "play_time_pred": 0.05998392775654793,
+          "CTR_AUC": 1.0,
+          "LogMAE_play_time": 1.7026634216308594
+        },
+        "control": {
+          "CTR_true": 0.0,
+          "CTR_pred": 0.4785289466381073,
+          "MSE_play_time": 2784008.75,
+          "LongView_true": 0.0,
+          "LongView_pred": 0.0,
+          "play_time_true": 481.6666564941406,
+          "play_time_pred": 0.035090479999780655,
+          "CTR_AUC": null,
+          "LogMAE_play_time": null
+        },
+        "weight_model": {
+          "accuracy": 0.4444444444444444,
+          "precision": 0.25,
+          "recall": 0.3333333333333333,
+          "f1": 0.2857142857142857,
+          "auc": 0.3333333333333333
+        }
+      },
+      "val": {
+        "treatment": {
+          "CTR_true": 0.0,
+          "CTR_pred": 0.5851473808288574,
+          "MSE_play_time": 0.00025774099049158394,
+          "LongView_true": 0.0,
+          "LongView_pred": 0.0,
+          "play_time_true": 0.0,
+          "play_time_pred": -0.016054313629865646,
+          "CTR_AUC": null,
+          "LogMAE_play_time": null
+        },
+        "control": {
+          "CTR_true": 0.0,
+          "CTR_pred": 0.5233816504478455,
+          "MSE_play_time": 0.029943527653813362,
+          "LongView_true": 0.0,
+          "LongView_pred": 0.0,
+          "play_time_true": 0.0,
+          "play_time_pred": 0.17304198443889618,
+          "CTR_AUC": null,
+          "LogMAE_play_time": null
+        }
+      }
+    },
+    {
+      "train": {
+        "treatment": {
+          "CTR_true": 0.07692307978868484,
+          "CTR_pred": 0.5837034583091736,
+          "MSE_play_time": 32877842.0,
+          "LongView_true": 0.07692307978868484,
+          "LongView_pred": 0.0,
+          "play_time_true": 1590.3077392578125,
+          "play_time_pred": 0.04685331881046295,
+          "CTR_AUC": 1.0,
+          "LogMAE_play_time": 0.8134692311286926
+        },
+        "control": {
+          "CTR_true": 0.0,
+          "CTR_pred": 0.47769421339035034,
+          "MSE_play_time": 3165086.25,
+          "LongView_true": 0.0,
+          "LongView_pred": 0.0,
+          "play_time_true": 576.3157958984375,
+          "play_time_pred": 0.03052995167672634,
+          "CTR_AUC": null,
+          "LogMAE_play_time": null
+        },
+        "weight_model": {
+          "accuracy": 0.46875,
+          "precision": 0.4166666666666667,
+          "recall": 0.7692307692307693,
+          "f1": 0.5405405405405406,
+          "auc": 0.5991902834008097
+        }
+      },
+      "val": {
+        "treatment": {
+          "CTR_true": 0.0,
+          "CTR_pred": 0.5858813524246216,
+          "MSE_play_time": 0.00041753443656489253,
+          "LongView_true": 0.0,
+          "LongView_pred": 0.0,
+          "play_time_true": 0.0,
+          "play_time_pred": -0.0023521333932876587,
+          "CTR_AUC": null,
+          "LogMAE_play_time": null
+        },
+        "control": {
+          "CTR_true": 0.0,
+          "CTR_pred": 0.4913248121738434,
+          "MSE_play_time": 0.014054822735488415,
+          "LongView_true": 0.0,
+          "LongView_pred": 0.0,
+          "play_time_true": 0.0,
+          "play_time_pred": 0.11144933104515076,
+          "CTR_AUC": null,
+          "LogMAE_play_time": null
+        }
+      }
+    },
+    {
+      "train": {
+        "treatment": {
+          "CTR_true": 0.04545454680919647,
+          "CTR_pred": 0.5819615721702576,
+          "MSE_play_time": 19427822.0,
+          "LongView_true": 0.04545454680919647,
+          "LongView_pred": 0.0,
+          "play_time_true": 939.727294921875,
+          "play_time_pred": 0.033473193645477295,
+          "CTR_AUC": 1.0,
+          "LogMAE_play_time": 0.4962071180343628
+        },
+        "control": {
+          "CTR_true": 0.0,
+          "CTR_pred": 0.47891485691070557,
+          "MSE_play_time": 2575887.25,
+          "LongView_true": 0.0,
+          "LongView_pred": 0.0,
+          "play_time_true": 510.3333435058594,
+          "play_time_pred": 0.03835848346352577,
+          "CTR_AUC": null,
+          "LogMAE_play_time": null
+        },
+        "weight_model": {
+          "accuracy": 0.5,
+          "precision": 0.4857142857142857,
+          "recall": 0.7727272727272727,
+          "f1": 0.5964912280701754,
+          "auc": 0.5511363636363636
+        }
+      },
+      "val": {
+        "treatment": {
+          "CTR_true": 0.0,
+          "CTR_pred": 0.5827139616012573,
+          "MSE_play_time": 731452.0625,
+          "LongView_true": 0.0,
+          "LongView_pred": 0.0,
+          "play_time_true": 302.375,
+          "play_time_pred": 0.007235558703541756,
+          "CTR_AUC": null,
+          "LogMAE_play_time": null
+        },
+        "control": {
+          "CTR_true": 0.0,
+          "CTR_pred": 0.4812643527984619,
+          "MSE_play_time": 0.01194804534316063,
+          "LongView_true": 0.0,
+          "LongView_pred": 0.0,
+          "play_time_true": 0.0,
+          "play_time_pred": 0.07767624408006668,
+          "CTR_AUC": null,
+          "LogMAE_play_time": null
+        }
+      }
+    },
+    {
+      "train": {
+        "treatment": {
+          "CTR_true": 0.1034482792019844,
+          "CTR_pred": 0.5797273516654968,
+          "MSE_play_time": 75436888.0,
+          "LongView_true": 0.1034482792019844,
+          "LongView_pred": 0.0,
+          "play_time_true": 2752.6552734375,
+          "play_time_pred": 0.0473652258515358,
+          "CTR_AUC": 0.9871794871794872,
+          "LogMAE_play_time": 1.0906199216842651
+        },
+        "control": {
+          "CTR_true": 0.0,
+          "CTR_pred": 0.4743331968784332,
+          "MSE_play_time": 2131770.25,
+          "LongView_true": 0.0,
+          "LongView_pred": 0.0,
+          "play_time_true": 422.3448181152344,
+          "play_time_pred": 0.035173188894987106,
+          "CTR_AUC": null,
+          "LogMAE_play_time": null
+        },
+        "weight_model": {
+          "accuracy": 0.5,
+          "precision": 0.5,
+          "recall": 0.7241379310344828,
+          "f1": 0.5915492957746479,
+          "auc": 0.544589774078478
+        }
+      },
+      "val": {
+        "treatment": {
+          "CTR_true": 0.0833333358168602,
+          "CTR_pred": 0.5809668302536011,
+          "MSE_play_time": 10479526.0,
+          "LongView_true": 0.0833333358168602,
+          "LongView_pred": 0.0,
+          "play_time_true": 1114.0833740234375,
+          "play_time_pred": 0.009617703035473824,
+          "CTR_AUC": 0.9090909090909091,
+          "LogMAE_play_time": 1.4485855102539062
+        },
+        "control": {
+          "CTR_true": 0.10000000149011612,
+          "CTR_pred": 0.47786539793014526,
+          "MSE_play_time": 6588549.0,
+          "LongView_true": 0.0,
+          "LongView_pred": 0.0,
+          "play_time_true": 811.7000122070312,
+          "play_time_pred": 0.058419205248355865,
+          "CTR_AUC": 0.7777777777777778,
+          "LogMAE_play_time": 0.9562810063362122
+        }
+      }
+    },
+    {
+      "train": {
+        "treatment": {
+          "CTR_true": 0.07894736528396606,
+          "CTR_pred": 0.5781564116477966,
+          "MSE_play_time": 57570156.0,
+          "LongView_true": 0.07894736528396606,
+          "LongView_pred": 0.0,
+          "play_time_true": 2100.71044921875,
+          "play_time_pred": 0.05173950269818306,
+          "CTR_AUC": 0.8476190476190477,
+          "LogMAE_play_time": 0.845201313495636
+        },
+        "control": {
+          "CTR_true": 0.0,
+          "CTR_pred": 0.47179529070854187,
+          "MSE_play_time": 2876090.25,
+          "LongView_true": 0.0,
+          "LongView_pred": 0.0,
+          "play_time_true": 503.631591796875,
+          "play_time_pred": 0.03796716779470444,
+          "CTR_AUC": null,
+          "LogMAE_play_time": null
+        },
+        "weight_model": {
+          "accuracy": 0.5263157894736842,
+          "precision": 0.5172413793103449,
+          "recall": 0.7894736842105263,
+          "f1": 0.625,
+          "auc": 0.5367036011080333
+        }
+      },
+      "val": {
+        "treatment": {
+          "CTR_true": 0.07692307978868484,
+          "CTR_pred": 0.5777541399002075,
+          "MSE_play_time": 9673426.0,
+          "LongView_true": 0.07692307978868484,
+          "LongView_pred": 0.0,
+          "play_time_true": 1028.3846435546875,
+          "play_time_pred": 0.008683213032782078,
+          "CTR_AUC": 1.0,
+          "LogMAE_play_time": 1.3416087627410889
+        },
+        "control": {
+          "CTR_true": 0.09090909361839294,
+          "CTR_pred": 0.47577568888664246,
+          "MSE_play_time": 5989567.0,
+          "LongView_true": 0.0,
+          "LongView_pred": 0.0,
+          "play_time_true": 737.9091186523438,
+          "play_time_pred": 0.05805230513215065,
+          "CTR_AUC": 0.8,
+          "LogMAE_play_time": 0.870632529258728
+        }
+      }
+    },
+    {
+      "train": {
+        "treatment": {
+          "CTR_true": 0.08510638028383255,
+          "CTR_pred": 0.5760509371757507,
+          "MSE_play_time": 50709168.0,
+          "LongView_true": 0.08510638028383255,
+          "LongView_pred": 0.0,
+          "play_time_true": 1996.0638427734375,
+          "play_time_pred": 0.048610612750053406,
+          "CTR_AUC": 0.6627906976744187,
+          "LogMAE_play_time": 0.8958337903022766
+        },
+        "control": {
+          "CTR_true": 0.0,
+          "CTR_pred": 0.4695630967617035,
+          "MSE_play_time": 2483891.5,
+          "LongView_true": 0.0,
+          "LongView_pred": 0.0,
+          "play_time_true": 434.9545593261719,
+          "play_time_pred": 0.04287483170628548,
+          "CTR_AUC": null,
+          "LogMAE_play_time": null
+        },
+        "weight_model": {
+          "accuracy": 0.5824175824175825,
+          "precision": 0.5616438356164384,
+          "recall": 0.8723404255319149,
+          "f1": 0.6833333333333333,
+          "auc": 0.5560928433268859
+        }
+      },
+      "val": {
+        "treatment": {
+          "CTR_true": 0.0625,
+          "CTR_pred": 0.578879177570343,
+          "MSE_play_time": 8198780.5,
+          "LongView_true": 0.0625,
+          "LongView_pred": 0.0,
+          "play_time_true": 1029.6875,
+          "play_time_pred": 0.023319903761148453,
+          "CTR_AUC": 0.8666666666666667,
+          "LogMAE_play_time": 1.9971039295196533
+        },
+        "control": {
+          "CTR_true": 0.07692307978868484,
+          "CTR_pred": 0.47285333275794983,
+          "MSE_play_time": 5068089.5,
+          "LongView_true": 0.0,
+          "LongView_pred": 0.0,
+          "play_time_true": 624.3846435546875,
+          "play_time_pred": 0.04503575712442398,
+          "CTR_AUC": 0.8333333333333334,
+          "LogMAE_play_time": 0.7344703078269958
+        }
+      }
+    },
+    {
+      "train": {
+        "treatment": {
+          "CTR_true": 0.09803921729326248,
+          "CTR_pred": 0.5763159394264221,
+          "MSE_play_time": 48032536.0,
+          "LongView_true": 0.0784313753247261,
+          "LongView_pred": 0.0,
+          "play_time_true": 1999.196044921875,
+          "play_time_pred": 0.039029885083436966,
+          "CTR_AUC": 0.5956521739130435,
+          "LogMAE_play_time": 0.9975841045379639
+        },
+        "control": {
+          "CTR_true": 0.01785714365541935,
+          "CTR_pred": 0.46972110867500305,
+          "MSE_play_time": 163584128.0,
+          "LongView_true": 0.01785714365541935,
+          "LongView_pred": 0.0,
+          "play_time_true": 2040.6607666015625,
+          "play_time_pred": 0.05453149601817131,
+          "CTR_AUC": 0.4545454545454546,
+          "LogMAE_play_time": 0.8394861817359924
+        },
+        "weight_model": {
+          "accuracy": 0.5327102803738317,
+          "precision": 0.5056179775280899,
+          "recall": 0.8823529411764706,
+          "f1": 0.6428571428571429,
+          "auc": 0.5658263305322129
+        }
+      },
+      "val": {
+        "treatment": {
+          "CTR_true": 0.05882352963089943,
+          "CTR_pred": 0.5785601139068604,
+          "MSE_play_time": 7716493.5,
+          "LongView_true": 0.05882352963089943,
+          "LongView_pred": 0.0,
+          "play_time_true": 969.11767578125,
+          "play_time_pred": 0.021634554490447044,
+          "CTR_AUC": 0.9375,
+          "LogMAE_play_time": 1.8796024322509766
+        },
+        "control": {
+          "CTR_true": 0.0625,
+          "CTR_pred": 0.46972960233688354,
+          "MSE_play_time": 4117822.75,
+          "LongView_true": 0.0,
+          "LongView_pred": 0.0,
+          "play_time_true": 507.3125,
+          "play_time_pred": 0.04330207780003548,
+          "CTR_AUC": 0.8,
+          "LogMAE_play_time": 0.602233350276947
+        }
+      }
+    },
+    {
+      "train": {
+        "treatment": {
+          "CTR_true": 0.08064515888690948,
+          "CTR_pred": 0.5716215968132019,
+          "MSE_play_time": 39510612.0,
+          "LongView_true": 0.06451612710952759,
+          "LongView_pred": 0.0,
+          "play_time_true": 1644.5,
+          "play_time_pred": 0.04630255699157715,
+          "CTR_AUC": 0.6421052631578947,
+          "LogMAE_play_time": 0.8302047252655029
+        },
+        "control": {
+          "CTR_true": 0.03125,
+          "CTR_pred": 0.463539719581604,
+          "MSE_play_time": 147139136.0,
+          "LongView_true": 0.03125,
+          "LongView_pred": 0.0,
+          "play_time_true": 2035.671875,
+          "play_time_pred": 0.04524186626076698,
+          "CTR_AUC": 0.3629032258064516,
+          "LogMAE_play_time": 0.8865146636962891
+        },
+        "weight_model": {
+          "accuracy": 0.5714285714285714,
+          "precision": 0.5370370370370371,
+          "recall": 0.9354838709677419,
+          "f1": 0.6823529411764706,
+          "auc": 0.6078629032258065
+        }
+      },
+      "val": {
+        "treatment": {
+          "CTR_true": 0.0555555559694767,
+          "CTR_pred": 0.5735158920288086,
+          "MSE_play_time": 7287775.0,
+          "LongView_true": 0.0555555559694767,
+          "LongView_pred": 0.0,
+          "play_time_true": 915.2777709960938,
+          "play_time_pred": 0.042819004505872726,
+          "CTR_AUC": 0.8235294117647058,
+          "LogMAE_play_time": 1.7877767086029053
+        },
+        "control": {
+          "CTR_true": 0.0625,
+          "CTR_pred": 0.46448904275894165,
+          "MSE_play_time": 4117828.75,
+          "LongView_true": 0.0,
+          "LongView_pred": 0.0,
+          "play_time_true": 507.3125,
+          "play_time_pred": 0.0353643074631691,
+          "CTR_AUC": 0.8,
+          "LogMAE_play_time": 0.6012635231018066
+        }
+      }
+    },
+    {
+      "train": {
+        "treatment": {
+          "CTR_true": 0.0714285746216774,
+          "CTR_pred": 0.5676306486129761,
+          "MSE_play_time": 35194140.0,
+          "LongView_true": 0.05714285746216774,
+          "LongView_pred": 0.0,
+          "play_time_true": 1509.8714599609375,
+          "play_time_pred": 0.03338394686579704,
+          "CTR_AUC": 0.48615384615384616,
+          "LogMAE_play_time": 0.848335325717926
+        },
+        "control": {
+          "CTR_true": 0.02777777798473835,
+          "CTR_pred": 0.4587167203426361,
+          "MSE_play_time": 130853704.0,
+          "LongView_true": 0.02777777798473835,
+          "LongView_pred": 0.0,
+          "play_time_true": 1839.138916015625,
+          "play_time_pred": 0.03815196454524994,
+          "CTR_AUC": 0.36428571428571427,
+          "LogMAE_play_time": 0.8945850729942322
+        },
+        "weight_model": {
+          "accuracy": 0.5845070422535211,
+          "precision": 0.5447154471544715,
+          "recall": 0.9571428571428572,
+          "f1": 0.694300518134715,
+          "auc": 0.6498015873015873
+        }
+      },
+      "val": {
+        "treatment": {
+          "CTR_true": 0.05263157933950424,
+          "CTR_pred": 0.5670771598815918,
+          "MSE_play_time": 6904201.0,
+          "LongView_true": 0.05263157933950424,
+          "LongView_pred": 0.0,
+          "play_time_true": 867.1052856445312,
+          "play_time_pred": 0.03531893715262413,
+          "CTR_AUC": 0.6111111111111112,
+          "LogMAE_play_time": 1.6879701614379883
+        },
+        "control": {
+          "CTR_true": 0.05263157933950424,
+          "CTR_pred": 0.46006688475608826,
+          "MSE_play_time": 3467651.25,
+          "LongView_true": 0.0,
+          "LongView_pred": 0.0,
+          "play_time_true": 427.2105407714844,
+          "play_time_pred": 0.04518929496407509,
+          "CTR_AUC": 0.7222222222222222,
+          "LogMAE_play_time": 0.5209750533103943
+        }
+      }
+    },
+    {
+      "train": {
+        "treatment": {
+          "CTR_true": 0.06666667014360428,
+          "CTR_pred": 0.5644547939300537,
+          "MSE_play_time": 32847906.0,
+          "LongView_true": 0.0533333346247673,
+          "LongView_pred": 0.0,
+          "play_time_true": 1409.21337890625,
+          "play_time_pred": 0.02089586853981018,
+          "CTR_AUC": 0.5171428571428571,
+          "LogMAE_play_time": 0.7856906652450562
+        },
+        "control": {
+          "CTR_true": 0.02380952425301075,
+          "CTR_pred": 0.4513698220252991,
+          "MSE_play_time": 112160280.0,
+          "LongView_true": 0.02380952425301075,
+          "LongView_pred": 0.0,
+          "play_time_true": 1576.40478515625,
+          "play_time_pred": 0.030244220048189163,
+          "CTR_AUC": 0.31707317073170727,
+          "LogMAE_play_time": 0.7657052278518677
+        },
+        "weight_model": {
+          "accuracy": 0.5660377358490566,
+          "precision": 0.5223880597014925,
+          "recall": 0.9333333333333333,
+          "f1": 0.6698564593301436,
+          "auc": 0.6822222222222222
+        }
+      },
+      "val": {
+        "treatment": {
+          "CTR_true": 0.05263157933950424,
+          "CTR_pred": 0.5631404519081116,
+          "MSE_play_time": 6904204.5,
+          "LongView_true": 0.05263157933950424,
+          "LongView_pred": 0.0,
+          "play_time_true": 867.1052856445312,
+          "play_time_pred": 0.02553791180253029,
+          "CTR_AUC": 0.5555555555555556,
+          "LogMAE_play_time": 1.6818825006484985
+        },
+        "control": {
+          "CTR_true": 0.04545454680919647,
+          "CTR_pred": 0.4533534348011017,
+          "MSE_play_time": 2994791.5,
+          "LongView_true": 0.0,
+          "LongView_pred": 0.0,
+          "play_time_true": 368.9545593261719,
+          "play_time_pred": 0.04268630966544151,
+          "CTR_AUC": 0.8571428571428572,
+          "LogMAE_play_time": 0.45276185870170593
+        }
+      }
+    },
+    {
+      "train": {
+        "treatment": {
+          "CTR_true": 0.0602409653365612,
+          "CTR_pred": 0.5619310140609741,
+          "MSE_play_time": 29681886.0,
+          "LongView_true": 0.048192769289016724,
+          "LongView_pred": 0.0,
+          "play_time_true": 1273.385498046875,
+          "play_time_pred": 0.017335981130599976,
+          "CTR_AUC": 0.5,
+          "LogMAE_play_time": 0.7103873491287231
+        },
+        "control": {
+          "CTR_true": 0.032608695328235626,
+          "CTR_pred": 0.4463227391242981,
+          "MSE_play_time": 108760664.0,
+          "LongView_true": 0.032608695328235626,
+          "LongView_pred": 0.0,
+          "play_time_true": 1755.2608642578125,
+          "play_time_pred": 0.028250232338905334,
+          "CTR_AUC": 0.5730337078651685,
+          "LogMAE_play_time": 0.9013246297836304
+        },
+        "weight_model": {
+          "accuracy": 0.5714285714285714,
+          "precision": 0.5277777777777778,
+          "recall": 0.9156626506024096,
+          "f1": 0.6696035242290749,
+          "auc": 0.6600314300680984
+        }
+      },
+      "val": {
+        "treatment": {
+          "CTR_true": 0.05263157933950424,
+          "CTR_pred": 0.5599360466003418,
+          "MSE_play_time": 6904210.5,
+          "LongView_true": 0.05263157933950424,
+          "LongView_pred": 0.0,
+          "play_time_true": 867.1052856445312,
+          "play_time_pred": 0.02166924998164177,
+          "CTR_AUC": 0.7222222222222222,
+          "LogMAE_play_time": 1.6795625686645508
+        },
+        "control": {
+          "CTR_true": 0.03846153989434242,
+          "CTR_pred": 0.44720685482025146,
+          "MSE_play_time": 2534061.25,
+          "LongView_true": 0.0,
+          "LongView_pred": 0.0,
+          "play_time_true": 312.19232177734375,
+          "play_time_pred": 0.0345122367143631,
+          "CTR_AUC": 0.88,
+          "LogMAE_play_time": 0.3864220082759857
+        }
+      }
+    },
+    {
+      "train": {
+        "treatment": {
+          "CTR_true": 0.05494505539536476,
+          "CTR_pred": 0.5588473677635193,
+          "MSE_play_time": 27072532.0,
+          "LongView_true": 0.04395604506134987,
+          "LongView_pred": 0.0,
+          "play_time_true": 1161.4395751953125,
+          "play_time_pred": 0.008446802385151386,
+          "CTR_AUC": 0.49302325581395345,
+          "LogMAE_play_time": 0.6493998765945435
+        },
+        "control": {
+          "CTR_true": 0.029999999329447746,
+          "CTR_pred": 0.4405800700187683,
+          "MSE_play_time": 100059824.0,
+          "LongView_true": 0.029999999329447746,
+          "LongView_pred": 0.0,
+          "play_time_true": 1614.8399658203125,
+          "play_time_pred": 0.024478239938616753,
+          "CTR_AUC": 0.5567010309278351,
+          "LogMAE_play_time": 0.8292659521102905
+        },
+        "weight_model": {
+          "accuracy": 0.5863874345549738,
+          "precision": 0.54,
+          "recall": 0.8901098901098901,
+          "f1": 0.6721991701244814,
+          "auc": 0.658791208791209
+        }
+      },
+      "val": {
+        "treatment": {
+          "CTR_true": 0.0476190485060215,
+          "CTR_pred": 0.5588467717170715,
+          "MSE_play_time": 6246681.5,
+          "LongView_true": 0.0476190485060215,
+          "LongView_pred": 0.0,
+          "play_time_true": 784.5238037109375,
+          "play_time_pred": 0.0125860795378685,
+          "CTR_AUC": 0.55,
+          "LogMAE_play_time": 1.5219767093658447
+        },
+        "control": {
+          "CTR_true": 0.0357142873108387,
+          "CTR_pred": 0.44178178906440735,
+          "MSE_play_time": 2353056.5,
+          "LongView_true": 0.0,
+          "LongView_pred": 0.0,
+          "play_time_true": 289.8928527832031,
+          "play_time_pred": 0.034882981330156326,
+          "CTR_AUC": 0.962962962962963,
+          "LogMAE_play_time": 0.36115264892578125
+        }
+      }
+    },
+    {
+      "train": {
+        "treatment": {
+          "CTR_true": 0.0625,
+          "CTR_pred": 0.5534971356391907,
+          "MSE_play_time": 26869870.0,
+          "LongView_true": 0.0520833320915699,
+          "LongView_pred": 0.0,
+          "play_time_true": 1213.09375,
+          "play_time_pred": 0.008570906706154346,
+          "CTR_AUC": 0.5425925925925925,
+          "LogMAE_play_time": 0.7120075821876526
+        },
+        "control": {
+          "CTR_true": 0.027522936463356018,
+          "CTR_pred": 0.4349163770675659,
+          "MSE_play_time": 91798024.0,
+          "LongView_true": 0.027522936463356018,
+          "LongView_pred": 0.0,
+          "play_time_true": 1481.504638671875,
+          "play_time_pred": 0.023560108616948128,
+          "CTR_AUC": 0.5974842767295597,
+          "LogMAE_play_time": 0.7637251615524292
+        },
+        "weight_model": {
+          "accuracy": 0.6146341463414634,
+          "precision": 0.5562913907284768,
+          "recall": 0.875,
+          "f1": 0.680161943319838,
+          "auc": 0.6605504587155964
+        }
+      },
+      "val": {
+        "treatment": {
+          "CTR_true": 0.03846153989434242,
+          "CTR_pred": 0.550331175327301,
+          "MSE_play_time": 5045400.5,
+          "LongView_true": 0.03846153989434242,
+          "LongView_pred": 0.0,
+          "play_time_true": 633.6538696289062,
+          "play_time_pred": 0.007140284404158592,
+          "CTR_AUC": 0.6,
+          "LogMAE_play_time": 1.2304224967956543
+        },
+        "control": {
+          "CTR_true": 0.03448275849223137,
+          "CTR_pred": 0.4363510012626648,
+          "MSE_play_time": 3389513.5,
+          "LongView_true": 0.0,
+          "LongView_pred": 0.0,
+          "play_time_true": 476.2069091796875,
+          "play_time_pred": 0.032850541174411774,
+          "CTR_AUC": 0.9285714285714286,
+          "LogMAE_play_time": 0.6482529044151306
+        }
+      }
+    },
+    {
+      "train": {
+        "treatment": {
+          "CTR_true": 0.057692307978868484,
+          "CTR_pred": 0.5446798801422119,
+          "MSE_play_time": 24802968.0,
+          "LongView_true": 0.048076923936605453,
+          "LongView_pred": 0.0,
+          "play_time_true": 1119.77880859375,
+          "play_time_pred": 0.004598502069711685,
+          "CTR_AUC": 0.6224489795918366,
+          "LogMAE_play_time": 0.6593616008758545
+        },
+        "control": {
+          "CTR_true": 0.0258620698004961,
+          "CTR_pred": 0.428474485874176,
+          "MSE_play_time": 86405656.0,
+          "LongView_true": 0.0258620698004961,
+          "LongView_pred": 0.0,
+          "play_time_true": 1427.72412109375,
+          "play_time_pred": 0.023203250020742416,
+          "CTR_AUC": 0.6135693215339233,
+          "LogMAE_play_time": 0.7884644865989685
+        },
+        "weight_model": {
+          "accuracy": 0.6181818181818182,
+          "precision": 0.5666666666666667,
+          "recall": 0.8173076923076923,
+          "f1": 0.6692913385826772,
+          "auc": 0.6418269230769231
+        }
+      },
+      "val": {
+        "treatment": {
+          "CTR_true": 0.03333333507180214,
+          "CTR_pred": 0.5378291606903076,
+          "MSE_play_time": 4487256.5,
+          "LongView_true": 0.03333333507180214,
+          "LongView_pred": 0.0,
+          "play_time_true": 610.9666748046875,
+          "play_time_pred": 0.0011717438464984298,
+          "CTR_AUC": 0.7241379310344828,
+          "LogMAE_play_time": 1.320989966392517
+        },
+        "control": {
+          "CTR_true": 0.03333333507180214,
+          "CTR_pred": 0.43037107586860657,
+          "MSE_play_time": 3276528.0,
+          "LongView_true": 0.0,
+          "LongView_pred": 0.0,
+          "play_time_true": 460.3333435058594,
+          "play_time_pred": 0.02818557806313038,
+          "CTR_AUC": 1.0,
+          "LogMAE_play_time": 0.6239469647407532
+        }
+      }
+    },
+    {
+      "train": {
+        "treatment": {
+          "CTR_true": 0.0535714291036129,
+          "CTR_pred": 0.5426654815673828,
+          "MSE_play_time": 23146844.0,
+          "LongView_true": 0.0446428582072258,
+          "LongView_pred": 0.0,
+          "play_time_true": 1071.9107666015625,
+          "play_time_pred": 0.00428224541246891,
+          "CTR_AUC": 0.5550314465408805,
+          "LogMAE_play_time": 0.6855584383010864
+        },
+        "control": {
+          "CTR_true": 0.024193547666072845,
+          "CTR_pred": 0.4190484285354614,
+          "MSE_play_time": 80831040.0,
+          "LongView_true": 0.024193547666072845,
+          "LongView_pred": 0.0,
+          "play_time_true": 1335.6129150390625,
+          "play_time_pred": 0.04263911023736,
+          "CTR_AUC": 0.6115702479338843,
+          "LogMAE_play_time": 0.7498748898506165
+        },
+        "weight_model": {
+          "accuracy": 0.6271186440677966,
+          "precision": 0.5769230769230769,
+          "recall": 0.8035714285714286,
+          "f1": 0.6716417910447762,
+          "auc": 0.6412010368663595
+        }
+      },
+      "val": {
+        "treatment": {
+          "CTR_true": 0.03125,
+          "CTR_pred": 0.5365450382232666,
+          "MSE_play_time": 4206803.0,
+          "LongView_true": 0.03125,
+          "LongView_pred": 0.0,
+          "play_time_true": 572.78125,
+          "play_time_pred": -0.001735142432153225,
+          "CTR_AUC": 0.6129032258064516,
+          "LogMAE_play_time": 1.2400932312011719
+        },
+        "control": {
+          "CTR_true": 0.03125,
+          "CTR_pred": 0.42194515466690063,
+          "MSE_play_time": 3071730.0,
+          "LongView_true": 0.0,
+          "LongView_pred": 0.0,
+          "play_time_true": 431.5625,
+          "play_time_pred": 0.05388151854276657,
+          "CTR_AUC": 0.967741935483871,
+          "LogMAE_play_time": 0.6037251949310303
+        }
+      }
+    },
+    {
+      "train": {
+        "treatment": {
+          "CTR_true": 0.04918032884597778,
+          "CTR_pred": 0.5353158712387085,
+          "MSE_play_time": 21422396.0,
+          "LongView_true": 0.04098360612988472,
+          "LongView_pred": 0.0,
+          "play_time_true": 1021.6885375976562,
+          "play_time_pred": 0.008679907768964767,
+          "CTR_AUC": 0.5617816091954023,
+          "LogMAE_play_time": 0.6997564435005188
+        },
+        "control": {
+          "CTR_true": 0.022727273404598236,
+          "CTR_pred": 0.41229695081710815,
+          "MSE_play_time": 76265608.0,
+          "LongView_true": 0.022727273404598236,
+          "LongView_pred": 0.0,
+          "play_time_true": 1317.8258056640625,
+          "play_time_pred": 0.03845752030611038,
+          "CTR_AUC": 0.5426356589147288,
+          "LogMAE_play_time": 0.8276582360267639
+        },
+        "weight_model": {
+          "accuracy": 0.610236220472441,
+          "precision": 0.5714285714285714,
+          "recall": 0.7540983606557377,
+          "f1": 0.6501766784452296,
+          "auc": 0.6233233979135618
+        }
+      },
+      "val": {
+        "treatment": {
+          "CTR_true": 0.03030303120613098,
+          "CTR_pred": 0.5346002578735352,
+          "MSE_play_time": 4079321.25,
+          "LongView_true": 0.03030303120613098,
+          "LongView_pred": 0.0,
+          "play_time_true": 555.4242553710938,
+          "play_time_pred": 0.0038818083703517914,
+          "CTR_AUC": 0.5,
+          "LogMAE_play_time": 1.2018868923187256
+        },
+        "control": {
+          "CTR_true": 0.03030303120613098,
+          "CTR_pred": 0.41569674015045166,
+          "MSE_play_time": 2978649.25,
+          "LongView_true": 0.0,
+          "LongView_pred": 0.0,
+          "play_time_true": 418.48486328125,
+          "play_time_pred": 0.051133058965206146,
+          "CTR_AUC": 1.0,
+          "LogMAE_play_time": 0.5846724510192871
+        }
+      }
+    },
+    {
+      "train": {
+        "treatment": {
+          "CTR_true": 0.04615384712815285,
+          "CTR_pred": 0.5206769108772278,
+          "MSE_play_time": 20162404.0,
+          "LongView_true": 0.03846153989434242,
+          "LongView_pred": 0.0,
+          "play_time_true": 979.9923095703125,
+          "play_time_pred": 0.00759898079559207,
+          "CTR_AUC": 0.592741935483871,
+          "LogMAE_play_time": 0.7171698212623596
+        },
+        "control": {
+          "CTR_true": 0.022058824077248573,
+          "CTR_pred": 0.40095800161361694,
+          "MSE_play_time": 74022560.0,
+          "LongView_true": 0.022058824077248573,
+          "LongView_pred": 0.0,
+          "play_time_true": 1279.066162109375,
+          "play_time_pred": 0.023825950920581818,
+          "CTR_AUC": 0.406015037593985,
+          "LogMAE_play_time": 0.7956393361091614
+        },
+        "weight_model": {
+          "accuracy": 0.6090225563909775,
+          "precision": 0.58125,
+          "recall": 0.7153846153846154,
+          "f1": 0.6413793103448275,
+          "auc": 0.6210124434389139
+        }
+      },
+      "val": {
+        "treatment": {
+          "CTR_true": 0.025641025975346565,
+          "CTR_pred": 0.5138354897499084,
+          "MSE_play_time": 3451731.75,
+          "LongView_true": 0.025641025975346565,
+          "LongView_pred": 0.0,
+          "play_time_true": 469.974365234375,
+          "play_time_pred": 0.003429980715736747,
+          "CTR_AUC": 0.7105263157894737,
+          "LogMAE_play_time": 1.0187174081802368
+        },
+        "control": {
+          "CTR_true": 0.05714285746216774,
+          "CTR_pred": 0.4047771394252777,
+          "MSE_play_time": 15613162.0,
+          "LongView_true": 0.02857142873108387,
+          "LongView_pred": 0.0,
+          "play_time_true": 999.4285888671875,
+          "play_time_pred": 0.03551092371344566,
+          "CTR_AUC": 0.6212121212121212,
+          "LogMAE_play_time": 0.8216094374656677
+        }
+      }
+    },
+    {
+      "train": {
+        "treatment": {
+          "CTR_true": 0.043478261679410934,
+          "CTR_pred": 0.505770742893219,
+          "MSE_play_time": 18993550.0,
+          "LongView_true": 0.036231882870197296,
+          "LongView_pred": 0.0,
+          "play_time_true": 923.18115234375,
+          "play_time_pred": 0.013205683790147305,
+          "CTR_AUC": 0.6616161616161615,
+          "LogMAE_play_time": 0.6770228147506714
+        },
+        "control": {
+          "CTR_true": 0.02068965509533882,
+          "CTR_pred": 0.3895164728164673,
+          "MSE_play_time": 69428064.0,
+          "LongView_true": 0.02068965509533882,
+          "LongView_pred": 0.0,
+          "play_time_true": 1199.6759033203125,
+          "play_time_pred": 0.023965349420905113,
+          "CTR_AUC": 0.3685446009389671,
+          "LogMAE_play_time": 0.7473707795143127
+        },
+        "weight_model": {
+          "accuracy": 0.6325088339222615,
+          "precision": 0.5965909090909091,
+          "recall": 0.7608695652173914,
+          "f1": 0.6687898089171974,
+          "auc": 0.6291854072963519
+        }
+      },
+      "val": {
+        "treatment": {
+          "CTR_true": 0.025641025975346565,
+          "CTR_pred": 0.49567580223083496,
+          "MSE_play_time": 3451720.25,
+          "LongView_true": 0.025641025975346565,
+          "LongView_pred": 0.0,
+          "play_time_true": 469.974365234375,
+          "play_time_pred": 0.011959659866988659,
+          "CTR_AUC": 0.8157894736842105,
+          "LogMAE_play_time": 1.0184919834136963
+        },
+        "control": {
+          "CTR_true": 0.05263157933950424,
+          "CTR_pred": 0.3938902020454407,
+          "MSE_play_time": 14417241.0,
+          "LongView_true": 0.02631578966975212,
+          "LongView_pred": 0.0,
+          "play_time_true": 951.6052856445312,
+          "play_time_pred": 0.035469502210617065,
+          "CTR_AUC": 0.5972222222222222,
+          "LogMAE_play_time": 0.9442673921585083
+        }
+      }
+    },
+    {
+      "train": {
+        "treatment": {
+          "CTR_true": 0.0416666679084301,
+          "CTR_pred": 0.49425145983695984,
+          "MSE_play_time": 18202166.0,
+          "LongView_true": 0.0347222238779068,
+          "LongView_pred": 0.0,
+          "play_time_true": 884.7152709960938,
+          "play_time_pred": 0.010130491107702255,
+          "CTR_AUC": 0.6026570048309179,
+          "LogMAE_play_time": 0.6493872404098511
+        },
+        "control": {
+          "CTR_true": 0.01986755058169365,
+          "CTR_pred": 0.3717237412929535,
+          "MSE_play_time": 66669332.0,
+          "LongView_true": 0.01986755058169365,
+          "LongView_pred": 0.0,
+          "play_time_true": 1152.006591796875,
+          "play_time_pred": 0.019841430708765984,
+          "CTR_AUC": 0.322072072072072,
+          "LogMAE_play_time": 0.7155494689941406
+        },
+        "weight_model": {
+          "accuracy": 0.6406779661016949,
+          "precision": 0.6043956043956044,
+          "recall": 0.7638888888888888,
+          "f1": 0.6748466257668712,
+          "auc": 0.6437178072111848
+        }
+      },
+      "val": {
+        "treatment": {
+          "CTR_true": 0.04444444552063942,
+          "CTR_pred": 0.4803904592990875,
+          "MSE_play_time": 2992513.0,
+          "LongView_true": 0.02222222276031971,
+          "LongView_pred": 0.0,
+          "play_time_true": 412.0666809082031,
+          "play_time_pred": 0.007326746825128794,
+          "CTR_AUC": 0.5116279069767442,
+          "LogMAE_play_time": 1.0027117729187012
+        },
+        "control": {
+          "CTR_true": 0.07500000298023224,
+          "CTR_pred": 0.3761584758758545,
+          "MSE_play_time": 13934318.0,
+          "LongView_true": 0.02500000037252903,
+          "LongView_pred": 0.0,
+          "play_time_true": 981.1500244140625,
+          "play_time_pred": 0.030549779534339905,
+          "CTR_AUC": 0.4234234234234234,
+          "LogMAE_play_time": 1.0935803651809692
+        }
+      }
+    },
+    {
+      "train": {
+        "treatment": {
+          "CTR_true": 0.03947368264198303,
+          "CTR_pred": 0.4755306839942932,
+          "MSE_play_time": 17244166.0,
+          "LongView_true": 0.032894738018512726,
+          "LongView_pred": 0.0,
+          "play_time_true": 838.1513061523438,
+          "play_time_pred": 0.006301187910139561,
+          "CTR_AUC": 0.6038812785388128,
+          "LogMAE_play_time": 0.6148848533630371
+        },
+        "control": {
+          "CTR_true": 0.018987340852618217,
+          "CTR_pred": 0.3559190630912781,
+          "MSE_play_time": 63834460.0,
+          "LongView_true": 0.018987340852618217,
+          "LongView_pred": 0.0,
+          "play_time_true": 1128.3924560546875,
+          "play_time_pred": 0.018528549000620842,
+          "CTR_AUC": 0.32903225806451614,
+          "LogMAE_play_time": 0.7369740009307861
+        },
+        "weight_model": {
+          "accuracy": 0.6451612903225806,
+          "precision": 0.6141304347826086,
+          "recall": 0.743421052631579,
+          "f1": 0.6726190476190477,
+          "auc": 0.652398401065956
+        }
+      },
+      "val": {
+        "treatment": {
+          "CTR_true": 0.042553190141916275,
+          "CTR_pred": 0.45925816893577576,
+          "MSE_play_time": 2865173.0,
+          "LongView_true": 0.021276595070958138,
+          "LongView_pred": 0.0,
+          "play_time_true": 394.53192138671875,
+          "play_time_pred": 0.004583243280649185,
+          "CTR_AUC": 0.5555555555555556,
+          "LogMAE_play_time": 0.9599950909614563
+        },
+        "control": {
+          "CTR_true": 0.06976744532585144,
+          "CTR_pred": 0.3574233949184418,
+          "MSE_play_time": 12962164.0,
+          "LongView_true": 0.023255813866853714,
+          "LongView_pred": 0.0,
+          "play_time_true": 912.6976928710938,
+          "play_time_pred": 0.033593323081731796,
+          "CTR_AUC": 0.39999999999999997,
+          "LogMAE_play_time": 1.0225214958190918
+        }
+      }
+    },
+    {
+      "train": {
+        "treatment": {
+          "CTR_true": 0.03703703731298447,
+          "CTR_pred": 0.44026458263397217,
+          "MSE_play_time": 16179725.0,
+          "LongView_true": 0.03086419776082039,
+          "LongView_pred": 0.0,
+          "play_time_true": 786.41357421875,
+          "play_time_pred": 0.0019774739630520344,
+          "CTR_AUC": 0.6239316239316239,
+          "LogMAE_play_time": 0.5783548355102539
+        },
+        "control": {
+          "CTR_true": 0.024242423474788666,
+          "CTR_pred": 0.33838385343551636,
+          "MSE_play_time": 62768668.0,
+          "LongView_true": 0.024242423474788666,
+          "LongView_pred": 0.0,
+          "play_time_true": 1221.3939208984375,
+          "play_time_pred": 0.0165359228849411,
+          "CTR_AUC": 0.3074534161490683,
+          "LogMAE_play_time": 0.8606809377670288
+        },
+        "weight_model": {
+          "accuracy": 0.654434250764526,
+          "precision": 0.6256410256410256,
+          "recall": 0.7530864197530864,
+          "f1": 0.6834733893557423,
+          "auc": 0.6633744855967079
+        }
+      },
+      "val": {
+        "treatment": {
+          "CTR_true": 0.0416666679084301,
+          "CTR_pred": 0.4238147437572479,
+          "MSE_play_time": 2805487.75,
+          "LongView_true": 0.02083333395421505,
+          "LongView_pred": 0.0,
+          "play_time_true": 386.3125,
+          "play_time_pred": 6.124648643890396e-05,
+          "CTR_AUC": 0.5869565217391304,
+          "LogMAE_play_time": 0.9405522346496582
+        },
+        "control": {
+          "CTR_true": 0.06666667014360428,
+          "CTR_pred": 0.3448072075843811,
+          "MSE_play_time": 12386092.0,
+          "LongView_true": 0.02222222276031971,
+          "LongView_pred": 0.0,
+          "play_time_true": 872.1333618164062,
+          "play_time_pred": 0.027307791635394096,
+          "CTR_AUC": 0.38095238095238093,
+          "LogMAE_play_time": 0.9741194248199463
+        }
+      }
+    },
+    {
+      "train": {
+        "treatment": {
+          "CTR_true": 0.04117647185921669,
+          "CTR_pred": 0.4037294387817383,
+          "MSE_play_time": 42472916.0,
+          "LongView_true": 0.03529411926865578,
+          "LongView_pred": 0.0,
+          "play_time_true": 1148.3353271484375,
+          "play_time_pred": 0.0019032408017665148,
+          "CTR_AUC": 0.6021034180543383,
+          "LogMAE_play_time": 0.6164798736572266
+        },
+        "control": {
+          "CTR_true": 0.023121386766433716,
+          "CTR_pred": 0.30919718742370605,
+          "MSE_play_time": 59964184.0,
+          "LongView_true": 0.023121386766433716,
+          "LongView_pred": 0.0,
+          "play_time_true": 1188.728271484375,
+          "play_time_pred": 0.011240286752581596,
+          "CTR_AUC": 0.3121301775147929,
+          "LogMAE_play_time": 0.8680400252342224
+        },
+        "weight_model": {
+          "accuracy": 0.6530612244897959,
+          "precision": 0.6220095693779905,
+          "recall": 0.7647058823529411,
+          "f1": 0.6860158311345647,
+          "auc": 0.6704182250935057
+        }
+      },
+      "val": {
+        "treatment": {
+          "CTR_true": 0.040816325694322586,
+          "CTR_pred": 0.3862830698490143,
+          "MSE_play_time": 2748233.5,
+          "LongView_true": 0.020408162847161293,
+          "LongView_pred": 0.0,
+          "play_time_true": 378.4285583496094,
+          "play_time_pred": 0.0005373007734306157,
+          "CTR_AUC": 0.574468085106383,
+          "LogMAE_play_time": 0.9211352467536926
+        },
+        "control": {
+          "CTR_true": 0.0833333358168602,
+          "CTR_pred": 0.3117022216320038,
+          "MSE_play_time": 17787448.0,
+          "LongView_true": 0.0416666679084301,
+          "LongView_pred": 0.0,
+          "play_time_true": 1176.3125,
+          "play_time_pred": 0.02158723771572113,
+          "CTR_AUC": 0.3125,
+          "LogMAE_play_time": 1.1143064498901367
+        }
+      }
+    },
+    {
+      "train": {
+        "treatment": {
+          "CTR_true": 0.039772726595401764,
+          "CTR_pred": 0.3769204914569855,
+          "MSE_play_time": 41024976.0,
+          "LongView_true": 0.034090910106897354,
+          "LongView_pred": 0.0,
+          "play_time_true": 1109.1875,
+          "play_time_pred": 0.005138665437698364,
+          "CTR_AUC": 0.5672020287404902,
+          "LogMAE_play_time": 0.5980003476142883
+        },
+        "control": {
+          "CTR_true": 0.03333333507180214,
+          "CTR_pred": 0.28826436400413513,
+          "MSE_play_time": 66985092.0,
+          "LongView_true": 0.03333333507180214,
+          "LongView_pred": 0.0,
+          "play_time_true": 1448.5888671875,
+          "play_time_pred": 0.011534705758094788,
+          "CTR_AUC": 0.3237547892720306,
+          "LogMAE_play_time": 0.9468327760696411
+        },
+        "weight_model": {
+          "accuracy": 0.6544943820224719,
+          "precision": 0.6255924170616114,
+          "recall": 0.75,
+          "f1": 0.6821705426356589,
+          "auc": 0.6972222222222222
+        }
+      },
+      "val": {
+        "treatment": {
+          "CTR_true": 0.03703703731298447,
+          "CTR_pred": 0.3549500107765198,
+          "MSE_play_time": 2493766.5,
+          "LongView_true": 0.018518518656492233,
+          "LongView_pred": 0.0,
+          "play_time_true": 343.3888854980469,
+          "play_time_pred": 0.0034179079812020063,
+          "CTR_AUC": 0.625,
+          "LogMAE_play_time": 0.8378899097442627
+        },
+        "control": {
+          "CTR_true": 0.07999999821186066,
+          "CTR_pred": 0.2956395745277405,
+          "MSE_play_time": 17186114.0,
+          "LongView_true": 0.03999999910593033,
+          "LongView_pred": 0.0,
+          "play_time_true": 1176.199951171875,
+          "play_time_pred": 0.020441249012947083,
+          "CTR_AUC": 0.30434782608695654,
+          "LogMAE_play_time": 1.2240726947784424
+        }
+      }
+    },
+    {
+      "train": {
+        "treatment": {
+          "CTR_true": 0.037837836891412735,
+          "CTR_pred": 0.34504595398902893,
+          "MSE_play_time": 39029176.0,
+          "LongView_true": 0.0324324332177639,
+          "LongView_pred": 0.0,
+          "play_time_true": 1055.22705078125,
+          "play_time_pred": 0.0022508844267576933,
+          "CTR_AUC": 0.5329052969502408,
+          "LogMAE_play_time": 0.5688060522079468
+        },
+        "control": {
+          "CTR_true": 0.037837836891412735,
+          "CTR_pred": 0.26544320583343506,
+          "MSE_play_time": 66151292.0,
+          "LongView_true": 0.037837836891412735,
+          "LongView_pred": 0.0,
+          "play_time_true": 1488.4486083984375,
+          "play_time_pred": 0.015379972755908966,
+          "CTR_AUC": 0.391653290529695,
+          "LogMAE_play_time": 1.0114145278930664
+        },
+        "weight_model": {
+          "accuracy": 0.672972972972973,
+          "precision": 0.6454545454545455,
+          "recall": 0.7675675675675676,
+          "f1": 0.7012345679012346,
+          "auc": 0.7102410518626735
+        }
+      },
+      "val": {
+        "treatment": {
+          "CTR_true": 0.035087719559669495,
+          "CTR_pred": 0.32130834460258484,
+          "MSE_play_time": 2362513.75,
+          "LongView_true": 0.017543859779834747,
+          "LongView_pred": 0.0,
+          "play_time_true": 325.3157958984375,
+          "play_time_pred": 0.0006753053166903555,
+          "CTR_AUC": 0.6727272727272727,
+          "LogMAE_play_time": 0.7941420674324036
+        },
+        "control": {
+          "CTR_true": 0.07547169923782349,
+          "CTR_pred": 0.27618274092674255,
+          "MSE_play_time": 16213289.0,
+          "LongView_true": 0.03773584961891174,
+          "LongView_pred": 0.0,
+          "play_time_true": 1109.6226806640625,
+          "play_time_pred": 0.023881759494543076,
+          "CTR_AUC": 0.3010204081632653,
+          "LogMAE_play_time": 1.1562066078186035
+        }
+      }
+    },
+    {
+      "train": {
+        "treatment": {
+          "CTR_true": 0.04712041839957237,
+          "CTR_pred": 0.31158509850502014,
+          "MSE_play_time": 55377784.0,
+          "LongView_true": 0.04188481718301773,
+          "LongView_pred": 0.0,
+          "play_time_true": 1448.764404296875,
+          "play_time_pred": 0.0029257326386868954,
+          "CTR_AUC": 0.43284493284493286,
+          "LogMAE_play_time": 0.6613946557044983
+        },
+        "control": {
+          "CTR_true": 0.04123711213469505,
+          "CTR_pred": 0.23963066935539246,
+          "MSE_play_time": 63668196.0,
+          "LongView_true": 0.036082472652196884,
+          "LongView_pred": 0.0,
+          "play_time_true": 1494.443359375,
+          "play_time_pred": 0.02114383690059185,
+          "CTR_AUC": 0.3548387096774194,
+          "LogMAE_play_time": 1.0575354099273682
+        },
+        "weight_model": {
+          "accuracy": 0.6701298701298701,
+          "precision": 0.6379310344827587,
+          "recall": 0.774869109947644,
+          "f1": 0.6997635933806147,
+          "auc": 0.7255896799265935
+        }
+      },
+      "val": {
+        "treatment": {
+          "CTR_true": 0.032786883413791656,
+          "CTR_pred": 0.28895556926727295,
+          "MSE_play_time": 2207598.0,
+          "LongView_true": 0.016393441706895828,
+          "LongView_pred": 0.0,
+          "play_time_true": 303.9836120605469,
+          "play_time_pred": 0.0013995629269629717,
+          "CTR_AUC": 0.6864406779661018,
+          "LogMAE_play_time": 0.7420123219490051
+        },
+        "control": {
+          "CTR_true": 0.07407407462596893,
+          "CTR_pred": 0.25315749645233154,
+          "MSE_play_time": 15913022.0,
+          "LongView_true": 0.03703703731298447,
+          "LongView_pred": 0.0,
+          "play_time_true": 1089.0740966796875,
+          "play_time_pred": 0.026721693575382233,
+          "CTR_AUC": 0.3,
+          "LogMAE_play_time": 1.135621428489685
+        }
+      }
+    },
+    {
+      "train": {
+        "treatment": {
+          "CTR_true": 0.04522613063454628,
+          "CTR_pred": 0.23376038670539856,
+          "MSE_play_time": 53151544.0,
+          "LongView_true": 0.04020100459456444,
+          "LongView_pred": 0.0,
+          "play_time_true": 1390.5225830078125,
+          "play_time_pred": 0.001627739635296166,
+          "CTR_AUC": 0.49766081871345025,
+          "LogMAE_play_time": 0.6327868700027466
+        },
+        "control": {
+          "CTR_true": 0.0445544570684433,
+          "CTR_pred": 0.21608522534370422,
+          "MSE_play_time": 62258332.0,
+          "LongView_true": 0.039603959769010544,
+          "LongView_pred": 0.0,
+          "play_time_true": 1509.4405517578125,
+          "play_time_pred": 0.01701314188539982,
+          "CTR_AUC": 0.35636154289004024,
+          "LogMAE_play_time": 1.060800313949585
+        },
+        "weight_model": {
+          "accuracy": 0.6633416458852868,
+          "precision": 0.6333333333333333,
+          "recall": 0.7638190954773869,
+          "f1": 0.6924829157175398,
+          "auc": 0.7389671127916813
+        }
+      },
+      "val": {
+        "treatment": {
+          "CTR_true": 0.03125,
+          "CTR_pred": 0.20803236961364746,
+          "MSE_play_time": 2104122.75,
+          "LongView_true": 0.015625,
+          "LongView_pred": 0.0,
+          "play_time_true": 289.734375,
+          "play_time_pred": 0.0005016305949538946,
+          "CTR_AUC": 0.6129032258064516,
+          "LogMAE_play_time": 0.7055543661117554
+        },
+        "control": {
+          "CTR_true": 0.072727270424366,
+          "CTR_pred": 0.22668978571891785,
+          "MSE_play_time": 16043997.0,
+          "LongView_true": 0.036363635212183,
+          "LongView_pred": 0.0,
+          "play_time_true": 1156.69091796875,
+          "play_time_pred": 0.02236246131360531,
+          "CTR_AUC": 0.31862745098039214,
+          "LogMAE_play_time": 1.2644062042236328
+        }
+      }
+    },
+    {
+      "train": {
+        "treatment": {
+          "CTR_true": 0.043062202632427216,
+          "CTR_pred": 0.2024383544921875,
+          "MSE_play_time": 50608404.0,
+          "LongView_true": 0.038277510553598404,
+          "LongView_pred": 0.0,
+          "play_time_true": 1323.990478515625,
+          "play_time_pred": 0.0025870855897665024,
+          "CTR_AUC": 0.48277777777777775,
+          "LogMAE_play_time": 0.6025584936141968
+        },
+        "control": {
+          "CTR_true": 0.048076923936605453,
+          "CTR_pred": 0.20006012916564941,
+          "MSE_play_time": 62300312.0,
+          "LongView_true": 0.04326923191547394,
+          "LongView_pred": 0.0,
+          "play_time_true": 1571.451904296875,
+          "play_time_pred": 0.013491075485944748,
+          "CTR_AUC": 0.3686868686868687,
+          "LogMAE_play_time": 1.1140892505645752
+        },
+        "weight_model": {
+          "accuracy": 0.6666666666666666,
+          "precision": 0.6411290322580645,
+          "recall": 0.7607655502392344,
+          "f1": 0.6958424507658644,
+          "auc": 0.7485737946264261
+        }
+      },
+      "val": {
+        "treatment": {
+          "CTR_true": 0.02985074557363987,
+          "CTR_pred": 0.17837870121002197,
+          "MSE_play_time": 2009906.125,
+          "LongView_true": 0.014925372786819935,
+          "LongView_pred": 0.0,
+          "play_time_true": 276.7611999511719,
+          "play_time_pred": 0.0014394500758498907,
+          "CTR_AUC": 0.6615384615384615,
+          "LogMAE_play_time": 0.6736642122268677
+        },
+        "control": {
+          "CTR_true": 0.0892857164144516,
+          "CTR_pred": 0.21061912178993225,
+          "MSE_play_time": 28868114.0,
+          "LongView_true": 0.0535714291036129,
+          "LongView_pred": 0.0,
+          "play_time_true": 1619.892822265625,
+          "play_time_pred": 0.01797623559832573,
+          "CTR_AUC": 0.39607843137254906,
+          "LogMAE_play_time": 1.422784686088562
+        }
+      }
+    },
+    {
+      "train": {
+        "treatment": {
+          "CTR_true": 0.0416666679084301,
+          "CTR_pred": 0.17301785945892334,
+          "MSE_play_time": 48968320.0,
+          "LongView_true": 0.03703703731298447,
+          "LongView_pred": 0.0,
+          "play_time_true": 1281.0833740234375,
+          "play_time_pred": 0.0014662976609542966,
+          "CTR_AUC": 0.4578636607622115,
+          "LogMAE_play_time": 0.5821526646614075
+        },
+        "control": {
+          "CTR_true": 0.046296294778585434,
+          "CTR_pred": 0.17664633691310883,
+          "MSE_play_time": 59992884.0,
+          "LongView_true": 0.0416666679084301,
+          "LongView_pred": 0.0,
+          "play_time_true": 1513.25,
+          "play_time_pred": 0.014937642961740494,
+          "CTR_AUC": 0.35922330097087385,
+          "LogMAE_play_time": 1.0735158920288086
+        },
+        "weight_model": {
+          "accuracy": 0.6875,
+          "precision": 0.6639676113360324,
+          "recall": 0.7592592592592593,
+          "f1": 0.7084233261339092,
+          "auc": 0.7590877914951988
+        }
+      },
+      "val": {
+        "treatment": {
+          "CTR_true": 0.028985507786273956,
+          "CTR_pred": 0.1491841822862625,
+          "MSE_play_time": 1951645.875,
+          "LongView_true": 0.014492753893136978,
+          "LongView_pred": 0.0,
+          "play_time_true": 268.7391357421875,
+          "play_time_pred": 0.00028862955514341593,
+          "CTR_AUC": 0.6940298507462687,
+          "LogMAE_play_time": 0.6547368764877319
+        },
+        "control": {
+          "CTR_true": 0.08474576473236084,
+          "CTR_pred": 0.18678471446037292,
+          "MSE_play_time": 27400226.0,
+          "LongView_true": 0.050847455859184265,
+          "LongView_pred": 0.0,
+          "play_time_true": 1537.525390625,
+          "play_time_pred": 0.018774541094899178,
+          "CTR_AUC": 0.37037037037037035,
+          "LogMAE_play_time": 1.3514448404312134
+        }
+      }
+    },
+    {
+      "train": {
+        "treatment": {
+          "CTR_true": 0.04054053872823715,
+          "CTR_pred": 0.15027038753032684,
+          "MSE_play_time": 47644844.0,
+          "LongView_true": 0.036036036908626556,
+          "LongView_pred": 0.0,
+          "play_time_true": 1246.45947265625,
+          "play_time_pred": 0.004439490847289562,
+          "CTR_AUC": 0.47000521648408966,
+          "LogMAE_play_time": 0.56648188829422
+        },
+        "control": {
+          "CTR_true": 0.048245612531900406,
+          "CTR_pred": 0.16437683999538422,
+          "MSE_play_time": 63465736.0,
+          "LongView_true": 0.04385964944958687,
+          "LongView_pred": 0.0,
+          "play_time_true": 1617.50439453125,
+          "play_time_pred": 0.014230430126190186,
+          "CTR_AUC": 0.39505655634687886,
+          "LogMAE_play_time": 1.128203272819519
+        },
+        "weight_model": {
+          "accuracy": 0.6844444444444444,
+          "precision": 0.6538461538461539,
+          "recall": 0.7657657657657657,
+          "f1": 0.7053941908713693,
+          "auc": 0.7658250355618775
+        }
+      },
+      "val": {
+        "treatment": {
+          "CTR_true": 0.02857142873108387,
+          "CTR_pred": 0.12948164343833923,
+          "MSE_play_time": 1923764.375,
+          "LongView_true": 0.014285714365541935,
+          "LongView_pred": 0.0,
+          "play_time_true": 264.8999938964844,
+          "play_time_pred": 0.0036007757298648357,
+          "CTR_AUC": 0.6911764705882353,
+          "LogMAE_play_time": 0.6458991169929504
+        },
+        "control": {
+          "CTR_true": 0.0833333358168602,
+          "CTR_pred": 0.16984160244464874,
+          "MSE_play_time": 26943560.0,
+          "LongView_true": 0.05000000074505806,
+          "LongView_pred": 0.0,
+          "play_time_true": 1511.9000244140625,
+          "play_time_pred": 0.018238704651594162,
+          "CTR_AUC": 0.39272727272727276,
+          "LogMAE_play_time": 1.3300282955169678
+        }
+      }
+    },
+    {
+      "train": {
+        "treatment": {
+          "CTR_true": 0.0382978729903698,
+          "CTR_pred": 0.13389943540096283,
+          "MSE_play_time": 45009184.0,
+          "LongView_true": 0.03404255211353302,
+          "LongView_pred": 0.0,
+          "play_time_true": 1177.50634765625,
+          "play_time_pred": -0.001098519191145897,
+          "CTR_AUC": 0.42379547689282204,
+          "LogMAE_play_time": 0.5360692739486694
+        },
+        "control": {
+          "CTR_true": 0.0476190485060215,
+          "CTR_pred": 0.1530352234840393,
+          "MSE_play_time": 62641520.0,
+          "LongView_true": 0.043290045112371445,
+          "LongView_pred": 0.0,
+          "play_time_true": 1596.497802734375,
+          "play_time_pred": 0.014261159114539623,
+          "CTR_AUC": 0.4450413223140496,
+          "LogMAE_play_time": 1.1132097244262695
+        },
+        "weight_model": {
+          "accuracy": 0.703862660944206,
+          "precision": 0.6789667896678967,
+          "recall": 0.7829787234042553,
+          "f1": 0.7272727272727273,
+          "auc": 0.7795339412360688
+        }
+      },
+      "val": {
+        "treatment": {
+          "CTR_true": 0.02777777798473835,
+          "CTR_pred": 0.11930588632822037,
+          "MSE_play_time": 1870325.375,
+          "LongView_true": 0.013888888992369175,
+          "LongView_pred": 0.0,
+          "play_time_true": 257.5416564941406,
+          "play_time_pred": -0.0016637311782687902,
+          "CTR_AUC": 0.7,
+          "LogMAE_play_time": 0.6294777989387512
+        },
+        "control": {
+          "CTR_true": 0.09677419066429138,
+          "CTR_pred": 0.15441879630088806,
+          "MSE_play_time": 34890164.0,
+          "LongView_true": 0.06451612710952759,
+          "LongView_pred": 0.0,
+          "play_time_true": 1840.209716796875,
+          "play_time_pred": 0.01720113679766655,
+          "CTR_AUC": 0.47023809523809523,
+          "LogMAE_play_time": 1.44760262966156
+        }
+      }
+    },
+    {
+      "train": {
+        "treatment": {
+          "CTR_true": 0.03719008341431618,
+          "CTR_pred": 0.110503651201725,
+          "MSE_play_time": 43707240.0,
+          "LongView_true": 0.03305784985423088,
+          "LongView_pred": 0.0,
+          "play_time_true": 1143.4462890625,
+          "play_time_pred": 0.004459486808627844,
+          "CTR_AUC": 0.44730567477348593,
+          "LogMAE_play_time": 0.5199204683303833
+        },
+        "control": {
+          "CTR_true": 0.0456431545317173,
+          "CTR_pred": 0.1443842649459839,
+          "MSE_play_time": 60221572.0,
+          "LongView_true": 0.04149377718567848,
+          "LongView_pred": 0.0,
+          "play_time_true": 1557.5311279296875,
+          "play_time_pred": 0.02010880596935749,
+          "CTR_AUC": 0.4652173913043478,
+          "LogMAE_play_time": 1.1055898666381836
+        },
+        "weight_model": {
+          "accuracy": 0.7142857142857143,
+          "precision": 0.6884057971014492,
+          "recall": 0.7851239669421488,
+          "f1": 0.7335907335907336,
+          "auc": 0.7896505606803608
+        }
+      },
+      "val": {
+        "treatment": {
+          "CTR_true": 0.027027027681469917,
+          "CTR_pred": 0.09674427658319473,
+          "MSE_play_time": 1819772.125,
+          "LongView_true": 0.013513513840734959,
+          "LongView_pred": 0.0,
+          "play_time_true": 250.58108520507812,
+          "play_time_pred": 0.003848535008728504,
+          "CTR_AUC": 0.7013888888888888,
+          "LogMAE_play_time": 0.6109069585800171
+        },
+        "control": {
+          "CTR_true": 0.095238097012043,
+          "CTR_pred": 0.14533725380897522,
+          "MSE_play_time": 34336320.0,
+          "LongView_true": 0.0634920671582222,
+          "LongView_pred": 0.0,
+          "play_time_true": 1811.0,
+          "play_time_pred": 0.021690214052796364,
+          "CTR_AUC": 0.4736842105263158,
+          "LogMAE_play_time": 1.4272820949554443
+        }
+      }
+    },
+    {
+      "train": {
+        "treatment": {
+          "CTR_true": 0.0396825410425663,
+          "CTR_pred": 0.08935413509607315,
+          "MSE_play_time": 42254428.0,
+          "LongView_true": 0.0317460335791111,
+          "LongView_pred": 0.0,
+          "play_time_true": 1131.5,
+          "play_time_pred": 0.0015275038313120604,
+          "CTR_AUC": 0.41818181818181815,
+          "LogMAE_play_time": 0.5342164039611816
+        },
+        "control": {
+          "CTR_true": 0.04435483738780022,
+          "CTR_pred": 0.1328660398721695,
+          "MSE_play_time": 58521756.0,
+          "LongView_true": 0.04032257944345474,
+          "LongView_pred": 0.0,
+          "play_time_true": 1513.568603515625,
+          "play_time_pred": 0.01861865259706974,
+          "CTR_AUC": 0.4863828154967395,
+          "LogMAE_play_time": 1.0736494064331055
+        },
+        "weight_model": {
+          "accuracy": 0.73,
+          "precision": 0.7038327526132404,
+          "recall": 0.8015873015873016,
+          "f1": 0.7495361781076066,
+          "auc": 0.7977470558115719
+        }
+      },
+      "val": {
+        "treatment": {
+          "CTR_true": 0.02666666731238365,
+          "CTR_pred": 0.07768834382295609,
+          "MSE_play_time": 1795510.875,
+          "LongView_true": 0.013333333656191826,
+          "LongView_pred": 0.0,
+          "play_time_true": 247.24000549316406,
+          "play_time_pred": 0.0010465121595188975,
+          "CTR_AUC": 0.7054794520547945,
+          "LogMAE_play_time": 0.6027088761329651
+        },
+        "control": {
+          "CTR_true": 0.0923076942563057,
+          "CTR_pred": 0.1351747363805771,
+          "MSE_play_time": 33279810.0,
+          "LongView_true": 0.0615384615957737,
+          "LongView_pred": 0.0,
+          "play_time_true": 1755.2769775390625,
+          "play_time_pred": 0.020394237712025642,
+          "CTR_AUC": 0.4887005649717514,
+          "LogMAE_play_time": 1.3818490505218506
+        }
+      }
+    },
+    {
+      "train": {
+        "treatment": {
+          "CTR_true": 0.038910504430532455,
+          "CTR_pred": 0.0832817405462265,
+          "MSE_play_time": 41432340.0,
+          "LongView_true": 0.031128404662013054,
+          "LongView_pred": 0.0,
+          "play_time_true": 1109.486328125,
+          "play_time_pred": 0.006637747399508953,
+          "CTR_AUC": 0.42591093117408907,
+          "LogMAE_play_time": 0.5249972343444824
+        },
+        "control": {
+          "CTR_true": 0.05098039284348488,
+          "CTR_pred": 0.13029494881629944,
+          "MSE_play_time": 73643040.0,
+          "LongView_true": 0.0470588244497776,
+          "LongView_pred": 0.0,
+          "play_time_true": 1790.4588623046875,
+          "play_time_pred": 0.017040766775608063,
+          "CTR_AUC": 0.5222504767959313,
+          "LogMAE_play_time": 1.123936653137207
+        },
+        "weight_model": {
+          "accuracy": 0.732421875,
+          "precision": 0.7040816326530612,
+          "recall": 0.8054474708171206,
+          "f1": 0.7513611615245009,
+          "auc": 0.801861600671397
+        }
+      },
+      "val": {
+        "treatment": {
+          "CTR_true": 0.025316456332802773,
+          "CTR_pred": 0.07157314568758011,
+          "MSE_play_time": 1895354.75,
+          "LongView_true": 0.012658228166401386,
+          "LongView_pred": 0.0,
+          "play_time_true": 283.8607482910156,
+          "play_time_pred": 0.007133678533136845,
+          "CTR_AUC": 0.6948051948051948,
+          "LogMAE_play_time": 0.6766781806945801
+        },
+        "control": {
+          "CTR_true": 0.08695652335882187,
+          "CTR_pred": 0.13482840359210968,
+          "MSE_play_time": 31350554.0,
+          "LongView_true": 0.05797101557254791,
+          "LongView_pred": 0.0,
+          "play_time_true": 1653.521728515625,
+          "play_time_pred": 0.01717275008559227,
+          "CTR_AUC": 0.4894179894179894,
+          "LogMAE_play_time": 1.3013207912445068
+        }
+      }
+    },
+    {
+      "train": {
+        "treatment": {
+          "CTR_true": 0.03773584961891174,
+          "CTR_pred": 0.07111797481775284,
+          "MSE_play_time": 40181564.0,
+          "LongView_true": 0.030188679695129395,
+          "LongView_pred": 0.0,
+          "play_time_true": 1075.992431640625,
+          "play_time_pred": 0.0035434390883892775,
+          "CTR_AUC": 0.436078431372549,
+          "LogMAE_play_time": 0.5078323483467102
+        },
+        "control": {
+          "CTR_true": 0.05000000074505806,
+          "CTR_pred": 0.1320958137512207,
+          "MSE_play_time": 72226848.0,
+          "LongView_true": 0.04615384712815285,
+          "LongView_pred": 0.0,
+          "play_time_true": 1756.0269775390625,
+          "play_time_pred": 0.010794311761856079,
+          "CTR_AUC": 0.6346932419806914,
+          "LogMAE_play_time": 1.0999045372009277
+        },
+        "weight_model": {
+          "accuracy": 0.7276190476190476,
+          "precision": 0.6955128205128205,
+          "recall": 0.8188679245283019,
+          "f1": 0.7521663778162911,
+          "auc": 0.8132656023222061
+        }
+      },
+      "val": {
+        "treatment": {
+          "CTR_true": 0.02380952425301075,
+          "CTR_pred": 0.05885132774710655,
+          "MSE_play_time": 2334311.5,
+          "LongView_true": 0.011904762126505375,
+          "LongView_pred": 0.0,
+          "play_time_true": 348.01190185546875,
+          "play_time_pred": 0.0037374652456492186,
+          "CTR_AUC": 0.7439024390243902,
+          "LogMAE_play_time": 0.7401307225227356
+        },
+        "control": {
+          "CTR_true": 0.0845070406794548,
+          "CTR_pred": 0.1338270604610443,
+          "MSE_play_time": 30467462.0,
+          "LongView_true": 0.056338027119636536,
+          "LongView_pred": 0.0,
+          "play_time_true": 1606.943603515625,
+          "play_time_pred": 0.011529556475579739,
+          "CTR_AUC": 0.5512820512820513,
+          "LogMAE_play_time": 1.2615694999694824
+        }
+      }
+    },
+    {
+      "train": {
+        "treatment": {
+          "CTR_true": 0.036496348679065704,
+          "CTR_pred": 0.05783313140273094,
+          "MSE_play_time": 38861720.0,
+          "LongView_true": 0.029197080060839653,
+          "LongView_pred": 0.0,
+          "play_time_true": 1040.649658203125,
+          "play_time_pred": 0.003464138600975275,
+          "CTR_AUC": 0.48068181818181815,
+          "LogMAE_play_time": 0.4909113347530365
+        },
+        "control": {
+          "CTR_true": 0.05223880708217621,
+          "CTR_pred": 0.11071367561817169,
+          "MSE_play_time": 70902944.0,
+          "LongView_true": 0.048507463186979294,
+          "LongView_pred": 0.0,
+          "play_time_true": 1774.108154296875,
+          "play_time_pred": 0.011122738011181355,
+          "CTR_AUC": 0.6962879640044994,
+          "LogMAE_play_time": 1.1335704326629639
+        },
+        "weight_model": {
+          "accuracy": 0.7343173431734318,
+          "precision": 0.7044025157232704,
+          "recall": 0.8175182481751825,
+          "f1": 0.7567567567567568,
+          "auc": 0.8228973744416603
+        }
+      },
+      "val": {
+        "treatment": {
+          "CTR_true": 0.0235294122248888,
+          "CTR_pred": 0.046579767018556595,
+          "MSE_play_time": 2306851.75,
+          "LongView_true": 0.0117647061124444,
+          "LongView_pred": 0.0,
+          "play_time_true": 343.9176330566406,
+          "play_time_pred": 0.0038308235816657543,
+          "CTR_AUC": 0.7048192771084337,
+          "LogMAE_play_time": 0.7316973805427551
+        },
+        "control": {
+          "CTR_true": 0.08219178020954132,
+          "CTR_pred": 0.11229114234447479,
+          "MSE_play_time": 29632740.0,
+          "LongView_true": 0.054794520139694214,
+          "LongView_pred": 0.0,
+          "play_time_true": 1562.9178466796875,
+          "play_time_pred": 0.010879091918468475,
+          "CTR_AUC": 0.599502487562189,
+          "LogMAE_play_time": 1.2268739938735962
+        }
+      }
+    },
+    {
+      "train": {
+        "treatment": {
+          "CTR_true": 0.035335689783096313,
+          "CTR_pred": 0.05394803360104561,
+          "MSE_play_time": 37625828.0,
+          "LongView_true": 0.02826855145394802,
+          "LongView_pred": 0.0,
+          "play_time_true": 1007.5547485351562,
+          "play_time_pred": 0.005459666717797518,
+          "CTR_AUC": 0.46923076923076923,
+          "LogMAE_play_time": 0.4759310781955719
+        },
+        "control": {
+          "CTR_true": 0.05494505539536476,
+          "CTR_pred": 0.11411955207586288,
+          "MSE_play_time": 71526032.0,
+          "LongView_true": 0.05128205195069313,
+          "LongView_pred": 0.0,
+          "play_time_true": 1825.5164794921875,
+          "play_time_pred": 0.017818499356508255,
+          "CTR_AUC": 0.7589147286821706,
+          "LogMAE_play_time": 1.1504998207092285
+        },
+        "weight_model": {
+          "accuracy": 0.7338129496402878,
+          "precision": 0.7076923076923077,
+          "recall": 0.8127208480565371,
+          "f1": 0.756578947368421,
+          "auc": 0.8316183227844005
+        }
+      },
+      "val": {
+        "treatment": {
+          "CTR_true": 0.023255813866853714,
+          "CTR_pred": 0.0453568696975708,
+          "MSE_play_time": 2280026.5,
+          "LongView_true": 0.011627906933426857,
+          "LongView_pred": 0.0,
+          "play_time_true": 339.9186096191406,
+          "play_time_pred": 0.005445514805614948,
+          "CTR_AUC": 0.7202380952380952,
+          "LogMAE_play_time": 0.7231088876724243
+        },
+        "control": {
+          "CTR_true": 0.07692307978868484,
+          "CTR_pred": 0.11333120614290237,
+          "MSE_play_time": 27733160.0,
+          "LongView_true": 0.05128205195069313,
+          "LongView_pred": 0.0,
+          "play_time_true": 1462.730712890625,
+          "play_time_pred": 0.0158871877938509,
+          "CTR_AUC": 0.6018518518518519,
+          "LogMAE_play_time": 1.1505838632583618
+        }
+      }
+    },
+    {
+      "train": {
+        "treatment": {
+          "CTR_true": 0.034364260733127594,
+          "CTR_pred": 0.05107378587126732,
+          "MSE_play_time": 36591452.0,
+          "LongView_true": 0.027491409331560135,
+          "LongView_pred": 0.0,
+          "play_time_true": 979.8556518554688,
+          "play_time_pred": 0.00498221255838871,
+          "CTR_AUC": 0.47829181494661915,
+          "LogMAE_play_time": 0.46284735202789307
+        },
+        "control": {
+          "CTR_true": 0.05300353467464447,
+          "CTR_pred": 0.11517830193042755,
+          "MSE_play_time": 69048584.0,
+          "LongView_true": 0.0494699664413929,
+          "LongView_pred": 0.0,
+          "play_time_true": 1778.6219482421875,
+          "play_time_pred": 0.02094271406531334,
+          "CTR_AUC": 0.8019900497512438,
+          "LogMAE_play_time": 1.1644350290298462
+        },
+        "weight_model": {
+          "accuracy": 0.7421602787456446,
+          "precision": 0.7134328358208956,
+          "recall": 0.8213058419243986,
+          "f1": 0.7635782747603834,
+          "auc": 0.837188687722366
+        }
+      },
+      "val": {
+        "treatment": {
+          "CTR_true": 0.02298850566148758,
+          "CTR_pred": 0.044425707310438156,
+          "MSE_play_time": 2253817.5,
+          "LongView_true": 0.01149425283074379,
+          "LongView_pred": 0.0,
+          "play_time_true": 336.0115051269531,
+          "play_time_pred": 0.005354112479835749,
+          "CTR_AUC": 0.7176470588235293,
+          "LogMAE_play_time": 0.7149370908737183
+        },
+        "control": {
+          "CTR_true": 0.07594936341047287,
+          "CTR_pred": 0.1128729060292244,
+          "MSE_play_time": 27382080.0,
+          "LongView_true": 0.050632912665605545,
+          "LongView_pred": 0.0,
+          "play_time_true": 1444.2152099609375,
+          "play_time_pred": 0.0173795185983181,
+          "CTR_AUC": 0.6141552511415526,
+          "LogMAE_play_time": 1.1372519731521606
+        }
+      }
+    },
+    {
+      "train": {
+        "treatment": {
+          "CTR_true": 0.03344481438398361,
+          "CTR_pred": 0.047364503145217896,
+          "MSE_play_time": 35617000.0,
+          "LongView_true": 0.02675585262477398,
+          "LongView_pred": 0.0,
+          "play_time_true": 957.5518188476562,
+          "play_time_pred": 0.0011977792019024491,
+          "CTR_AUC": 0.5027681660899653,
+          "LogMAE_play_time": 0.4737268090248108
+        },
+        "control": {
+          "CTR_true": 0.051369864493608475,
+          "CTR_pred": 0.1249452605843544,
+          "MSE_play_time": 66927364.0,
+          "LongView_true": 0.04794520512223244,
+          "LongView_pred": 0.0,
+          "play_time_true": 1728.72265625,
+          "play_time_pred": 0.026714952662587166,
+          "CTR_AUC": 0.846690734055355,
+          "LogMAE_play_time": 1.1548511981964111
+        },
+        "weight_model": {
+          "accuracy": 0.751269035532995,
+          "precision": 0.7222222222222222,
+          "recall": 0.8260869565217391,
+          "f1": 0.7706708268330733,
+          "auc": 0.8461423924497182
+        }
+      },
+      "val": {
+        "treatment": {
+          "CTR_true": 0.02298850566148758,
+          "CTR_pred": 0.04215605929493904,
+          "MSE_play_time": 2253821.0,
+          "LongView_true": 0.01149425283074379,
+          "LongView_pred": 0.0,
+          "play_time_true": 336.0115051269531,
+          "play_time_pred": 0.001870507257990539,
+          "CTR_AUC": 0.7176470588235293,
+          "LogMAE_play_time": 0.7152637243270874
+        },
+        "control": {
+          "CTR_true": 0.0731707289814949,
+          "CTR_pred": 0.12097770720720291,
+          "MSE_play_time": 26380256.0,
+          "LongView_true": 0.04878048598766327,
+          "LongView_pred": 0.0,
+          "play_time_true": 1391.3780517578125,
+          "play_time_pred": 0.0204139593988657,
+          "CTR_AUC": 0.6469298245614035,
+          "LogMAE_play_time": 1.0968717336654663
+        }
+      }
+    },
+    {
+      "train": {
+        "treatment": {
+          "CTR_true": 0.03246753290295601,
+          "CTR_pred": 0.04229196906089783,
+          "MSE_play_time": 34576244.0,
+          "LongView_true": 0.025974025949835777,
+          "LongView_pred": 0.0,
+          "play_time_true": 929.5714111328125,
+          "play_time_pred": 0.003694023471325636,
+          "CTR_AUC": 0.5120805369127517,
+          "LogMAE_play_time": 0.4608107805252075
+        },
+        "control": {
+          "CTR_true": 0.05016722530126572,
+          "CTR_pred": 0.11527545750141144,
+          "MSE_play_time": 65362960.0,
+          "LongView_true": 0.046822741627693176,
+          "LongView_pred": 0.0,
+          "play_time_true": 1691.11376953125,
+          "play_time_pred": 0.022994717583060265,
+          "CTR_AUC": 0.8690140845070422,
+          "LogMAE_play_time": 1.1493380069732666
+        },
+        "weight_model": {
+          "accuracy": 0.7512355848434926,
+          "precision": 0.7198879551820728,
+          "recall": 0.8344155844155844,
+          "f1": 0.7729323308270677,
+          "auc": 0.852690787473396
+        }
+      },
+      "val": {
+        "treatment": {
+          "CTR_true": 0.02222222276031971,
+          "CTR_pred": 0.03910304605960846,
+          "MSE_play_time": 2178690.75,
+          "LongView_true": 0.011111111380159855,
+          "LongView_pred": 0.0,
+          "play_time_true": 324.81109619140625,
+          "play_time_pred": 0.004770340863615274,
+          "CTR_AUC": 0.7272727272727273,
+          "LogMAE_play_time": 0.6921963691711426
+        },
+        "control": {
+          "CTR_true": 0.07228915393352509,
+          "CTR_pred": 0.11139098554849625,
+          "MSE_play_time": 26062432.0,
+          "LongView_true": 0.048192769289016724,
+          "LongView_pred": 0.0,
+          "play_time_true": 1374.614501953125,
+          "play_time_pred": 0.016245603561401367,
+          "CTR_AUC": 0.6688311688311688,
+          "LogMAE_play_time": 1.0822912454605103
+        }
+      }
+    },
+    {
+      "train": {
+        "treatment": {
+          "CTR_true": 0.03134796395897865,
+          "CTR_pred": 0.03597089275717735,
+          "MSE_play_time": 33383966.0,
+          "LongView_true": 0.025078369304537773,
+          "LongView_pred": 0.0,
+          "play_time_true": 897.5172119140625,
+          "play_time_pred": 0.0006484786281362176,
+          "CTR_AUC": 0.5187702265372168,
+          "LogMAE_play_time": 0.44467565417289734
+        },
+        "control": {
+          "CTR_true": 0.04918032884597778,
+          "CTR_pred": 0.10075917840003967,
+          "MSE_play_time": 64114608.0,
+          "LongView_true": 0.04590163752436638,
+          "LongView_pred": 0.0,
+          "play_time_true": 1668.924560546875,
+          "play_time_pred": 0.01976385898888111,
+          "CTR_AUC": 0.8797701149425288,
+          "LogMAE_play_time": 1.1523711681365967
+        },
+        "weight_model": {
+          "accuracy": 0.7532051282051282,
+          "precision": 0.7223719676549866,
+          "recall": 0.8401253918495298,
+          "f1": 0.7768115942028986,
+          "auc": 0.859376124158487
+        }
+      },
+      "val": {
+        "treatment": {
+          "CTR_true": 0.021739130839705467,
+          "CTR_pred": 0.03287879377603531,
+          "MSE_play_time": 2131330.5,
+          "LongView_true": 0.010869565419852734,
+          "LongView_pred": 0.0,
+          "play_time_true": 317.75,
+          "play_time_pred": 0.0014710972318425775,
+          "CTR_AUC": 0.7166666666666667,
+          "LogMAE_play_time": 0.6772449016571045
+        },
+        "control": {
+          "CTR_true": 0.0714285746216774,
+          "CTR_pred": 0.09355528652667999,
+          "MSE_play_time": 25752188.0,
+          "LongView_true": 0.0476190485060215,
+          "LongView_pred": 0.0,
+          "play_time_true": 1358.25,
+          "play_time_pred": 0.013766760006546974,
+          "CTR_AUC": 0.673076923076923,
+          "LogMAE_play_time": 1.0669028759002686
+        }
+      }
+    },
+    {
+      "train": {
+        "treatment": {
+          "CTR_true": 0.030581040307879448,
+          "CTR_pred": 0.03923510015010834,
+          "MSE_play_time": 32567234.0,
+          "LongView_true": 0.024464832618832588,
+          "LongView_pred": 0.0,
+          "play_time_true": 875.5596313476562,
+          "play_time_pred": 0.0031823597382754087,
+          "CTR_AUC": 0.5391167192429022,
+          "LogMAE_play_time": 0.4338323771953583
+        },
+        "control": {
+          "CTR_true": 0.06050955504179001,
+          "CTR_pred": 0.09632239490747452,
+          "MSE_play_time": 113510384.0,
+          "LongView_true": 0.0573248416185379,
+          "LongView_pred": 0.0,
+          "play_time_true": 2254.12744140625,
+          "play_time_pred": 0.020638305693864822,
+          "CTR_AUC": 0.871364852809991,
+          "LogMAE_play_time": 1.2722901105880737
+        },
+        "weight_model": {
+          "accuracy": 0.7535101404056163,
+          "precision": 0.7217847769028871,
+          "recall": 0.8409785932721713,
+          "f1": 0.7768361581920904,
+          "auc": 0.8658037749079647
+        }
+      },
+      "val": {
+        "treatment": {
+          "CTR_true": 0.021276595070958138,
+          "CTR_pred": 0.03565405681729317,
+          "MSE_play_time": 2085982.75,
+          "LongView_true": 0.010638297535479069,
+          "LongView_pred": 0.0,
+          "play_time_true": 310.9893493652344,
+          "play_time_pred": 0.0036407492589205503,
+          "CTR_AUC": 0.7282608695652174,
+          "LogMAE_play_time": 0.6623451113700867
+        },
+        "control": {
+          "CTR_true": 0.07058823853731155,
+          "CTR_pred": 0.08673574775457382,
+          "MSE_play_time": 25449206.0,
+          "LongView_true": 0.0470588244497776,
+          "LongView_pred": 0.0,
+          "play_time_true": 1342.2706298828125,
+          "play_time_pred": 0.014551317319273949,
+          "CTR_AUC": 0.670886075949367,
+          "LogMAE_play_time": 1.0552430152893066
+        }
+      }
+    },
+    {
+      "train": {
+        "treatment": {
+          "CTR_true": 0.02994011901319027,
+          "CTR_pred": 0.04193916544318199,
+          "MSE_play_time": 31884690.0,
+          "LongView_true": 0.023952096700668335,
+          "LongView_pred": 0.0,
+          "play_time_true": 857.2095947265625,
+          "play_time_pred": 0.0018271824810653925,
+          "CTR_AUC": 0.5521604938271606,
+          "LogMAE_play_time": 0.42451417446136475
+        },
+        "control": {
+          "CTR_true": 0.0625,
+          "CTR_pred": 0.09757992625236511,
+          "MSE_play_time": 125718736.0,
+          "LongView_true": 0.05937499925494194,
+          "LongView_pred": 0.0,
+          "play_time_true": 2423.528076171875,
+          "play_time_pred": 0.027035772800445557,
+          "CTR_AUC": 0.8471666666666666,
+          "LogMAE_play_time": 1.2844598293304443
+        },
+        "weight_model": {
+          "accuracy": 0.753822629969419,
+          "precision": 0.7246753246753247,
+          "recall": 0.8353293413173652,
+          "f1": 0.7760778859527121,
+          "auc": 0.8716504491017965
+        }
+      },
+      "val": {
+        "treatment": {
+          "CTR_true": 0.020202020183205605,
+          "CTR_pred": 0.03755081072449684,
+          "MSE_play_time": 1980631.75,
+          "LongView_true": 0.010101010091602802,
+          "LongView_pred": 0.0,
+          "play_time_true": 295.2828369140625,
+          "play_time_pred": 0.0024208228569477797,
+          "CTR_AUC": 0.7216494845360824,
+          "LogMAE_play_time": 0.6286627054214478
+        },
+        "control": {
+          "CTR_true": 0.06896551698446274,
+          "CTR_pred": 0.08689405769109726,
+          "MSE_play_time": 24864118.0,
+          "LongView_true": 0.04597701132297516,
+          "LongView_pred": 0.0,
+          "play_time_true": 1311.413818359375,
+          "play_time_pred": 0.019365549087524414,
+          "CTR_AUC": 0.668724279835391,
+          "LogMAE_play_time": 1.033151388168335
+        }
+      }
+    },
+    {
+      "train": {
+        "treatment": {
+          "CTR_true": 0.029325513169169426,
+          "CTR_pred": 0.03987079858779907,
+          "MSE_play_time": 31230160.0,
+          "LongView_true": 0.02346041053533554,
+          "LongView_pred": 0.0,
+          "play_time_true": 839.6129150390625,
+          "play_time_pred": 0.0034864095505326986,
+          "CTR_AUC": 0.6096676737160122,
+          "LogMAE_play_time": 0.41562941670417786
+        },
+        "control": {
+          "CTR_true": 0.06042296066880226,
+          "CTR_pred": 0.11409841477870941,
+          "MSE_play_time": 121547280.0,
+          "LongView_true": 0.05740181356668472,
+          "LongView_pred": 0.0,
+          "play_time_true": 2347.453125,
+          "play_time_pred": 0.03181029111146927,
+          "CTR_AUC": 0.8553054662379421,
+          "LogMAE_play_time": 1.2645782232284546
+        },
+        "weight_model": {
+          "accuracy": 0.7559523809523809,
+          "precision": 0.7240506329113924,
+          "recall": 0.8387096774193549,
+          "f1": 0.7771739130434783,
+          "auc": 0.8764784577083573
+        }
+      },
+      "val": {
+        "treatment": {
+          "CTR_true": 0.019999999552965164,
+          "CTR_pred": 0.035743068903684616,
+          "MSE_play_time": 1960824.625,
+          "LongView_true": 0.009999999776482582,
+          "LongView_pred": 0.0,
+          "play_time_true": 292.3299865722656,
+          "play_time_pred": 0.004129217471927404,
+          "CTR_AUC": 0.6683673469387754,
+          "LogMAE_play_time": 0.622196614742279
+        },
+        "control": {
+          "CTR_true": 0.06818182021379471,
+          "CTR_pred": 0.09760293364524841,
+          "MSE_play_time": 24581524.0,
+          "LongView_true": 0.04545454680919647,
+          "LongView_pred": 0.0,
+          "play_time_true": 1296.5113525390625,
+          "play_time_pred": 0.021402033045887947,
+          "CTR_AUC": 0.6707317073170731,
+          "LogMAE_play_time": 1.0204637050628662
+        }
+      }
+    },
+    {
+      "train": {
+        "treatment": {
+          "CTR_true": 0.02865329571068287,
+          "CTR_pred": 0.04098670929670334,
+          "MSE_play_time": 30514278.0,
+          "LongView_true": 0.022922636941075325,
+          "LongView_pred": 0.0,
+          "play_time_true": 820.3667602539062,
+          "play_time_pred": 0.0020680855959653854,
+          "CTR_AUC": 0.575811209439528,
+          "LogMAE_play_time": 0.40637439489364624
+        },
+        "control": {
+          "CTR_true": 0.05917159840464592,
+          "CTR_pred": 0.10160589218139648,
+          "MSE_play_time": 119131880.0,
+          "LongView_true": 0.05621301755309105,
+          "LongView_pred": 0.0,
+          "play_time_true": 2319.04150390625,
+          "play_time_pred": 0.03580506891012192,
+          "CTR_AUC": 0.8600628930817609,
+          "LogMAE_play_time": 1.284378170967102
+        },
+        "weight_model": {
+          "accuracy": 0.7743813682678311,
+          "precision": 0.7512953367875648,
+          "recall": 0.830945558739255,
+          "f1": 0.7891156462585034,
+          "auc": 0.8835302894152355
+        }
+      },
+      "val": {
+        "treatment": {
+          "CTR_true": 0.01923076994717121,
+          "CTR_pred": 0.03703189268708229,
+          "MSE_play_time": 1885407.75,
+          "LongView_true": 0.009615384973585606,
+          "LongView_pred": 0.0,
+          "play_time_true": 281.0865478515625,
+          "play_time_pred": 0.0029793153516948223,
+          "CTR_AUC": 0.6715686274509804,
+          "LogMAE_play_time": 0.5981276631355286
+        },
+        "control": {
+          "CTR_true": 0.06741572916507721,
+          "CTR_pred": 0.08200232684612274,
+          "MSE_play_time": 24560962.0,
+          "LongView_true": 0.04494382068514824,
+          "LongView_pred": 0.0,
+          "play_time_true": 1335.539306640625,
+          "play_time_pred": 0.021470749750733376,
+          "CTR_AUC": 0.6666666666666667,
+          "LogMAE_play_time": 1.1037412881851196
+        }
+      }
+    },
+    {
+      "train": {
+        "treatment": {
+          "CTR_true": 0.028011204674839973,
+          "CTR_pred": 0.039139941334724426,
+          "MSE_play_time": 29830486.0,
+          "LongView_true": 0.02240896411240101,
+          "LongView_pred": 0.0,
+          "play_time_true": 801.9832153320312,
+          "play_time_pred": 0.0015260088257491589,
+          "CTR_AUC": 0.5916426512968299,
+          "LogMAE_play_time": 0.3971041440963745
+        },
+        "control": {
+          "CTR_true": 0.05797101557254791,
+          "CTR_pred": 0.09838353842496872,
+          "MSE_play_time": 116721560.0,
+          "LongView_true": 0.05507246404886246,
+          "LongView_pred": 0.0,
+          "play_time_true": 2276.4638671875,
+          "play_time_pred": 0.03663363307714462,
+          "CTR_AUC": 0.8701538461538462,
+          "LogMAE_play_time": 1.2775636911392212
+        },
+        "weight_model": {
+          "accuracy": 0.7777777777777778,
+          "precision": 0.7651715039577837,
+          "recall": 0.8123249299719888,
+          "f1": 0.7880434782608695,
+          "auc": 0.8876872488125684
+        }
+      },
+      "val": {
+        "treatment": {
+          "CTR_true": 0.028301887214183807,
+          "CTR_pred": 0.03541972115635872,
+          "MSE_play_time": 3830044.5,
+          "LongView_true": 0.01886792480945587,
+          "LongView_pred": 0.0,
+          "play_time_true": 412.4622497558594,
+          "play_time_pred": 0.0020525630097836256,
+          "CTR_AUC": 0.5210355987055015,
+          "LogMAE_play_time": 0.6774232983589172
+        },
+        "control": {
+          "CTR_true": 0.07608695328235626,
+          "CTR_pred": 0.08165512979030609,
+          "MSE_play_time": 23765498.0,
+          "LongView_true": 0.043478261679410934,
+          "LongView_pred": 0.0,
+          "play_time_true": 1299.6956787109375,
+          "play_time_pred": 0.021946674212813377,
+          "CTR_AUC": 0.6873949579831933,
+          "LogMAE_play_time": 1.1375163793563843
+        }
+      }
+    },
+    {
+      "train": {
+        "treatment": {
+          "CTR_true": 0.027322404086589813,
+          "CTR_pred": 0.03855866193771362,
+          "MSE_play_time": 29096948.0,
+          "LongView_true": 0.02185792289674282,
+          "LongView_pred": 0.0,
+          "play_time_true": 782.2622680664062,
+          "play_time_pred": 0.0013524868991225958,
+          "CTR_AUC": 0.6022471910112358,
+          "LogMAE_play_time": 0.38754573464393616
+        },
+        "control": {
+          "CTR_true": 0.05714285746216774,
+          "CTR_pred": 0.0813341960310936,
+          "MSE_play_time": 115061992.0,
+          "LongView_true": 0.05428571254014969,
+          "LongView_pred": 0.0,
+          "play_time_true": 2248.67431640625,
+          "play_time_pred": 0.030528534203767776,
+          "CTR_AUC": 0.8795454545454544,
+          "LogMAE_play_time": 1.2770850658416748
+        },
+        "weight_model": {
+          "accuracy": 0.7863128491620112,
+          "precision": 0.7737789203084833,
+          "recall": 0.8224043715846995,
+          "f1": 0.7973509933774835,
+          "auc": 0.8927244340359095
+        }
+      },
+      "val": {
+        "treatment": {
+          "CTR_true": 0.027272727340459824,
+          "CTR_pred": 0.03557044267654419,
+          "MSE_play_time": 3690770.0,
+          "LongView_true": 0.0181818176060915,
+          "LongView_pred": 0.0,
+          "play_time_true": 397.463623046875,
+          "play_time_pred": 0.0015486156335100532,
+          "CTR_AUC": 0.5015576323987538,
+          "LogMAE_play_time": 0.6529955863952637
+        },
+        "control": {
+          "CTR_true": 0.07446808367967606,
+          "CTR_pred": 0.06473114341497421,
+          "MSE_play_time": 23259872.0,
+          "LongView_true": 0.042553190141916275,
+          "LongView_pred": 0.0,
+          "play_time_true": 1272.0426025390625,
+          "play_time_pred": 0.01950683631002903,
+          "CTR_AUC": 0.6929392446633826,
+          "LogMAE_play_time": 1.113350749015808
+        }
+      }
+    },
+    {
+      "train": {
+        "treatment": {
+          "CTR_true": 0.026809651404619217,
+          "CTR_pred": 0.03535808250308037,
+          "MSE_play_time": 28597124.0,
+          "LongView_true": 0.021447721868753433,
+          "LongView_pred": 0.0,
+          "play_time_true": 781.3485107421875,
+          "play_time_pred": 0.0006836099782958627,
+          "CTR_AUC": 0.6074380165289257,
+          "LogMAE_play_time": 0.42096349596977234
+        },
+        "control": {
+          "CTR_true": 0.056179776787757874,
+          "CTR_pred": 0.07639351487159729,
+          "MSE_play_time": 113122512.0,
+          "LongView_true": 0.05337078496813774,
+          "LongView_pred": 0.0,
+          "play_time_true": 2210.775390625,
+          "play_time_pred": 0.04391193389892578,
+          "CTR_AUC": 0.884375,
+          "LogMAE_play_time": 1.2576652765274048
+        },
+        "weight_model": {
+          "accuracy": 0.7846364883401921,
+          "precision": 0.77,
+          "recall": 0.8257372654155496,
+          "f1": 0.796895213454075,
+          "auc": 0.8967903726240322
+        }
+      },
+      "val": {
+        "treatment": {
+          "CTR_true": 0.02654867246747017,
+          "CTR_pred": 0.03295290097594261,
+          "MSE_play_time": 3592786.5,
+          "LongView_true": 0.017699114978313446,
+          "LongView_pred": 0.0,
+          "play_time_true": 386.9114990234375,
+          "play_time_pred": 0.0009037114214152098,
+          "CTR_AUC": 0.5,
+          "LogMAE_play_time": 0.6355465054512024
+        },
+        "control": {
+          "CTR_true": 0.08163265138864517,
+          "CTR_pred": 0.05721098184585571,
+          "MSE_play_time": 22924558.0,
+          "LongView_true": 0.040816325694322586,
+          "LongView_pred": 0.0,
+          "play_time_true": 1299.2857666015625,
+          "play_time_pred": 0.026350688189268112,
+          "CTR_AUC": 0.7083333333333333,
+          "LogMAE_play_time": 1.1627427339553833
+        }
+      }
+    },
+    {
+      "train": {
+        "treatment": {
+          "CTR_true": 0.02631578966975212,
+          "CTR_pred": 0.03770938515663147,
+          "MSE_play_time": 28070338.0,
+          "LongView_true": 0.021052632480859756,
+          "LongView_pred": 0.0,
+          "play_time_true": 766.9552612304688,
+          "play_time_pred": 0.0013969296123832464,
+          "CTR_AUC": 0.6043243243243244,
+          "LogMAE_play_time": 0.4135567843914032
+        },
+        "control": {
+          "CTR_true": 0.057851240038871765,
+          "CTR_pred": 0.08164115250110626,
+          "MSE_play_time": 111584616.0,
+          "LongView_true": 0.05509641766548157,
+          "LongView_pred": 0.0,
+          "play_time_true": 2210.250732421875,
+          "play_time_pred": 0.04458368942141533,
+          "CTR_AUC": 0.8615984405458089,
+          "LogMAE_play_time": 1.2589749097824097
+        },
+        "weight_model": {
+          "accuracy": 0.8034993270524899,
+          "precision": 0.7925,
+          "recall": 0.8342105263157895,
+          "f1": 0.8128205128205128,
+          "auc": 0.901993620414673
+        }
+      },
+      "val": {
+        "treatment": {
+          "CTR_true": 0.025641025975346565,
+          "CTR_pred": 0.03627347946166992,
+          "MSE_play_time": 3469956.0,
+          "LongView_true": 0.017094017937779427,
+          "LongView_pred": 0.0,
+          "play_time_true": 373.6837463378906,
+          "play_time_pred": 0.001513022230938077,
+          "CTR_AUC": 0.5,
+          "LogMAE_play_time": 0.6141579151153564
+        },
+        "control": {
+          "CTR_true": 0.07999999821186066,
+          "CTR_pred": 0.060321636497974396,
+          "MSE_play_time": 22466046.0,
+          "LongView_true": 0.03999999910593033,
+          "LongView_pred": 0.0,
+          "play_time_true": 1273.300048828125,
+          "play_time_pred": 0.02707931026816368,
+          "CTR_AUC": 0.7038043478260869,
+          "LogMAE_play_time": 1.1393554210662842
+        }
+      }
+    },
+    {
+      "train": {
+        "treatment": {
+          "CTR_true": 0.02570694126188755,
+          "CTR_pred": 0.03717736154794693,
+          "MSE_play_time": 27420898.0,
+          "LongView_true": 0.02056555263698101,
+          "LongView_pred": 0.0,
+          "play_time_true": 749.2108154296875,
+          "play_time_pred": 0.0008808566490188241,
+          "CTR_AUC": 0.6105540897097625,
+          "LogMAE_play_time": 0.40396636724472046
+        },
+        "control": {
+          "CTR_true": 0.05994550511240959,
+          "CTR_pred": 0.09069794416427612,
+          "MSE_play_time": 110780200.0,
+          "LongView_true": 0.057220708578825,
+          "LongView_pred": 0.0,
+          "play_time_true": 2232.16357421875,
+          "play_time_pred": 0.05080809444189072,
+          "CTR_AUC": 0.8538866930171277,
+          "LogMAE_play_time": 1.2948789596557617
+        },
+        "weight_model": {
+          "accuracy": 0.8240740740740741,
+          "precision": 0.826530612244898,
+          "recall": 0.8329048843187661,
+          "f1": 0.8297055057618438,
+          "auc": 0.9075250590138901
+        }
+      },
+      "val": {
+        "treatment": {
+          "CTR_true": 0.02521008439362049,
+          "CTR_pred": 0.036172207444906235,
+          "MSE_play_time": 3411636.75,
+          "LongView_true": 0.016806723549962044,
+          "LongView_pred": 0.0,
+          "play_time_true": 367.4033508300781,
+          "play_time_pred": 0.0011286454973742366,
+          "CTR_AUC": 0.49425287356321834,
+          "LogMAE_play_time": 0.6037690043449402
+        },
+        "control": {
+          "CTR_true": 0.07619047909975052,
+          "CTR_pred": 0.06665876507759094,
+          "MSE_play_time": 21396168.0,
+          "LongView_true": 0.03809523954987526,
+          "LongView_pred": 0.0,
+          "play_time_true": 1212.6666259765625,
+          "play_time_pred": 0.031270503997802734,
+          "CTR_AUC": 0.7126288659793814,
+          "LogMAE_play_time": 1.0859094858169556
+        }
+      }
+    },
+    {
+      "train": {
+        "treatment": {
+          "CTR_true": 0.02544529177248478,
+          "CTR_pred": 0.03509588539600372,
+          "MSE_play_time": 27141806.0,
+          "LongView_true": 0.020356234163045883,
+          "LongView_pred": 0.0,
+          "play_time_true": 741.5852661132812,
+          "play_time_pred": 0.0016017365269362926,
+          "CTR_AUC": 0.6446475195822454,
+          "LogMAE_play_time": 0.3994521498680115
+        },
+        "control": {
+          "CTR_true": 0.05882352963089943,
+          "CTR_pred": 0.08184955269098282,
+          "MSE_play_time": 108708312.0,
+          "LongView_true": 0.05614973232150078,
+          "LongView_pred": 0.0,
+          "play_time_true": 2192.49462890625,
+          "play_time_pred": 0.05204669013619423,
+          "CTR_AUC": 0.8586002066115703,
+          "LogMAE_play_time": 1.2862333059310913
+        },
+        "weight_model": {
+          "accuracy": 0.8213820078226858,
+          "precision": 0.826530612244898,
+          "recall": 0.8244274809160306,
+          "f1": 0.8254777070063695,
+          "auc": 0.9107713869725543
+        }
+      },
+      "val": {
+        "treatment": {
+          "CTR_true": 0.02459016442298889,
+          "CTR_pred": 0.033801157027482986,
+          "MSE_play_time": 3327744.25,
+          "LongView_true": 0.016393441706895828,
+          "LongView_pred": 0.0,
+          "play_time_true": 358.3688659667969,
+          "play_time_pred": 0.0015275643672794104,
+          "CTR_AUC": 0.49579831932773105,
+          "LogMAE_play_time": 0.5886637568473816
+        },
+        "control": {
+          "CTR_true": 0.0810810774564743,
+          "CTR_pred": 0.07174922525882721,
+          "MSE_play_time": 25185908.0,
+          "LongView_true": 0.045045044273138046,
+          "LongView_pred": 0.0,
+          "play_time_true": 1358.2161865234375,
+          "play_time_pred": 0.03954394906759262,
+          "CTR_AUC": 0.7265795206971678,
+          "LogMAE_play_time": 1.119484543800354
+        }
+      }
+    }
+  ]
+}
