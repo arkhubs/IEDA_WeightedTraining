@@ -1,0 +1,72 @@
+base_dir: /home/zhixuanhu/IEDA_WeightedTraining
+dataset:
+  cache_path: data/KuaiRand/cache
+  name: KuaiRand-Pure
+  path: data/KuaiRand/Pure
+feature:
+  categorical:
+  - user_active_degree
+  - video_type
+  - tag
+  numerical:
+  - video_duration
+  - play_cnt
+  - like_cnt
+  - comment_cnt
+  - share_cnt
+  - collect_cnt
+  - follow_user_num
+  - fans_user_num
+  - friend_user_num
+  - register_days
+global:
+  batch_size: 64
+  learning_rate: 0.0005
+  n_candidate: 10
+  n_steps: 1000
+  save_every: 50
+  user_p_val: 0.2
+  validate_every: 50
+  weight_decay: 0.0001
+labels:
+- alpha_C: 1e-2
+  alpha_T: 1e-4
+  learning_rate: 0.0005
+  model: MLP
+  model_params:
+    dropout: 0.2
+    embedding_dim: 16
+    hidden_layers:
+    - 128
+    - 64
+    - 32
+  name: play_time
+  target: play_time_ms
+  type: numerical
+  weight_decay: 0.0001
+- alpha_C: 1
+  alpha_T: 1
+  learning_rate: 0.001
+  model: MLP
+  model_params:
+    dropout: 0.1
+    embedding_dim: 8
+    hidden_layers:
+    - 64
+    - 32
+    - 16
+  name: click
+  target: is_click
+  type: binary
+  weight_decay: 0.0001
+logging:
+  level: INFO
+  log_dir: results
+mode: global
+pretrain:
+  batch_size: 64
+  early_stopping: 5
+  enabled: true
+  epochs: 50
+  learning_rate: 0.001
+  weight_decay: 0.0001

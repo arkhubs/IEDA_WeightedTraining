@@ -1,0 +1,1329 @@
+{
+  "meta": {
+    "run_time": "2025-07-30 19:03:40",
+    "os": "Linux-5.14.0-503.40.1.el9_5.x86_64-x86_64-with-glibc2.34",
+    "python_version": "3.9.21 (main, Dec  5 2024, 00:00:00) \n[GCC 11.5.0 20240719 (Red Hat 11.5.0-2)]",
+    "device": "cpu",
+    "cuda_available": false,
+    "cuda_version": null,
+    "env": {
+      "SHELL": "/bin/bash",
+      "COLORTERM": "truecolor",
+      "HISTCONTROL": "ignoredups",
+      "TERM_PROGRAM_VERSION": "1.102.2",
+      "HOSTNAME": "login2",
+      "HISTSIZE": "1000",
+      "FPATH": "/usr/share/lmod/lmod/init/ksh_funcs",
+      "LMOD_DIR": "/usr/share/lmod/lmod/libexec",
+      "PWD": "/home/zhixuanhu/IEDA_WeightedTraining",
+      "LOGNAME": "zhixuanhu",
+      "XDG_SESSION_TYPE": "tty",
+      "MODULESHOME": "/usr/share/lmod/lmod",
+      "MANPATH": "/usr/share/lmod/lmod/share/man:",
+      "SPACK_PYTHON": "/usr/bin/python3",
+      "VSCODE_GIT_ASKPASS_NODE": "/home/zhixuanhu/.vscode-server/cli/servers/Stable-c306e94f98122556ca081f527b466015e1bc37b0/server/node",
+      "MOTD_SHOWN": "pam",
+      "HOME": "/home/zhixuanhu",
+      "LANG": "C.UTF-8",
+      "LS_COLORS": "rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=01;37;41:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=01;36:*.au=01;36:*.flac=01;36:*.m4a=01;36:*.mid=01;36:*.midi=01;36:*.mka=01;36:*.mp3=01;36:*.mpc=01;36:*.ogg=01;36:*.ra=01;36:*.wav=01;36:*.oga=01;36:*.opus=01;36:*.spx=01;36:*.xspf=01;36:",
+      "SSL_CERT_DIR": "/etc/pki/tls/certs",
+      "LMOD_SETTARG_FULL_SUPPORT": "no",
+      "GIT_ASKPASS": "/home/zhixuanhu/.vscode-server/cli/servers/Stable-c306e94f98122556ca081f527b466015e1bc37b0/server/extensions/git/dist/askpass.sh",
+      "LMOD_VERSION": "8.7.55",
+      "SSH_CONNECTION": "143.89.184.251 15212 10.12.41.4 22",
+      "SPACK_ROOT": "/opt/shared/spack",
+      "MODULEPATH_ROOT": "/usr/share/modulefiles",
+      "VSCODE_GIT_ASKPASS_EXTRA_ARGS": "",
+      "XDG_SESSION_CLASS": "user",
+      "LMOD_PKG": "/usr/share/lmod/lmod",
+      "TERM": "xterm-256color",
+      "LESSOPEN": "||/usr/bin/lesspipe.sh %s",
+      "USER": "zhixuanhu",
+      "GIT_PAGER": "cat",
+      "VSCODE_GIT_IPC_HANDLE": "/run/user/3896/vscode-git-449b1aca6d.sock",
+      "LMOD_ROOT": "/usr/share/lmod",
+      "SHLVL": "2",
+      "BASH_ENV": "/usr/share/lmod/lmod/init/bash",
+      "LMOD_sys": "Linux",
+      "XDG_SESSION_ID": "4775",
+      "XDG_RUNTIME_DIR": "/run/user/3896",
+      "SSL_CERT_FILE": "/etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem",
+      "SSH_CLIENT": "143.89.184.251 15212 22",
+      "which_declare": "declare -f",
+      "VSCODE_GIT_ASKPASS_MAIN": "/home/zhixuanhu/.vscode-server/cli/servers/Stable-c306e94f98122556ca081f527b466015e1bc37b0/server/extensions/git/dist/askpass-main.js",
+      "XDG_DATA_DIRS": "/home/zhixuanhu/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share",
+      "BROWSER": "/home/zhixuanhu/.vscode-server/cli/servers/Stable-c306e94f98122556ca081f527b466015e1bc37b0/server/bin/helpers/browser.sh",
+      "SLURM_CONF": "/run/slurm/conf/slurm.conf",
+      "PATH": "/opt/shared/spack/bin:/home/zhixuanhu/.vscode-server/cli/servers/Stable-c306e94f98122556ca081f527b466015e1bc37b0/server/bin/remote-cli:/opt/shared/spack/bin:/home/zhixuanhu/.local/bin:/home/zhixuanhu/bin:/opt/shared/spack/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/home/zhixuanhu/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand",
+      "MODULEPATH": "/opt/shared/spack/lmod/Core:/home/zhixuanhu/.spack/lmod/Core",
+      "DBUS_SESSION_BUS_ADDRESS": "unix:path=/run/user/3896/bus",
+      "LMOD_CMD": "/usr/share/lmod/lmod/libexec/lmod",
+      "MAIL": "/var/spool/mail/zhixuanhu",
+      "TERM_PROGRAM": "vscode",
+      "VSCODE_IPC_HOOK_CLI": "/run/user/3896/vscode-ipc-02f6eef2-9003-4379-9c24-ac585ba667a1.sock",
+      "BASH_FUNC_ml%%": "() {  eval \"$($LMOD_DIR/ml_cmd \"$@\")\"\n}",
+      "BASH_FUNC_which%%": "() {  ( alias;\n eval ${which_declare} ) | /usr/bin/which --tty-only --read-alias --read-functions --show-tilde --show-dot $@\n}",
+      "BASH_FUNC_module%%": "() {  if [ -z \"${LMOD_SH_DBG_ON+x}\" ]; then\n case \"$-\" in \n *v*x*)\n __lmod_sh_dbg='vx'\n ;;\n *v*)\n __lmod_sh_dbg='v'\n ;;\n *x*)\n __lmod_sh_dbg='x'\n ;;\n esac;\n fi;\n if [ -n \"${__lmod_sh_dbg:-}\" ]; then\n set +$__lmod_sh_dbg;\n echo \"Shell debugging temporarily silenced: export LMOD_SH_DBG_ON=1 for Lmod's output\" 1>&2;\n fi;\n eval \"$($LMOD_CMD shell \"$@\")\" && eval \"$(${LMOD_SETTARG_CMD:-:} -s sh)\";\n __lmod_my_status=$?;\n if [ -n \"${__lmod_sh_dbg:-}\" ]; then\n echo \"Shell debugging restarted\" 1>&2;\n set -$__lmod_sh_dbg;\n fi;\n unset __lmod_sh_dbg;\n return $__lmod_my_status\n}",
+      "BASH_FUNC__spack_shell_wrapper%%": "() {  for var in DYLD_LIBRARY_PATH DYLD_FALLBACK_LIBRARY_PATH;\n do\n eval \"if [ -n \\\"\\${${var}-}\\\" ]; then export SPACK_$var=\\${${var}}; fi\";\n done;\n if [ -n \"${ZSH_VERSION:-}\" ]; then\n emulate -L sh;\n fi;\n _sp_flags=\"\";\n while [ ! -z ${1+x} ] && [ \"${1#-}\" != \"${1}\" ]; do\n _sp_flags=\"$_sp_flags $1\";\n shift;\n done;\n if [ -n \"$_sp_flags\" ] && [ \"${_sp_flags#*h}\" != \"${_sp_flags}\" ] || [ \"${_sp_flags#*V}\" != \"${_sp_flags}\" ]; then\n command spack $_sp_flags \"$@\";\n return;\n fi;\n _sp_subcommand=\"\";\n if [ ! -z ${1+x} ]; then\n _sp_subcommand=\"$1\";\n shift;\n fi;\n case $_sp_subcommand in \n \"cd\")\n _sp_arg=\"\";\n if [ -n \"$1\" ]; then\n _sp_arg=\"$1\";\n shift;\n fi;\n if [ \"$_sp_arg\" = \"-h\" ] || [ \"$_sp_arg\" = \"--help\" ]; then\n command spack cd -h;\n else\n LOC=\"$(SPACK_COLOR=\"${SPACK_COLOR:-always}\" spack location $_sp_arg \"$@\")\";\n if [ -d \"$LOC\" ]; then\n cd \"$LOC\";\n else\n return 1;\n fi;\n fi;\n return\n ;;\n \"env\")\n _sp_arg=\"\";\n if [ -n \"$1\" ]; then\n _sp_arg=\"$1\";\n shift;\n fi;\n if [ \"$_sp_arg\" = \"-h\" ] || [ \"$_sp_arg\" = \"--help\" ]; then\n command spack env -h;\n else\n case $_sp_arg in \n activate)\n _a=\" $@\";\n if [ \"${_a#* --sh}\" != \"$_a\" ] || [ \"${_a#* --csh}\" != \"$_a\" ] || [ \"${_a#* -h}\" != \"$_a\" ] || [ \"${_a#* --help}\" != \"$_a\" ]; then\n command spack env activate \"$@\";\n else\n stdout=\"$(SPACK_COLOR=\"${SPACK_COLOR:-always}\" command spack $_sp_flags env activate --sh \"$@\")\" || return;\n eval \"$stdout\";\n fi\n ;;\n deactivate)\n _a=\" $@\";\n if [ \"${_a#* --sh}\" != \"$_a\" ] || [ \"${_a#* --csh}\" != \"$_a\" ]; then\n command spack env deactivate \"$@\";\n else\n if [ -n \"$*\" ]; then\n command spack env deactivate -h;\n else\n stdout=\"$(SPACK_COLOR=\"${SPACK_COLOR:-always}\" command spack $_sp_flags env deactivate --sh)\" || return;\n eval \"$stdout\";\n fi;\n fi\n ;;\n *)\n command spack env $_sp_arg \"$@\"\n ;;\n esac;\n fi;\n return\n ;;\n \"load\" | \"unload\")\n _a=\" $@\";\n if [ \"${_a#* --sh}\" != \"$_a\" ] || [ \"${_a#* --csh}\" != \"$_a\" ] || [ \"${_a#* -h}\" != \"$_a\" ] || [ \"${_a#* --list}\" != \"$_a\" ] || [ \"${_a#* --help}\" != \"$_a\" ]; then\n command spack $_sp_flags $_sp_subcommand \"$@\";\n else\n stdout=\"$(SPACK_COLOR=\"${SPACK_COLOR:-always}\" command spack $_sp_flags $_sp_subcommand --sh \"$@\")\" || return;\n eval \"$stdout\";\n fi\n ;;\n *)\n command spack $_sp_flags $_sp_subcommand \"$@\"\n ;;\n esac\n}",
+      "BASH_FUNC_spack%%": "() {  : this is a shell function from: /opt/shared/spack/share/spack/setup-env.sh;\n : the real spack script is here: /opt/shared/spack/bin/spack;\n _spack_shell_wrapper \"$@\";\n return $?\n}",
+      "OLDPWD": "/home/zhixuanhu",
+      "_": "/usr/bin/python3",
+      "KMP_DUPLICATE_LIB_OK": "True",
+      "KMP_INIT_AT_FORK": "FALSE"
+    }
+  },
+  "step": [
+    20,
+    40,
+    60,
+    80,
+    100,
+    120,
+    140,
+    160,
+    180,
+    200,
+    220,
+    240,
+    260,
+    280,
+    300,
+    320,
+    340,
+    360,
+    380,
+    400,
+    420,
+    440,
+    460,
+    480,
+    500,
+    520,
+    540,
+    560,
+    580,
+    600,
+    620,
+    640,
+    660,
+    680,
+    700,
+    720,
+    740,
+    760,
+    780,
+    800,
+    820,
+    840,
+    860,
+    880,
+    900,
+    920,
+    940,
+    960,
+    980,
+    1000
+  ],
+  "metrics": [
+    {
+      "train": {
+        "CTR_true": 0.1764705926179886,
+        "CTR_pred": 0.5685125589370728,
+        "MSE_play_time": 1310819712.0,
+        "LongView_true": 0.1764705926179886,
+        "LongView_pred": 0.0,
+        "play_time_true": 10884.7646484375,
+        "play_time_pred": 2097.1875,
+        "CTR_AUC": 0.8571428571428572,
+        "LogMAE_play_time": 5.683784008026123
+      },
+      "val": {
+        "CTR_true": 0.0,
+        "CTR_pred": 0.5302723050117493,
+        "MSE_play_time": 7885668.0,
+        "LongView_true": 0.0,
+        "LongView_pred": 0.0,
+        "play_time_true": 0.0,
+        "play_time_pred": 2658.694580078125,
+        "CTR_AUC": null,
+        "LogMAE_play_time": null
+      }
+    },
+    {
+      "train": {
+        "CTR_true": 0.1764705926179886,
+        "CTR_pred": 0.4886414110660553,
+        "MSE_play_time": 1247904768.0,
+        "LongView_true": 0.1764705926179886,
+        "LongView_pred": 0.0,
+        "play_time_true": 12711.2646484375,
+        "play_time_pred": 2498.72265625,
+        "CTR_AUC": 0.625,
+        "LogMAE_play_time": 6.364075660705566
+      },
+      "val": {
+        "CTR_true": 0.1666666716337204,
+        "CTR_pred": 0.4952504336833954,
+        "MSE_play_time": 629420352.0,
+        "LongView_true": 0.1666666716337204,
+        "LongView_pred": 0.0,
+        "play_time_true": 10695.6669921875,
+        "play_time_pred": 2089.768310546875,
+        "CTR_AUC": 0.8,
+        "LogMAE_play_time": 6.466330051422119
+      }
+    },
+    {
+      "train": {
+        "CTR_true": 0.1599999964237213,
+        "CTR_pred": 0.36586689949035645,
+        "MSE_play_time": 861863168.0,
+        "LongView_true": 0.1599999964237213,
+        "LongView_pred": 0.0,
+        "play_time_true": 9267.099609375,
+        "play_time_pred": 2229.578125,
+        "CTR_AUC": 0.4732142857142857,
+        "LogMAE_play_time": 5.994166374206543
+      },
+      "val": {
+        "CTR_true": 0.10000000149011612,
+        "CTR_pred": 0.37846171855926514,
+        "MSE_play_time": 385389760.0,
+        "LongView_true": 0.10000000149011612,
+        "LongView_pred": 0.0,
+        "play_time_true": 6417.39990234375,
+        "play_time_pred": 2056.205810546875,
+        "CTR_AUC": 0.6666666666666667,
+        "LogMAE_play_time": 6.656473636627197
+      }
+    },
+    {
+      "train": {
+        "CTR_true": 0.1304347813129425,
+        "CTR_pred": 0.27726805210113525,
+        "MSE_play_time": 629643008.0,
+        "LongView_true": 0.1304347813129425,
+        "LongView_pred": 0.0,
+        "play_time_true": 7146.7392578125,
+        "play_time_pred": 2171.634765625,
+        "CTR_AUC": 0.4425925925925926,
+        "LogMAE_play_time": 5.771958351135254
+      },
+      "val": {
+        "CTR_true": 0.09090909361839294,
+        "CTR_pred": 0.2776813805103302,
+        "MSE_play_time": 351029248.0,
+        "LongView_true": 0.09090909361839294,
+        "LongView_pred": 0.0,
+        "play_time_true": 5834.0,
+        "play_time_pred": 1970.000732421875,
+        "CTR_AUC": 0.5,
+        "LogMAE_play_time": 6.593992233276367
+      }
+    },
+    {
+      "train": {
+        "CTR_true": 0.12643678486347198,
+        "CTR_pred": 0.2000802606344223,
+        "MSE_play_time": 536219360.0,
+        "LongView_true": 0.12643678486347198,
+        "LongView_pred": 0.0,
+        "play_time_true": 6616.12646484375,
+        "play_time_pred": 2313.333984375,
+        "CTR_AUC": 0.40789473684210525,
+        "LogMAE_play_time": 5.994722843170166
+      },
+      "val": {
+        "CTR_true": 0.1538461595773697,
+        "CTR_pred": 0.22914941608905792,
+        "MSE_play_time": 379804288.0,
+        "LongView_true": 0.1538461595773697,
+        "LongView_pred": 0.0,
+        "play_time_true": 7653.76904296875,
+        "play_time_pred": 2001.880615234375,
+        "CTR_AUC": 0.5,
+        "LogMAE_play_time": 6.353781700134277
+      }
+    },
+    {
+      "train": {
+        "CTR_true": 0.13265305757522583,
+        "CTR_pred": 0.1332343965768814,
+        "MSE_play_time": 486128320.0,
+        "LongView_true": 0.13265305757522583,
+        "LongView_pred": 0.0,
+        "play_time_true": 6384.67333984375,
+        "play_time_pred": 2450.080078125,
+        "CTR_AUC": 0.3909502262443439,
+        "LogMAE_play_time": 6.043809413909912
+      },
+      "val": {
+        "CTR_true": 0.13636364042758942,
+        "CTR_pred": 0.15661586821079254,
+        "MSE_play_time": 227584208.0,
+        "LongView_true": 0.09090909361839294,
+        "LongView_pred": 0.0,
+        "play_time_true": 5286.63623046875,
+        "play_time_pred": 2183.534912109375,
+        "CTR_AUC": 0.4736842105263158,
+        "LogMAE_play_time": 5.630700588226318
+      }
+    },
+    {
+      "train": {
+        "CTR_true": 0.12727272510528564,
+        "CTR_pred": 0.12614548206329346,
+        "MSE_play_time": 443249696.0,
+        "LongView_true": 0.12727272510528564,
+        "LongView_pred": 0.0,
+        "play_time_true": 6053.22705078125,
+        "play_time_pred": 2226.607177734375,
+        "CTR_AUC": 0.3816964285714286,
+        "LogMAE_play_time": 5.94558048248291
+      },
+      "val": {
+        "CTR_true": 0.13333334028720856,
+        "CTR_pred": 0.1407662034034729,
+        "MSE_play_time": 282744160.0,
+        "LongView_true": 0.10000000149011612,
+        "LongView_pred": 0.0,
+        "play_time_true": 5855.2998046875,
+        "play_time_pred": 2111.067626953125,
+        "CTR_AUC": 0.5,
+        "LogMAE_play_time": 5.993275165557861
+      }
+    },
+    {
+      "train": {
+        "CTR_true": 0.12195122241973877,
+        "CTR_pred": 0.10407356917858124,
+        "MSE_play_time": 654433408.0,
+        "LongView_true": 0.12195122241973877,
+        "LongView_pred": 0.0,
+        "play_time_true": 6934.69921875,
+        "play_time_pred": 2327.005126953125,
+        "CTR_AUC": 0.36049382716049383,
+        "LogMAE_play_time": 6.023642063140869
+      },
+      "val": {
+        "CTR_true": 0.13513512909412384,
+        "CTR_pred": 0.13347932696342468,
+        "MSE_play_time": 232435328.0,
+        "LongView_true": 0.10810811072587967,
+        "LongView_pred": 0.0,
+        "play_time_true": 5063.4326171875,
+        "play_time_pred": 2063.789794921875,
+        "CTR_AUC": 0.51875,
+        "LogMAE_play_time": 6.147874355316162
+      }
+    },
+    {
+      "train": {
+        "CTR_true": 0.12318840622901917,
+        "CTR_pred": 0.11414076387882233,
+        "MSE_play_time": 601620608.0,
+        "LongView_true": 0.12318840622901917,
+        "LongView_pred": 0.0,
+        "play_time_true": 6657.427734375,
+        "play_time_pred": 1963.66943359375,
+        "CTR_AUC": 0.35439961108410306,
+        "LogMAE_play_time": 5.944882392883301
+      },
+      "val": {
+        "CTR_true": 0.1428571492433548,
+        "CTR_pred": 0.1453961580991745,
+        "MSE_play_time": 206949424.0,
+        "LongView_true": 0.095238097012043,
+        "LongView_pred": 0.0,
+        "play_time_true": 4643.880859375,
+        "play_time_pred": 1726.8316650390625,
+        "CTR_AUC": 0.4444444444444444,
+        "LogMAE_play_time": 6.010340690612793
+      }
+    },
+    {
+      "train": {
+        "CTR_true": 0.10967741906642914,
+        "CTR_pred": 0.13156120479106903,
+        "MSE_play_time": 540091520.0,
+        "LongView_true": 0.10967741906642914,
+        "LongView_pred": 0.0,
+        "play_time_true": 5964.8837890625,
+        "play_time_pred": 1628.4935302734375,
+        "CTR_AUC": 0.3721227621483376,
+        "LogMAE_play_time": 5.947178363800049
+      },
+      "val": {
+        "CTR_true": 0.13333334028720856,
+        "CTR_pred": 0.16081489622592926,
+        "MSE_play_time": 194933664.0,
+        "LongView_true": 0.08888889104127884,
+        "LongView_pred": 0.0,
+        "play_time_true": 4334.2890625,
+        "play_time_pred": 1517.982421875,
+        "CTR_AUC": 0.4786324786324786,
+        "LogMAE_play_time": 6.005311965942383
+      }
+    },
+    {
+      "train": {
+        "CTR_true": 0.11046511679887772,
+        "CTR_pred": 0.13310633599758148,
+        "MSE_play_time": 511989280.0,
+        "LongView_true": 0.10465116053819656,
+        "LongView_pred": 0.0,
+        "play_time_true": 5912.33740234375,
+        "play_time_pred": 1670.46044921875,
+        "CTR_AUC": 0.3835569315445477,
+        "LogMAE_play_time": 5.843971252441406
+      },
+      "val": {
+        "CTR_true": 0.125,
+        "CTR_pred": 0.1584724634885788,
+        "MSE_play_time": 183050384.0,
+        "LongView_true": 0.0833333358168602,
+        "LongView_pred": 0.0,
+        "play_time_true": 4063.395751953125,
+        "play_time_pred": 1531.3604736328125,
+        "CTR_AUC": 0.4722222222222222,
+        "LogMAE_play_time": 6.081484317779541
+      }
+    },
+    {
+      "train": {
+        "CTR_true": 0.10638298094272614,
+        "CTR_pred": 0.12037460505962372,
+        "MSE_play_time": 484274816.0,
+        "LongView_true": 0.10106383264064789,
+        "LongView_pred": 0.0,
+        "play_time_true": 5713.3564453125,
+        "play_time_pred": 1710.0030517578125,
+        "CTR_AUC": 0.3738095238095238,
+        "LogMAE_play_time": 5.960931777954102
+      },
+      "val": {
+        "CTR_true": 0.11538461595773697,
+        "CTR_pred": 0.1463356763124466,
+        "MSE_play_time": 168860992.0,
+        "LongView_true": 0.07692307978868484,
+        "LongView_pred": 0.0,
+        "play_time_true": 3750.826904296875,
+        "play_time_pred": 1544.6934814453125,
+        "CTR_AUC": 0.46014492753623193,
+        "LogMAE_play_time": 6.179638862609863
+      }
+    },
+    {
+      "train": {
+        "CTR_true": 0.09803921729326248,
+        "CTR_pred": 0.10815370827913284,
+        "MSE_play_time": 445690528.0,
+        "LongView_true": 0.09313725680112839,
+        "LongView_pred": 0.0,
+        "play_time_true": 5288.86279296875,
+        "play_time_pred": 1822.6004638671875,
+        "CTR_AUC": 0.37201086956521745,
+        "LogMAE_play_time": 6.085736274719238
+      },
+      "val": {
+        "CTR_true": 0.1071428582072258,
+        "CTR_pred": 0.13554230332374573,
+        "MSE_play_time": 156914720.0,
+        "LongView_true": 0.0714285746216774,
+        "LongView_pred": 0.0,
+        "play_time_true": 3482.91064453125,
+        "play_time_pred": 1668.1395263671875,
+        "CTR_AUC": 0.45666666666666667,
+        "LogMAE_play_time": 6.295151710510254
+      }
+    },
+    {
+      "train": {
+        "CTR_true": 0.08968609571456909,
+        "CTR_pred": 0.10429266840219498,
+        "MSE_play_time": 407859296.0,
+        "LongView_true": 0.08520179241895676,
+        "LongView_pred": 0.0,
+        "play_time_true": 4855.66357421875,
+        "play_time_pred": 1876.517333984375,
+        "CTR_AUC": 0.37610837438423644,
+        "LogMAE_play_time": 6.163203239440918
+      },
+      "val": {
+        "CTR_true": 0.10526315867900848,
+        "CTR_pred": 0.12881556153297424,
+        "MSE_play_time": 153907200.0,
+        "LongView_true": 0.07017543911933899,
+        "LongView_pred": 0.0,
+        "play_time_true": 3421.80712890625,
+        "play_time_pred": 1719.3563232421875,
+        "CTR_AUC": 0.4607843137254902,
+        "LogMAE_play_time": 6.352083206176758
+      }
+    },
+    {
+      "train": {
+        "CTR_true": 0.09583333134651184,
+        "CTR_pred": 0.09731654822826385,
+        "MSE_play_time": 381438880.0,
+        "LongView_true": 0.09166666865348816,
+        "LongView_pred": 0.0,
+        "play_time_true": 4744.74560546875,
+        "play_time_pred": 1987.916748046875,
+        "CTR_AUC": 0.38048487277098775,
+        "LogMAE_play_time": 6.155920505523682
+      },
+      "val": {
+        "CTR_true": 0.11666666716337204,
+        "CTR_pred": 0.11916683614253998,
+        "MSE_play_time": 153174704.0,
+        "LongView_true": 0.0833333358168602,
+        "LongView_pred": 0.0,
+        "play_time_true": 3673.64990234375,
+        "play_time_pred": 1861.30322265625,
+        "CTR_AUC": 0.42048517520215634,
+        "LogMAE_play_time": 6.233991622924805
+      }
+    },
+    {
+      "train": {
+        "CTR_true": 0.10077519714832306,
+        "CTR_pred": 0.10737994313240051,
+        "MSE_play_time": 357415936.0,
+        "LongView_true": 0.08914728462696075,
+        "LongView_pred": 0.0,
+        "play_time_true": 4561.80615234375,
+        "play_time_pred": 1909.8358154296875,
+        "CTR_AUC": 0.3713527851458886,
+        "LogMAE_play_time": 6.097476482391357
+      },
+      "val": {
+        "CTR_true": 0.11290322244167328,
+        "CTR_pred": 0.13231930136680603,
+        "MSE_play_time": 148699648.0,
+        "LongView_true": 0.08064515888690948,
+        "LongView_pred": 0.0,
+        "play_time_true": 3555.145263671875,
+        "play_time_pred": 1770.4774169921875,
+        "CTR_AUC": 0.4155844155844156,
+        "LogMAE_play_time": 6.20194673538208
+      }
+    },
+    {
+      "train": {
+        "CTR_true": 0.10545454174280167,
+        "CTR_pred": 0.11498135328292847,
+        "MSE_play_time": 345247392.0,
+        "LongView_true": 0.09454545378684998,
+        "LongView_pred": 0.0,
+        "play_time_true": 4566.865234375,
+        "play_time_pred": 1675.8515625,
+        "CTR_AUC": 0.38057190916736755,
+        "LogMAE_play_time": 6.037413597106934
+      },
+      "val": {
+        "CTR_true": 0.10769230872392654,
+        "CTR_pred": 0.1352568119764328,
+        "MSE_play_time": 142569648.0,
+        "LongView_true": 0.07692307978868484,
+        "LongView_pred": 0.0,
+        "play_time_true": 3391.0615234375,
+        "play_time_pred": 1578.3662109375,
+        "CTR_AUC": 0.4408866995073891,
+        "LogMAE_play_time": 6.192455768585205
+      }
+    },
+    {
+      "train": {
+        "CTR_true": 0.10544217377901077,
+        "CTR_pred": 0.11312922090291977,
+        "MSE_play_time": 332567072.0,
+        "LongView_true": 0.095238097012043,
+        "LongView_pred": 0.0,
+        "play_time_true": 4539.56787109375,
+        "play_time_pred": 1707.483154296875,
+        "CTR_AUC": 0.39543726235741444,
+        "LogMAE_play_time": 6.083957672119141
+      },
+      "val": {
+        "CTR_true": 0.10606060922145844,
+        "CTR_pred": 0.1324022263288498,
+        "MSE_play_time": 140380048.0,
+        "LongView_true": 0.07575757801532745,
+        "LongView_pred": 0.0,
+        "play_time_true": 3339.681884765625,
+        "play_time_pred": 1602.708984375,
+        "CTR_AUC": 0.43825665859564167,
+        "LogMAE_play_time": 6.232715129852295
+      }
+    },
+    {
+      "train": {
+        "CTR_true": 0.10932476073503494,
+        "CTR_pred": 0.15352997183799744,
+        "MSE_play_time": 336025312.0,
+        "LongView_true": 0.09646302461624146,
+        "LongView_pred": 0.0,
+        "play_time_true": 4634.24755859375,
+        "play_time_pred": 1680.5030517578125,
+        "CTR_AUC": 0.3757698025058399,
+        "LogMAE_play_time": 5.981839656829834
+      },
+      "val": {
+        "CTR_true": 0.10144927352666855,
+        "CTR_pred": 0.1713791787624359,
+        "MSE_play_time": 134698624.0,
+        "LongView_true": 0.07246376574039459,
+        "LongView_pred": 0.0,
+        "play_time_true": 3216.072509765625,
+        "play_time_pred": 1555.2015380859375,
+        "CTR_AUC": 0.46313364055299533,
+        "LogMAE_play_time": 6.127297401428223
+      }
+    },
+    {
+      "train": {
+        "CTR_true": 0.1070336401462555,
+        "CTR_pred": 0.14540402591228485,
+        "MSE_play_time": 347876160.0,
+        "LongView_true": 0.09480122476816177,
+        "LongView_pred": 0.0,
+        "play_time_true": 4710.205078125,
+        "play_time_pred": 1841.9547119140625,
+        "CTR_AUC": 0.39021526418786695,
+        "LogMAE_play_time": 6.126126766204834
+      },
+      "val": {
+        "CTR_true": 0.10958904027938843,
+        "CTR_pred": 0.16550877690315247,
+        "MSE_play_time": 435927072.0,
+        "LongView_true": 0.08219178020954132,
+        "LongView_pred": 0.0,
+        "play_time_true": 5139.78076171875,
+        "play_time_pred": 1683.67041015625,
+        "CTR_AUC": 0.40576923076923077,
+        "LogMAE_play_time": 6.205700874328613
+      }
+    },
+    {
+      "train": {
+        "CTR_true": 0.10263929516077042,
+        "CTR_pred": 0.16339083015918732,
+        "MSE_play_time": 334182400.0,
+        "LongView_true": 0.09090909361839294,
+        "LongView_pred": 0.0,
+        "play_time_true": 4536.240234375,
+        "play_time_pred": 1749.429931640625,
+        "CTR_AUC": 0.39383753501400565,
+        "LogMAE_play_time": 6.082420825958252
+      },
+      "val": {
+        "CTR_true": 0.1139240488409996,
+        "CTR_pred": 0.1802973747253418,
+        "MSE_play_time": 423403712.0,
+        "LongView_true": 0.08860759437084198,
+        "LongView_pred": 0.0,
+        "play_time_true": 5324.3544921875,
+        "play_time_pred": 1603.6766357421875,
+        "CTR_AUC": 0.40634920634920635,
+        "LogMAE_play_time": 6.1372222900390625
+      }
+    },
+    {
+      "train": {
+        "CTR_true": 0.10364145785570145,
+        "CTR_pred": 0.16563643515110016,
+        "MSE_play_time": 334578464.0,
+        "LongView_true": 0.09243697673082352,
+        "LongView_pred": 0.0,
+        "play_time_true": 4606.64404296875,
+        "play_time_pred": 1900.900390625,
+        "CTR_AUC": 0.39315878378378377,
+        "LogMAE_play_time": 6.179356575012207
+      },
+      "val": {
+        "CTR_true": 0.1204819306731224,
+        "CTR_pred": 0.1765439361333847,
+        "MSE_play_time": 402074112.0,
+        "LongView_true": 0.08433734625577927,
+        "LongView_pred": 0.0,
+        "play_time_true": 5176.75927734375,
+        "play_time_pred": 1773.187255859375,
+        "CTR_AUC": 0.3726027397260274,
+        "LogMAE_play_time": 6.207261562347412
+      }
+    },
+    {
+      "train": {
+        "CTR_true": 0.10270269960165024,
+        "CTR_pred": 0.17428426444530487,
+        "MSE_play_time": 324163104.0,
+        "LongView_true": 0.09189189225435257,
+        "LongView_pred": 0.0,
+        "play_time_true": 4511.20556640625,
+        "play_time_pred": 1885.4920654296875,
+        "CTR_AUC": 0.3798351299936588,
+        "LogMAE_play_time": 6.183290004730225
+      },
+      "val": {
+        "CTR_true": 0.12222222238779068,
+        "CTR_pred": 0.18406155705451965,
+        "MSE_play_time": 414945856.0,
+        "LongView_true": 0.08888889104127884,
+        "LongView_pred": 0.0,
+        "play_time_true": 5480.42236328125,
+        "play_time_pred": 1760.568115234375,
+        "CTR_AUC": 0.4177215189873418,
+        "LogMAE_play_time": 6.254771709442139
+      }
+    },
+    {
+      "train": {
+        "CTR_true": 0.09870129823684692,
+        "CTR_pred": 0.15538227558135986,
+        "MSE_play_time": 311253568.0,
+        "LongView_true": 0.08831168711185455,
+        "LongView_pred": 0.0,
+        "play_time_true": 4354.015625,
+        "play_time_pred": 1963.70947265625,
+        "CTR_AUC": 0.3954193841953587,
+        "LogMAE_play_time": 6.236302852630615
+      },
+      "val": {
+        "CTR_true": 0.11578947305679321,
+        "CTR_pred": 0.1654806286096573,
+        "MSE_play_time": 392676832.0,
+        "LongView_true": 0.08421052992343903,
+        "LongView_pred": 0.0,
+        "play_time_true": 5201.39990234375,
+        "play_time_pred": 1820.04638671875,
+        "CTR_AUC": 0.4166666666666667,
+        "LogMAE_play_time": 6.269005298614502
+      }
+    },
+    {
+      "train": {
+        "CTR_true": 0.09900990128517151,
+        "CTR_pred": 0.14468340575695038,
+        "MSE_play_time": 301520160.0,
+        "LongView_true": 0.0891089141368866,
+        "LongView_pred": 0.0,
+        "play_time_true": 4323.6904296875,
+        "play_time_pred": 1940.485595703125,
+        "CTR_AUC": 0.4066620879120879,
+        "LogMAE_play_time": 6.226759433746338
+      },
+      "val": {
+        "CTR_true": 0.1145833358168602,
+        "CTR_pred": 0.1537523865699768,
+        "MSE_play_time": 388867744.0,
+        "LongView_true": 0.0833333358168602,
+        "LongView_pred": 0.0,
+        "play_time_true": 5147.21875,
+        "play_time_pred": 1799.01513671875,
+        "CTR_AUC": 0.4288770053475936,
+        "LogMAE_play_time": 6.280754089355469
+      }
+    },
+    {
+      "train": {
+        "CTR_true": 0.09715639799833298,
+        "CTR_pred": 0.15027710795402527,
+        "MSE_play_time": 289250784.0,
+        "LongView_true": 0.0876777246594429,
+        "LongView_pred": 0.0,
+        "play_time_true": 4186.078125,
+        "play_time_pred": 1907.219482421875,
+        "CTR_AUC": 0.4092567697330517,
+        "LogMAE_play_time": 6.219544887542725
+      },
+      "val": {
+        "CTR_true": 0.11224489659070969,
+        "CTR_pred": 0.15790827572345734,
+        "MSE_play_time": 381268288.0,
+        "LongView_true": 0.08163265138864517,
+        "LongView_pred": 0.0,
+        "play_time_true": 5042.17333984375,
+        "play_time_pred": 1791.697021484375,
+        "CTR_AUC": 0.44618599791013586,
+        "LogMAE_play_time": 6.298461437225342
+      }
+    },
+    {
+      "train": {
+        "CTR_true": 0.0986238569021225,
+        "CTR_pred": 0.14221686124801636,
+        "MSE_play_time": 282379008.0,
+        "LongView_true": 0.08944953978061676,
+        "LongView_pred": 0.0,
+        "play_time_true": 4184.65576171875,
+        "play_time_pred": 2044.731689453125,
+        "CTR_AUC": 0.4192555772530919,
+        "LogMAE_play_time": 6.261816024780273
+      },
+      "val": {
+        "CTR_true": 0.10576923191547394,
+        "CTR_pred": 0.1542779803276062,
+        "MSE_play_time": 358343136.0,
+        "LongView_true": 0.07692307978868484,
+        "LongView_pred": 0.0,
+        "play_time_true": 4751.27880859375,
+        "play_time_pred": 1894.36279296875,
+        "CTR_AUC": 0.4203323558162268,
+        "LogMAE_play_time": 6.399984359741211
+      }
+    },
+    {
+      "train": {
+        "CTR_true": 0.09955751895904541,
+        "CTR_pred": 0.14752919971942902,
+        "MSE_play_time": 273336096.0,
+        "LongView_true": 0.09070796519517899,
+        "LongView_pred": 0.0,
+        "play_time_true": 4130.6767578125,
+        "play_time_pred": 2105.154296875,
+        "CTR_AUC": 0.42145782145782146,
+        "LogMAE_play_time": 6.285592555999756
+      },
+      "val": {
+        "CTR_true": 0.10185185074806213,
+        "CTR_pred": 0.1608702540397644,
+        "MSE_play_time": 344774464.0,
+        "LongView_true": 0.07407407462596893,
+        "LongView_pred": 0.0,
+        "play_time_true": 4593.5556640625,
+        "play_time_pred": 1954.6102294921875,
+        "CTR_AUC": 0.41518275538894095,
+        "LogMAE_play_time": 6.335987567901611
+      }
+    },
+    {
+      "train": {
+        "CTR_true": 0.10042735189199448,
+        "CTR_pred": 0.17853961884975433,
+        "MSE_play_time": 266055056.0,
+        "LongView_true": 0.09188034385442734,
+        "LongView_pred": 0.0,
+        "play_time_true": 4076.47216796875,
+        "play_time_pred": 1998.7210693359375,
+        "CTR_AUC": 0.4314448880578158,
+        "LogMAE_play_time": 6.225096225738525
+      },
+      "val": {
+        "CTR_true": 0.0982142835855484,
+        "CTR_pred": 0.19162864983081818,
+        "MSE_play_time": 333349120.0,
+        "LongView_true": 0.0714285746216774,
+        "LongView_pred": 0.0,
+        "play_time_true": 4429.5,
+        "play_time_pred": 1862.224609375,
+        "CTR_AUC": 0.42754275427542754,
+        "LogMAE_play_time": 6.317825794219971
+      }
+    },
+    {
+      "train": {
+        "CTR_true": 0.09690721333026886,
+        "CTR_pred": 0.1847267895936966,
+        "MSE_play_time": 257174256.0,
+        "LongView_true": 0.08865979313850403,
+        "LongView_pred": 0.0,
+        "play_time_true": 3947.6494140625,
+        "play_time_pred": 1925.5789794921875,
+        "CTR_AUC": 0.4391819683279899,
+        "LogMAE_play_time": 6.1786112785339355
+      },
+      "val": {
+        "CTR_true": 0.09565217047929764,
+        "CTR_pred": 0.19649285078048706,
+        "MSE_play_time": 325095040.0,
+        "LongView_true": 0.06956521421670914,
+        "LongView_pred": 0.0,
+        "play_time_true": 4341.826171875,
+        "play_time_pred": 1799.8931884765625,
+        "CTR_AUC": 0.4318181818181818,
+        "LogMAE_play_time": 6.249060153961182
+      }
+    },
+    {
+      "train": {
+        "CTR_true": 0.0936255007982254,
+        "CTR_pred": 0.1665230691432953,
+        "MSE_play_time": 248395904.0,
+        "LongView_true": 0.08565737307071686,
+        "LongView_pred": 0.0,
+        "play_time_true": 3824.559814453125,
+        "play_time_pred": 2003.9058837890625,
+        "CTR_AUC": 0.45531914893617026,
+        "LogMAE_play_time": 6.24497127532959
+      },
+      "val": {
+        "CTR_true": 0.10169491171836853,
+        "CTR_pred": 0.17898277938365936,
+        "MSE_play_time": 323074208.0,
+        "LongView_true": 0.0762711837887764,
+        "LongView_pred": 0.0,
+        "play_time_true": 4478.30517578125,
+        "play_time_pred": 1870.2728271484375,
+        "CTR_AUC": 0.4716981132075472,
+        "LogMAE_play_time": 6.287003993988037
+      }
+    },
+    {
+      "train": {
+        "CTR_true": 0.09459459781646729,
+        "CTR_pred": 0.1556384414434433,
+        "MSE_play_time": 243298336.0,
+        "LongView_true": 0.08687258511781693,
+        "LongView_pred": 0.0,
+        "play_time_true": 3829.63134765625,
+        "play_time_pred": 2035.786865234375,
+        "CTR_AUC": 0.4746964884034637,
+        "LogMAE_play_time": 6.260534286499023
+      },
+      "val": {
+        "CTR_true": 0.09836065769195557,
+        "CTR_pred": 0.1655699759721756,
+        "MSE_play_time": 312522464.0,
+        "LongView_true": 0.07377049326896667,
+        "LongView_pred": 0.0,
+        "play_time_true": 4331.4755859375,
+        "play_time_pred": 1907.9395751953125,
+        "CTR_AUC": 0.5136363636363637,
+        "LogMAE_play_time": 6.3561625480651855
+      }
+    },
+    {
+      "train": {
+        "CTR_true": 0.09568480402231216,
+        "CTR_pred": 0.2229234278202057,
+        "MSE_play_time": 237756656.0,
+        "LongView_true": 0.08818010985851288,
+        "LongView_pred": 0.0,
+        "play_time_true": 3787.77294921875,
+        "play_time_pred": 1930.75,
+        "CTR_AUC": 0.5301033276381091,
+        "LogMAE_play_time": 6.200667858123779
+      },
+      "val": {
+        "CTR_true": 0.09448818862438202,
+        "CTR_pred": 0.23394463956356049,
+        "MSE_play_time": 300959616.0,
+        "LongView_true": 0.07086614519357681,
+        "LongView_pred": 0.0,
+        "play_time_true": 4160.94482421875,
+        "play_time_pred": 1769.6806640625,
+        "CTR_AUC": 0.5268115942028986,
+        "LogMAE_play_time": 6.31258487701416
+      }
+    },
+    {
+      "train": {
+        "CTR_true": 0.09437386691570282,
+        "CTR_pred": 0.20394670963287354,
+        "MSE_play_time": 229893200.0,
+        "LongView_true": 0.08711433410644531,
+        "LongView_pred": 0.0,
+        "play_time_true": 3714.099853515625,
+        "play_time_pred": 2143.72802734375,
+        "CTR_AUC": 0.5243178665022352,
+        "LogMAE_play_time": 6.318093299865723
+      },
+      "val": {
+        "CTR_true": 0.09302325546741486,
+        "CTR_pred": 0.21666230261325836,
+        "MSE_play_time": 295284096.0,
+        "LongView_true": 0.06976744532585144,
+        "LongView_pred": 0.0,
+        "play_time_true": 4096.43408203125,
+        "play_time_pred": 1956.6251220703125,
+        "CTR_AUC": 0.5220797720797721,
+        "LogMAE_play_time": 6.413474082946777
+      }
+    },
+    {
+      "train": {
+        "CTR_true": 0.09557522088289261,
+        "CTR_pred": 0.15015670657157898,
+        "MSE_play_time": 223920112.0,
+        "LongView_true": 0.08672566711902618,
+        "LongView_pred": 0.0,
+        "play_time_true": 3651.111572265625,
+        "play_time_pred": 2266.646484375,
+        "CTR_AUC": 0.4672392549104878,
+        "LogMAE_play_time": 6.352534770965576
+      },
+      "val": {
+        "CTR_true": 0.0962962955236435,
+        "CTR_pred": 0.1652754843235016,
+        "MSE_play_time": 285421856.0,
+        "LongView_true": 0.07407407462596893,
+        "LongView_pred": 0.0,
+        "play_time_true": 4085.636962890625,
+        "play_time_pred": 2081.5751953125,
+        "CTR_AUC": 0.5435056746532156,
+        "LogMAE_play_time": 6.440174579620361
+      }
+    },
+    {
+      "train": {
+        "CTR_true": 0.09310344606637955,
+        "CTR_pred": 0.12107206135988235,
+        "MSE_play_time": 217306240.0,
+        "LongView_true": 0.08448275923728943,
+        "LongView_pred": 0.0,
+        "play_time_true": 3556.686279296875,
+        "play_time_pred": 2529.958984375,
+        "CTR_AUC": 0.45944233206590623,
+        "LogMAE_play_time": 6.481729984283447
+      },
+      "val": {
+        "CTR_true": 0.10000000149011612,
+        "CTR_pred": 0.1342380791902542,
+        "MSE_play_time": 275045440.0,
+        "LongView_true": 0.0714285746216774,
+        "LongView_pred": 0.0,
+        "play_time_true": 4006.89990234375,
+        "play_time_pred": 2363.1953125,
+        "CTR_AUC": 0.5107709750566893,
+        "LogMAE_play_time": 6.5479254722595215
+      }
+    },
+    {
+      "train": {
+        "CTR_true": 0.09090909361839294,
+        "CTR_pred": 0.14115330576896667,
+        "MSE_play_time": 212577344.0,
+        "LongView_true": 0.08249158412218094,
+        "LongView_pred": 0.0,
+        "play_time_true": 3478.592529296875,
+        "play_time_pred": 2386.608154296875,
+        "CTR_AUC": 0.47047325102880655,
+        "LogMAE_play_time": 6.4137420654296875
+      },
+      "val": {
+        "CTR_true": 0.09589041024446487,
+        "CTR_pred": 0.15189872682094574,
+        "MSE_play_time": 264579360.0,
+        "LongView_true": 0.06849315017461777,
+        "LongView_pred": 0.0,
+        "play_time_true": 3859.78759765625,
+        "play_time_pred": 2258.229248046875,
+        "CTR_AUC": 0.5194805194805194,
+        "LogMAE_play_time": 6.482285499572754
+      }
+    },
+    {
+      "train": {
+        "CTR_true": 0.0901639312505722,
+        "CTR_pred": 0.1573709100484848,
+        "MSE_play_time": 206860352.0,
+        "LongView_true": 0.08032786846160889,
+        "LongView_pred": 0.0,
+        "play_time_true": 3407.718017578125,
+        "play_time_pred": 2435.323486328125,
+        "CTR_AUC": 0.48514332514332514,
+        "LogMAE_play_time": 6.411018371582031
+      },
+      "val": {
+        "CTR_true": 0.09333333373069763,
+        "CTR_pred": 0.1692276895046234,
+        "MSE_play_time": 257598480.0,
+        "LongView_true": 0.06666667014360428,
+        "LongView_pred": 0.0,
+        "play_time_true": 3756.860107421875,
+        "play_time_pred": 2341.9130859375,
+        "CTR_AUC": 0.5215336134453782,
+        "LogMAE_play_time": 6.539487361907959
+      }
+    },
+    {
+      "train": {
+        "CTR_true": 0.08917197585105896,
+        "CTR_pred": 0.15195578336715698,
+        "MSE_play_time": 201838496.0,
+        "LongView_true": 0.07961783558130264,
+        "LongView_pred": 0.0,
+        "play_time_true": 3356.156005859375,
+        "play_time_pred": 2462.969482421875,
+        "CTR_AUC": 0.4975337162837163,
+        "LogMAE_play_time": 6.431862831115723
+      },
+      "val": {
+        "CTR_true": 0.09210526198148727,
+        "CTR_pred": 0.16337917745113373,
+        "MSE_play_time": 254373568.0,
+        "LongView_true": 0.06578947603702545,
+        "LongView_pred": 0.0,
+        "play_time_true": 3707.427734375,
+        "play_time_pred": 2371.789794921875,
+        "CTR_AUC": 0.5232919254658385,
+        "LogMAE_play_time": 6.566681385040283
+      }
+    },
+    {
+      "train": {
+        "CTR_true": 0.08878504484891891,
+        "CTR_pred": 0.13364467024803162,
+        "MSE_play_time": 198923584.0,
+        "LongView_true": 0.07943925261497498,
+        "LongView_pred": 0.0,
+        "play_time_true": 3342.44091796875,
+        "play_time_pred": 2698.949951171875,
+        "CTR_AUC": 0.44957264957264953,
+        "LogMAE_play_time": 6.510860919952393
+      },
+      "val": {
+        "CTR_true": 0.09493670612573624,
+        "CTR_pred": 0.14356127381324768,
+        "MSE_play_time": 245552224.0,
+        "LongView_true": 0.06962025165557861,
+        "LongView_pred": 0.0,
+        "play_time_true": 3718.094970703125,
+        "play_time_pred": 2635.373291015625,
+        "CTR_AUC": 0.4876456876456876,
+        "LogMAE_play_time": 6.580217361450195
+      }
+    },
+    {
+      "train": {
+        "CTR_true": 0.08636363595724106,
+        "CTR_pred": 0.10528117418289185,
+        "MSE_play_time": 193706336.0,
+        "LongView_true": 0.07727272808551788,
+        "LongView_pred": 0.0,
+        "play_time_true": 3259.52734375,
+        "play_time_pred": 2632.419921875,
+        "CTR_AUC": 0.43839283116580835,
+        "LogMAE_play_time": 6.508319854736328
+      },
+      "val": {
+        "CTR_true": 0.09375,
+        "CTR_pred": 0.11362314224243164,
+        "MSE_play_time": 242615840.0,
+        "LongView_true": 0.06875000149011612,
+        "LongView_pred": 0.0,
+        "play_time_true": 3681.40625,
+        "play_time_pred": 2614.11083984375,
+        "CTR_AUC": 0.4928735632183908,
+        "LogMAE_play_time": 6.55855655670166
+      }
+    },
+    {
+      "train": {
+        "CTR_true": 0.0872781053185463,
+        "CTR_pred": 0.1127091571688652,
+        "MSE_play_time": 189799472.0,
+        "LongView_true": 0.07692307978868484,
+        "LongView_pred": 0.0,
+        "play_time_true": 3237.30029296875,
+        "play_time_pred": 2586.54541015625,
+        "CTR_AUC": 0.45270994148833893,
+        "LogMAE_play_time": 6.480119228363037
+      },
+      "val": {
+        "CTR_true": 0.09146341681480408,
+        "CTR_pred": 0.11918813735246658,
+        "MSE_play_time": 237111744.0,
+        "LongView_true": 0.06707317382097244,
+        "LongView_pred": 0.0,
+        "play_time_true": 3591.615966796875,
+        "play_time_pred": 2585.033203125,
+        "CTR_AUC": 0.4988814317673378,
+        "LogMAE_play_time": 6.577353000640869
+      }
+    },
+    {
+      "train": {
+        "CTR_true": 0.08633093535900116,
+        "CTR_pred": 0.1539180874824524,
+        "MSE_play_time": 184892080.0,
+        "LongView_true": 0.07625899463891983,
+        "LongView_pred": 0.0,
+        "play_time_true": 3174.43896484375,
+        "play_time_pred": 2754.05712890625,
+        "CTR_AUC": 0.4902887139107611,
+        "LogMAE_play_time": 6.5549163818359375
+      },
+      "val": {
+        "CTR_true": 0.09090909361839294,
+        "CTR_pred": 0.15928900241851807,
+        "MSE_play_time": 235500736.0,
+        "LongView_true": 0.06666667014360428,
+        "LongView_pred": 0.0,
+        "play_time_true": 3569.848388671875,
+        "play_time_pred": 2759.76806640625,
+        "CTR_AUC": 0.5115555555555555,
+        "LogMAE_play_time": 6.638602256774902
+      }
+    },
+    {
+      "train": {
+        "CTR_true": 0.08603667467832565,
+        "CTR_pred": 0.15002143383026123,
+        "MSE_play_time": 182385184.0,
+        "LongView_true": 0.07616361230611801,
+        "LongView_pred": 0.0,
+        "play_time_true": 3162.26806640625,
+        "play_time_pred": 2837.060302734375,
+        "CTR_AUC": 0.4570684072050193,
+        "LogMAE_play_time": 6.570436954498291
+      },
+      "val": {
+        "CTR_true": 0.08771929889917374,
+        "CTR_pred": 0.15408334136009216,
+        "MSE_play_time": 227820592.0,
+        "LongView_true": 0.06432748585939407,
+        "LongView_pred": 0.0,
+        "play_time_true": 3455.75439453125,
+        "play_time_pred": 2875.544921875,
+        "CTR_AUC": 0.5226495726495727,
+        "LogMAE_play_time": 6.653867721557617
+      }
+    },
+    {
+      "train": {
+        "CTR_true": 0.08653846383094788,
+        "CTR_pred": 0.13298848271369934,
+        "MSE_play_time": 179169184.0,
+        "LongView_true": 0.07692307978868484,
+        "LongView_pred": 0.0,
+        "play_time_true": 3147.907958984375,
+        "play_time_pred": 2832.182373046875,
+        "CTR_AUC": 0.4618212197159566,
+        "LogMAE_play_time": 6.594345569610596
+      },
+      "val": {
+        "CTR_true": 0.0872092992067337,
+        "CTR_pred": 0.13686615228652954,
+        "MSE_play_time": 226681280.0,
+        "LongView_true": 0.06395348906517029,
+        "LongView_pred": 0.0,
+        "play_time_true": 3435.662841796875,
+        "play_time_pred": 2886.974853515625,
+        "CTR_AUC": 0.5197452229299363,
+        "LogMAE_play_time": 6.67280912399292
+      }
+    },
+    {
+      "train": {
+        "CTR_true": 0.08602150529623032,
+        "CTR_pred": 0.12907446920871735,
+        "MSE_play_time": 175337616.0,
+        "LongView_true": 0.07526881992816925,
+        "LongView_pred": 0.0,
+        "play_time_true": 3095.19091796875,
+        "play_time_pred": 3079.70166015625,
+        "CTR_AUC": 0.44551930147058827,
+        "LogMAE_play_time": 6.673038482666016
+      },
+      "val": {
+        "CTR_true": 0.09090909361839294,
+        "CTR_pred": 0.13427023589611053,
+        "MSE_play_time": 233232432.0,
+        "LongView_true": 0.06818182021379471,
+        "LongView_pred": 0.0,
+        "play_time_true": 3635.386474609375,
+        "play_time_pred": 3112.611083984375,
+        "CTR_AUC": 0.53515625,
+        "LogMAE_play_time": 6.698002338409424
+      }
+    },
+    {
+      "train": {
+        "CTR_true": 0.08541392534971237,
+        "CTR_pred": 0.14213894307613373,
+        "MSE_play_time": 172030944.0,
+        "LongView_true": 0.07490144670009613,
+        "LongView_pred": 0.0,
+        "play_time_true": 3054.139404296875,
+        "play_time_pred": 3342.7265625,
+        "CTR_AUC": 0.4637488947833775,
+        "LogMAE_play_time": 6.767972946166992
+      },
+      "val": {
+        "CTR_true": 0.08938547223806381,
+        "CTR_pred": 0.1473986953496933,
+        "MSE_play_time": 229380400.0,
+        "LongView_true": 0.0670391097664833,
+        "LongView_pred": 0.0,
+        "play_time_true": 3574.4580078125,
+        "play_time_pred": 3361.449951171875,
+        "CTR_AUC": 0.5368098159509203,
+        "LogMAE_play_time": 6.785444259643555
+      }
+    },
+    {
+      "train": {
+        "CTR_true": 0.08376288414001465,
+        "CTR_pred": 0.12291957437992096,
+        "MSE_play_time": 168983232.0,
+        "LongView_true": 0.07345360517501831,
+        "LongView_pred": 0.0,
+        "play_time_true": 2996.672607421875,
+        "play_time_pred": 3087.25732421875,
+        "CTR_AUC": 0.4727036676403765,
+        "LogMAE_play_time": 6.7183732986450195
+      },
+      "val": {
+        "CTR_true": 0.08695652335882187,
+        "CTR_pred": 0.12927758693695068,
+        "MSE_play_time": 223080784.0,
+        "LongView_true": 0.06521739065647125,
+        "LongView_pred": 0.0,
+        "play_time_true": 3485.70654296875,
+        "play_time_pred": 3078.882568359375,
+        "CTR_AUC": 0.53125,
+        "LogMAE_play_time": 6.693111419677734
+      }
+    },
+    {
+      "train": {
+        "CTR_true": 0.08217446506023407,
+        "CTR_pred": 0.11354095488786697,
+        "MSE_play_time": 165871088.0,
+        "LongView_true": 0.07206068187952042,
+        "LongView_pred": 0.0,
+        "play_time_true": 2943.385498046875,
+        "play_time_pred": 3076.177001953125,
+        "CTR_AUC": 0.4412163593981776,
+        "LogMAE_play_time": 6.711947917938232
+      },
+      "val": {
+        "CTR_true": 0.08994708955287933,
+        "CTR_pred": 0.11933409422636032,
+        "MSE_play_time": 217598336.0,
+        "LongView_true": 0.0634920671582222,
+        "LongView_pred": 0.0,
+        "play_time_true": 3435.35986328125,
+        "play_time_pred": 3081.767822265625,
+        "CTR_AUC": 0.5133378932968536,
+        "LogMAE_play_time": 6.671164512634277
+      }
+    },
+    {
+      "train": {
+        "CTR_true": 0.08168316632509232,
+        "CTR_pred": 0.12324298173189163,
+        "MSE_play_time": 162820304.0,
+        "LongView_true": 0.0717821791768074,
+        "LongView_pred": 0.0,
+        "play_time_true": 2913.8935546875,
+        "play_time_pred": 3106.399658203125,
+        "CTR_AUC": 0.48656375071469415,
+        "LogMAE_play_time": 6.734926223754883
+      },
+      "val": {
+        "CTR_true": 0.09375,
+        "CTR_pred": 0.12787146866321564,
+        "MSE_play_time": 216958272.0,
+        "LongView_true": 0.0677083358168602,
+        "LongView_pred": 0.0,
+        "play_time_true": 3514.130126953125,
+        "play_time_pred": 3098.62109375,
+        "CTR_AUC": 0.49010217113665394,
+        "LogMAE_play_time": 6.669834136962891
+      }
+    }
+  ]
+}

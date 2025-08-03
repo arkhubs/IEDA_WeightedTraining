@@ -21,15 +21,12 @@ ENV/
 # Conda/miniconda environments and installer
 envs/
 miniconda3/
-RealdataEXP/miniconda3/
 Miniconda3-latest-Linux-x86_64.sh
 
 
 # Model checkpoints and results
 results/[0-9]*/
 results/[0-9]*/checkpoints/
-RealdataEXP/results/[0-9]*/
-RealdataEXP/results/[0-9]*/checkpoints/
 *.pt
 *.pth
 

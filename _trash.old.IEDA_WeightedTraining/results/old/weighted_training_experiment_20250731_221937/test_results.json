@@ -1,0 +1,19 @@
+{
+  "val": {
+    "treatment": {
+      "total_loss": 0.0,
+      "ctr_loss": 0.0,
+      "playtime_loss": 0.0,
+      "ctr_auc": 0.5,
+      "playtime_rmse": 0.0
+    },
+    "control": {
+      "total_loss": 0.0,
+      "ctr_loss": 0.0,
+      "playtime_loss": 0.0,
+      "ctr_auc": 0.5,
+      "playtime_rmse": 0.0
+    },
+    "is_best": false
+  }
+}

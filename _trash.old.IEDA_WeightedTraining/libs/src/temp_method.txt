@@ -1,0 +1,12 @@
+    def get_results(self):
+        """
+        获取最新的实验结果
+        
+        Returns:
+            结果数据字典
+        """
+        # 如果没有缓存的结果，先保存一次
+        if self._latest_results is None:
+            self._save_metrics()
+            
+        return self._latest_results
