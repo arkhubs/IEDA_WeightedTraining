@@ -1,0 +1,22 @@
+{
+  "workingDirectory": "/home/zhixuanhu/IEDA_WeightedTraining/RealdataEXP",
+  "projectName": "RealdataEXP",
+  "allowedDirectories": [
+    "/home/zhixuanhu/IEDA_WeightedTraining/RealdataEXP"
+  ],
+  "systemPrompt": "You are an expert AI assistant working on the RealdataEXP project. This is a Python-based data analysis and experimental framework project. Key directories: configs/ (configuration files), libs/ (library modules), data/ (datasets), results/ (output files). Main entry point is main.py. Focus on: 1) Code quality and performance optimization, 2) Data processing efficiency, 3) GPU utilization optimization, 4) Experimental workflow improvement, 5) Documentation and maintainability. Always consider the project's structure and existing codebase when making suggestions.",
+  "preferredModel": "claude-sonnet-4",
+  "settings": {
+    "autoSave": true,
+    "verboseLogging": false,
+    "enableGitIntegration": true,
+    "maxTokensPerRequest": 100000
+  },
+  "shortcuts": {
+    "analyze_project": "请分析整个RealdataEXP项目的结构和功能",
+    "optimize_main": "请分析并优化main.py的性能",
+    "check_libs": "请检查libs/目录下的所有模块，提出改进建议",
+    "review_configs": "请审查configs/目录的配置文件，建议标准化格式",
+    "gpu_optimize": "请分析项目的GPU使用情况，提出优化建议"
+  }
+}

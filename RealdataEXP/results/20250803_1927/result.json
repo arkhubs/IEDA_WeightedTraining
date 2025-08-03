@@ -1,0 +1,269 @@
+{
+  "config": {
+    "base_dir": "/home/zhixuanhu/IEDA_WeightedTraining/RealdataEXP",
+    "mode": "global_optimized",
+    "device": "auto",
+    "dataset": {
+      "name": "KuaiRand-Pure",
+      "path": "data/KuaiRand/Pure",
+      "cache_path": "data/KuaiRand/cache"
+    },
+    "feature": {
+      "numerical": [
+        "video_duration",
+        "server_width",
+        "server_height",
+        "show_cnt",
+        "play_cnt",
+        "play_user_num",
+        "complete_play_cnt",
+        "like_cnt",
+        "comment_cnt",
+        "share_cnt",
+        "collect_cnt",
+        "is_live_streamer",
+        "is_video_author",
+        "follow_user_num",
+        "fans_user_num",
+        "friend_user_num",
+        "register_days",
+        "onehot_feat0",
+        "onehot_feat1",
+        "onehot_feat2",
+        "onehot_feat3",
+        "onehot_feat4",
+        "onehot_feat5",
+        "onehot_feat6",
+        "onehot_feat7",
+        "onehot_feat8",
+        "onehot_feat9",
+        "onehot_feat10",
+        "onehot_feat11",
+        "onehot_feat12",
+        "onehot_feat13",
+        "onehot_feat14",
+        "onehot_feat15",
+        "onehot_feat16",
+        "onehot_feat17"
+      ],
+      "categorical": [
+        "user_active_degree",
+        "video_type",
+        "tag"
+      ]
+    },
+    "labels": [
+      {
+        "name": "play_time",
+        "target": "play_time_ms",
+        "type": "numerical",
+        "loss_function": "logMAE",
+        "model": "MLP",
+        "model_params": {
+          "hidden_layers": [
+            256,
+            128,
+            64
+          ],
+          "dropout": 0.3,
+          "embedding_dim": 32
+        },
+        "learning_rate": 0.001,
+        "weight_decay": 0.0001,
+        "alpha_T": 1.0,
+        "alpha_C": 0.5
+      },
+      {
+        "name": "click",
+        "target": "is_click",
+        "type": "binary",
+        "loss_function": "BCE",
+        "model": "MLP",
+        "model_params": {
+          "hidden_layers": [
+            128,
+            64,
+            32
+          ],
+          "dropout": 0.2,
+          "embedding_dim": 16
+        },
+        "learning_rate": 0.001,
+        "weight_decay": 0.0001,
+        "alpha_T": 1.0,
+        "alpha_C": 0.8
+      }
+    ],
+    "pretrain": {
+      "enabled": true,
+      "batch_size": 256,
+      "epochs": 5,
+      "learning_rate": 0.002,
+      "weight_decay": 0.0001,
+      "early_stopping": 2
+    },
+    "global": {
+      "user_p_val": 0.2,
+      "batch_size": 128,
+      "n_candidate": 10,
+      "n_steps": 100,
+      "validate_every": 20,
+      "save_every": 40,
+      "learning_rate": 0.001,
+      "weight_decay": 0.0001
+    },
+    "logging": {
+      "level": "INFO",
+      "log_dir": "results"
+    }
+  },
+  "gte_results": {
+    "GTE_play_time": 5311240.0,
+    "GTE_play_time_relative": 11.998471963903649,
+    "GT_play_time": 49577210.0,
+    "GC_play_time": 44265970.0,
+    "GTE_click": 50.0,
+    "GTE_click_relative": 4.9800796812749,
+    "GT_click": 1054.0,
+    "GC_click": 1004.0
+  },
+  "metrics_summary": {
+    "step_play_time_T": {
+      "mean": 495772.1,
+      "std": 768609.7405266927,
+      "min": 0.0,
+      "max": 2871371.0,
+      "latest": 0.0
+    },
+    "step_play_time_C": {
+      "mean": 442659.7,
+      "std": 727745.472339272,
+      "min": 0.0,
+      "max": 2346891.0,
+      "latest": 0.0
+    },
+    "total_play_time_T": {
+      "mean": 42862982.73,
+      "std": 12561006.716037758,
+      "min": 2032792.0,
+      "max": 49577210.0,
+      "latest": 49577210.0
+    },
+    "total_play_time_C": {
+      "mean": 38775048.46,
+      "std": 10888018.187541928,
+      "min": 2331616.0,
+      "max": 44265970.0,
+      "latest": 44265970.0
+    },
+    "step_click_T": {
+      "mean": 10.54,
+      "std": 15.789502842078345,
+      "min": 0.0,
+      "max": 50.0,
+      "latest": 0.0
+    },
+    "step_click_C": {
+      "mean": 10.04,
+      "std": 15.932306800962621,
+      "min": 0.0,
+      "max": 47.0,
+      "latest": 0.0
+    },
+    "total_click_T": {
+      "mean": 909.56,
+      "std": 269.6897595386224,
+      "min": 46.0,
+      "max": 1054.0,
+      "latest": 1054.0
+    },
+    "total_click_C": {
+      "mean": 876.76,
+      "std": 251.01422748521648,
+      "min": 47.0,
+      "max": 1004.0,
+      "latest": 1004.0
+    },
+    "val_play_time": {
+      "mean": 6.275053728580476,
+      "std": 0.14903358159295707,
+      "min": 5.987091541290283,
+      "max": 6.391861853599548,
+      "latest": 6.38817973613739
+    },
+    "val_click": {
+      "mean": 0.6812827449440957,
+      "std": 0.04571361538488258,
+      "min": 0.6158448642492295,
+      "max": 0.7368787190318108,
+      "latest": 0.7368787190318108
+    },
+    "val_play_time_relative_error": {
+      "mean": 0.9879022010564805,
+      "std": 0.004975779829084573,
+      "min": 0.981142190694809,
+      "max": 0.9944866436719895,
+      "latest": 0.9907153701782226
+    },
+    "val_click_accuracy": {
+      "mean": 0.6578525677323341,
+      "std": 0.018689086938869396,
+      "min": 0.6338964919745922,
+      "max": 0.6811904881894588,
+      "latest": 0.6338964919745922
+    }
+  },
+  "dataset_stats": {
+    "total_samples": 2622668,
+    "unique_users": 27285,
+    "unique_videos": 7583,
+    "train_users": 21828,
+    "val_users": 5457,
+    "click_rate": 0.3314472132957736,
+    "avg_play_time": 15676.53942435718,
+    "features_used": {
+      "numerical": [
+        "video_duration",
+        "server_width",
+        "server_height",
+        "show_cnt",
+        "play_cnt",
+        "play_user_num",
+        "complete_play_cnt",
+        "like_cnt",
+        "comment_cnt",
+        "share_cnt",
+        "collect_cnt",
+        "is_live_streamer",
+        "is_video_author",
+        "follow_user_num",
+        "fans_user_num",
+        "friend_user_num",
+        "register_days",
+        "onehot_feat0",
+        "onehot_feat1",
+        "onehot_feat2",
+        "onehot_feat3",
+        "onehot_feat4",
+        "onehot_feat5",
+        "onehot_feat6",
+        "onehot_feat7",
+        "onehot_feat8",
+        "onehot_feat9",
+        "onehot_feat10",
+        "onehot_feat11",
+        "onehot_feat12",
+        "onehot_feat13",
+        "onehot_feat14",
+        "onehot_feat15",
+        "onehot_feat16",
+        "onehot_feat17"
+      ],
+      "categorical": [
+        "user_active_degree",
+        "video_type",
+        "tag"
+      ]
+    }
+  }
+}

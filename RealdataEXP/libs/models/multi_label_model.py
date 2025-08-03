@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 class MultiLabelModel:
     """多标签预测模型管理器"""
     
-    def __init__(self, config: Dict, input_dim: int, device: str = 'cpu'):
+    def __init__(self, config: Dict, input_dim: int, device: torch.device = torch.device('cpu')):
         self.config = config
         self.input_dim = input_dim
         self.device = device
@@ -39,11 +39,14 @@ class MultiLabelModel:
             logger.info(f"[模型构建] 构建 {label_name} 模型...")
             
             # 创建模型
+            model_params = label_config['model_params']
             model = MLPModel(
                 input_dim=self.input_dim,
-                hidden_layers=label_config['model_params']['hidden_layers'],
+                hidden_layers=model_params['hidden_layers'],
                 output_dim=1,
-                dropout=label_config['model_params']['dropout']
+                dropout=model_params['dropout'],
+                batch_norm=model_params.get('batch_norm', False),
+                residual=model_params.get('residual', False)
             ).to(self.device)
             
             # 创建优化器
@@ -153,6 +156,47 @@ class MultiLabelModel:
         with torch.no_grad():
             losses = self.compute_losses(x, targets)
             return {name: loss.item() for name, loss in losses.items()}
+    
+    def evaluate_with_metrics(self, x: torch.Tensor, targets: Dict[str, torch.Tensor]) -> Dict[str, float]:
+        """评估模型并计算预测指标"""
+        # 设置为评估模式
+        for model in self.models.values():
+            model.eval()
+        
+        with torch.no_grad():
+            # 计算损失
+            losses = self.compute_losses(x, targets)
+            metrics = {name: loss.item() for name, loss in losses.items()}
+            
+            # 计算预测指标
+            predictions = self.predict_all(x)
+            
+            for label_name in self.models:
+                if label_name in targets:
+                    pred = predictions[label_name]
+                    target = targets[label_name]
+                    
+                    # 获取标签配置
+                    label_config = next(lc for lc in self.labels if lc['name'] == label_name)
+                    
+                    if label_config['type'] == 'binary':
+                        # 计算准确率
+                        pred_binary = (pred > 0.5).float()
+                        accuracy = (pred_binary == target).float().mean().item()
+                        metrics[f'{label_name}_accuracy'] = accuracy
+                    
+                    elif label_config['type'] == 'numerical':
+                        # 计算平均相对误差
+                        # 避免除以0
+                        mask = target > 1e-8
+                        if mask.sum() > 0:
+                            relative_errors = torch.abs(pred[mask] - target[mask]) / target[mask]
+                            mean_relative_error = relative_errors.mean().item()
+                        else:
+                            mean_relative_error = 0.0
+                        metrics[f'{label_name}_relative_error'] = mean_relative_error
+            
+            return metrics
     
     def get_combined_score(self, x: torch.Tensor, alpha_weights: Dict[str, float]) -> torch.Tensor:
         """根据alpha权重计算组合分数"""

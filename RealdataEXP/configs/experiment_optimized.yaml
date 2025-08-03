@@ -1,14 +1,13 @@
-
 base_dir: "/home/zhixuanhu/IEDA_WeightedTraining/RealdataEXP"
-mode: 'global'  # 实验模式: global, weighting, splitting等
+mode: 'global_optimized'  # 使用优化版本
 
 # GPU配置
 device: 'auto'  # 设备选择: 'auto', 'cuda', 'cpu' (auto会自动选择最佳设备)
 
 # 数据集配置
 dataset:
-  name: "KuaiRand-Pure"  # 数据集名称: KuaiRand-Pure, KuaiRand-1K, KuaiRand-27K
-  path: "data/KuaiRand/Pure"  # 数据集路径
+  name: "KuaiRand-27K"  # 数据集名称: KuaiRand-Pure, KuaiRand-1K, KuaiRand-27K
+  path: "data/KuaiRand/27K"  # 数据集路径
   cache_path: "data/KuaiRand/cache"  # 缓存目录
 
 # 模型训练相关特征配置（根据数据集结构分析报告）
@@ -36,23 +35,23 @@ feature:
     - "register_days"         # 账号注册天数
     # 用户onehot特征（作为数值特征处理）
     - "onehot_feat0"
-    - "onehot_feat1"
-    - "onehot_feat2"
-    - "onehot_feat3"
-    - "onehot_feat4"
-    - "onehot_feat5"
-    - "onehot_feat6"
-    - "onehot_feat7"
-    - "onehot_feat8"
-    - "onehot_feat9"
-    - "onehot_feat10"
-    - "onehot_feat11"
-    - "onehot_feat12"
-    - "onehot_feat13"
-    - "onehot_feat14"
-    - "onehot_feat15"
-    - "onehot_feat16"
-    - "onehot_feat17"
+    # - "onehot_feat1"
+    # - "onehot_feat2"
+    # - "onehot_feat3"
+    # - "onehot_feat4"
+    # - "onehot_feat5"
+    # - "onehot_feat6"
+    # - "onehot_feat7"
+    # - "onehot_feat8"
+    # - "onehot_feat9"
+    # - "onehot_feat10"
+    # - "onehot_feat11"
+    # - "onehot_feat12"
+    # - "onehot_feat13"
+    # - "onehot_feat14"
+    # - "onehot_feat15"
+    # - "onehot_feat16"
+    # - "onehot_feat17"
   categorical:  # 分类型特征（将转换为onehot变量）
     - "user_active_degree"    # 用户活跃度等级
     - "video_type"            # 视频类型
@@ -66,13 +65,15 @@ labels:
     loss_function: "logMAE"   # 播放时长使用logMAE损失函数
     model: "MLP"              # 模型类型
     model_params:
-      hidden_layers: [128, 64, 32]  # 3层MLP架构
-      dropout: 0.2                  # dropout率
-      embedding_dim: 16             # 分类特征的嵌入维度
-    learning_rate: 0.0001
-    weight_decay: 0.0001
-    alpha_T: 1.0                    # Treatment组的alpha权重
-    alpha_C: 0.5                    # Control组的alpha权重
+      hidden_layers: [512, 256, 128, 64]  # 更深的网络结构
+      dropout: 0.2                          # 适中的dropout
+      embedding_dim: 64                    # 更大的嵌入维度
+      batch_norm: true                      # 添加批归一化
+      residual: true                        # 添加残差连接
+    learning_rate: 0.0005                   # 提高学习率
+    weight_decay: 0.00001                   # 减小权重衰减
+    alpha_T: 1.0                           # Treatment组的alpha权重
+    alpha_C: 0.5                           # Control组的alpha权重
     
   - name: "click"             # 点击
     target: "is_click"        # 对应的数据集字段名
@@ -80,32 +81,34 @@ labels:
     loss_function: "BCE"      # 点击使用二元交叉熵损失函数
     model: "MLP"              # 模型类型
     model_params:
-      hidden_layers: [64, 32, 16]   # 3层MLP架构
-      dropout: 0.1                  # dropout率
-      embedding_dim: 8              # 分类特征的嵌入维度
-    learning_rate: 0.0001
+      hidden_layers: [128, 64, 32]   # 增大模型容量
+      dropout: 0.2                   # 适量dropout
+      embedding_dim: 16              # 增大嵌入维度
+    learning_rate: 0.0001             # 提高学习率
     weight_decay: 0.0001
-    alpha_T: 1.0                    # Treatment组的alpha权重
-    alpha_C: 0.8                    # Control组的alpha权重
+    alpha_T: 1.0                     # Treatment组的alpha权重
+    alpha_C: 0.8                     # Control组的alpha权重
 
-# 预训练配置
+# 预训练配置 - 优化版本
 pretrain:
   enabled: true  # 是否启用预训练
-  batch_size: 64
-  epochs: 10     # 减少epoch数量，从50减少到10
+  batch_size: 512  # 大幅增加batch_size，充分利用GPU
+  epochs: 8        # 增加epoch数量以获得更好的收敛
   learning_rate: 0.001
-  weight_decay: 0.0001
-  early_stopping: 3  # 提前停止的检查点数，从5减少到3
+  weight_decay: 0.00001
+  early_stopping: 3  # 早停策略
+  gradient_clip: 1.0  # 梯度裁剪
+  scheduler: "cosine"  # 学习率调度器
 
-# 全局仿真配置 (仅在mode='global'时使用)
+# 全局仿真配置 - 优化版本
 global:
-  user_p_val: 0.2  # 验证集用户比例
-  batch_size: 64   # 每步抽样的用户数
-  n_candidate: 10  # 每个用户的候选视频数
-  n_steps: 200     # 仿真总步数，从1000减少到200
-  validate_every: 25  # 每隔多少步验证一次，从50减少到25
-  save_every: 50    # 每隔多少步保存一次模型
-  learning_rate: 0.0005
+  user_p_val: 0.2    # 验证集用户比例
+  batch_size: 128    # 增大batch_size，批量处理用户
+  n_candidate: 20    # 每个用户的候选视频数
+  n_steps: 100       # 减少仿真步数，因为每步更高效
+  validate_every: 5 # 验证频率
+  save_every: 40     # 保存频率
+  learning_rate: 0.001
   weight_decay: 0.0001
 
 # 日志配置

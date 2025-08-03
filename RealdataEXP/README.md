@@ -4,6 +4,27 @@
 
 RealdataEXP 是一个基于真实数据的推荐系统实验框架，用于计算全局处理效应（Global Treatment Effect, GTE）。该框架支持多种实验模式，包括global、weighting、splitting等，旨在为推荐系统的因果推断研究提供完整的实验平台。
 
+## 🚀 Claude Code + GLM-4.5 AI编程助手
+
+本项目已集成Claude Code + GLM-4.5，提供强大的AI编程支持！
+
+### 快速启动AI助手
+```bash
+# 1. 获取GLM-4.5 API Key: https://bigmodel.cn/usercenter/proj-mgmt/apikeys
+# 2. 在项目目录启动
+cd /home/zhixuanhu/IEDA_WeightedTraining/RealdataEXP
+./start_claude_glm.sh YOUR_API_KEY
+```
+
+### AI助手功能
+- 🔍 **项目分析**：自动分析代码结构和功能
+- ⚡ **性能优化**：识别性能瓶颈并提供优化建议
+- 🐛 **代码审查**：自动发现潜在问题并给出修复方案
+- 📝 **文档生成**：自动生成API文档和使用说明
+- 🧪 **测试生成**：自动生成单元测试和集成测试
+
+详细配置说明请查看：[Claude_GLM_项目配置.md](./Claude_GLM_项目配置.md)
+
 ## 项目特性
 
 - **多模式实验支持**：支持global、weighting、splitting等多种实验模式
@@ -180,6 +201,221 @@ python main.py --mode global --config configs/experiment.yaml
 - `result.json`：实验结果和指标
 - `checkpoints/`：模型检查点和特征处理器
 
+## GPU集群使用指南
+
+本框架支持在HKUST HPC4集群上使用SLURM进行GPU加速训练。以下是完整的GPU使用流程。
+
+### 环境要求
+
+- HKUST HPC4集群账户
+- 项目组账户：`sigroup`
+- PyTorch 2.0+ (自带CUDA runtime)
+- SLURM作业调度系统
+
+### 1. 提交GPU作业
+
+#### 1.1 使用预配置脚本
+
+```bash
+# 提交GPU作业
+sbatch run_gpu.sh
+```
+
+```bash
+sbatch run_gpu_optimized.sh
+```
+
+#### 1.2 GPU作业脚本配置
+
+`run_gpu.sh` 的关键配置：
+
+```bash
+#!/bin/bash
+#SBATCH --account=sigroup     # 项目组账户
+#SBATCH --time=02:00:00       # 运行时间限制 (2小时)
+#SBATCH --partition=gpu-a30   # GPU分区 (A30 GPU)
+#SBATCH --gpus-per-node=1     # 每个节点使用1个GPU
+#SBATCH --cpus-per-task=8     # 每个任务使用8个CPU核心
+#SBATCH --mem=32G             # 内存需求
+#SBATCH --job-name=global_mode_gpu  # 作业名称
+```
+
+### 2. 查看作业状态
+
+```bash
+# 查看用户作业队列
+squeue -u $USER
+
+# 查看作业详细信息
+scontrol show job <作业ID>
+
+# 取消作业
+scancel <作业ID>
+```
+
+### 3. 连接GPU节点
+
+#### 3.1 连接到已分配的GPU节点
+
+```bash
+# 连接到正在运行的作业节点 (示例: 作业52005在gpu01)
+srun --jobid=52098 -w gpu01 --overlap --pty bash -i
+```
+
+#### 3.2 验证GPU可用性
+
+```bash
+# 查看GPU状态
+nvidia-smi
+
+# 检查PyTorch GPU支持
+python -c "import torch; print(f'CUDA可用: {torch.cuda.is_available()}')"
+```
+
+### 4. 实时监控系统
+
+#### 4.1 创建tmux多窗口监控环境
+
+```bash
+# 创建监控会话
+tmux new-session -d -s gpu_monitor
+
+# 创建多个监控窗口
+tmux new-window -t gpu_monitor -n 'GPU-Monitor'
+tmux new-window -t gpu_monitor -n 'CPU-Memory'
+tmux new-window -t gpu_monitor -n 'Exp-Log'
+tmux new-window -t gpu_monitor -n 'Process'
+
+# 启动各窗口监控
+tmux send-keys -t gpu_monitor:0 'nvidia-smi -l 2' Enter
+tmux send-keys -t gpu_monitor:1 'htop' Enter
+tmux send-keys -t gpu_monitor:2 'tail -f results/gpu_run_*_detailed.log' Enter
+tmux send-keys -t gpu_monitor:3 'watch -n 2 "ps aux | grep python | grep -v grep"' Enter
+```
+
+#### 4.2 连接监控会话
+
+```bash
+# 连接到监控会话
+tmux attach-session -t gpu_monitor
+
+# 窗口切换快捷键
+# Ctrl+b + 0  → GPU监控窗口
+# Ctrl+b + 1  → CPU内存监控
+# Ctrl+b + 2  → 实验日志窗口
+# Ctrl+b + 3  → 进程监控窗口
+# Ctrl+b + d  → 脱离会话(保持后台运行)
+```
+
+### 5. 常用监控命令
+
+#### 5.1 GPU监控
+
+```bash
+# 实时GPU状态（每2秒刷新）
+nvidia-smi -l 2
+
+# 查看GPU进程
+nvidia-smi -q -d PIDS
+
+# GPU内存和利用率
+nvidia-smi --query-gpu=memory.used,memory.total,utilization.gpu --format=csv
+```
+
+#### 5.2 系统资源监控
+
+```bash
+# 内存使用情况
+free -h
+
+# CPU和进程监控
+htop
+# 或
+top
+
+# 系统负载
+cat /proc/loadavg
+
+# 查看Python实验进程
+ps aux | grep python | grep -v grep
+```
+
+#### 5.3 实验日志监控
+
+```bash
+# 实时查看详细日志
+tail -f results/gpu_run_*_detailed.log
+
+# 查看作业输出
+tail -f results/gpu_run_*.out
+
+# 查看错误日志
+tail -f results/gpu_run_*.err
+```
+
+### 6. 版本兼容性
+
+#### 6.1 PyTorch与CUDA兼容性
+
+- **PyTorch 2.7.1+cu126** 与 **CUDA 12.x** 系列完全兼容
+- PyTorch binaries自带CUDA runtime，无需匹配系统CUDA版本
+- 支持NVIDIA A30 GPU架构
+
+#### 6.2 环境验证
+
+```bash
+# 运行环境检查脚本
+python check_environment.py
+
+# 手动验证GPU环境
+python -c "
+import torch
+print(f'PyTorch版本: {torch.__version__}')
+print(f'CUDA可用: {torch.cuda.is_available()}')
+print(f'GPU数量: {torch.cuda.device_count()}')
+if torch.cuda.is_available():
+    print(f'GPU名称: {torch.cuda.get_device_name()}')
+"
+```
+
+### 7. 故障排除
+
+#### 7.1 常见问题
+
+**问题1**: `torch.cuda.is_available()` 返回 `False`
+```bash
+# 解决方案：确保在GPU节点上运行，而非登录节点
+srun --partition=gpu-a30 --gpus-per-node=1 --account=sigroup --pty bash
+```
+
+**问题2**: 作业排队时间过长
+```bash
+# 解决方案：减少时间请求或调整资源需求
+#SBATCH --time=01:00:00  # 减少到1小时
+#SBATCH --mem=16G        # 减少内存需求
+```
+
+**问题3**: 监控tmux会话丢失
+```bash
+# 解决方案：重新创建监控环境
+tmux kill-session -t gpu_monitor  # 清理旧会话
+# 然后重新创建监控会话
+```
+
+#### 7.2 性能优化
+
+- **批量大小调整**：根据GPU内存调整 `batch_size`
+- **数据加载优化**：使用缓存机制避免重复计算
+- **混合精度训练**：启用AMP加快训练速度
+
+### 8. 最佳实践
+
+1. **资源请求**：根据实际需求申请资源，避免浪费
+2. **时间管理**：预估实验时间，留出适当缓冲
+3. **监控习惯**：定期检查GPU利用率和系统负载
+4. **日志管理**：及时清理历史日志文件
+5. **会话管理**：使用tmux保持长时间运行的监控会话
+
 ## 开发进展
 
 ### 已完成功能
@@ -266,4 +502,4 @@ cached_data = cache_manager.load("user_video_lists")
 
 ---
 
-*最后更新：2025年8月3日*
+*最后更新：2025年8月3日 - 新增GPU集群使用指南*
