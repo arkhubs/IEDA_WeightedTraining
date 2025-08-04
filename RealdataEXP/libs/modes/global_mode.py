@@ -23,19 +23,7 @@ class GlobalMode:
     def __init__(self, config: Dict, exp_dir: str):
         self.config = config
         self.exp_dir = exp_dir
-        
-        # 设备选择逻辑
-        device_config = config.get('device', 'auto')
-        if device_config == 'auto':
-            self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-        elif device_config == 'cuda':
-            if torch.cuda.is_available():
-                self.device = torch.device('cuda')
-            else:
-                logger.warning("[设备配置] CUDA不可用，退回到CPU")
-                self.device = torch.device('cpu')
-        else:
-            self.device = torch.device(device_config)
+        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         
         # 初始化组件
         self.data_loader = KuaiRandDataLoader(config)

@@ -2,9 +2,6 @@
 base_dir: "/home/zhixuanhu/IEDA_WeightedTraining/RealdataEXP"
 mode: 'global'  # 实验模式: global, weighting, splitting等
 
-# GPU配置
-device: 'auto'  # 设备选择: 'auto', 'cuda', 'cpu' (auto会自动选择最佳设备)
-
 # 数据集配置
 dataset:
   name: "KuaiRand-Pure"  # 数据集名称: KuaiRand-Pure, KuaiRand-1K, KuaiRand-27K

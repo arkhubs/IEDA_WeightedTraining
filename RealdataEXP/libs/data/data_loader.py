@@ -20,32 +20,14 @@ class KuaiRandDataLoader:
         self.dataset_path = config['dataset']['path']
         self.cache_manager = CacheManager(config['dataset']['cache_path'])
         
-    def __init__(self, config: Dict):
-        self.config = config
-        self.dataset_path = config['dataset']['path']
-        self.cache_manager = CacheManager(config['dataset']['cache_path'])
-        
-        # 根据数据集名称确定文件后缀
-        dataset_name = config['dataset']['name']
-        if 'Pure' in dataset_name:
-            suffix = 'pure'
-        elif '1K' in dataset_name:
-            suffix = '1k'
-        elif '27K' in dataset_name:
-            suffix = '27k'
-        else:
-            suffix = 'pure'  # 默认使用pure
-        
-        self.suffix = suffix
-        
-        # 数据文件映射（基础名称，实际加载时会检查是否有分片文件）
+        # 数据文件映射
         self.data_files = {
-            'log_random': f'data/log_random_4_22_to_5_08_{suffix}.csv',
-            'log_standard_early': f'data/log_standard_4_08_to_4_21_{suffix}.csv', 
-            'log_standard_late': f'data/log_standard_4_22_to_5_08_{suffix}.csv',
-            'user_features': f'data/user_features_{suffix}.csv',
-            'video_basic': f'data/video_features_basic_{suffix}.csv',
-            'video_statistic': f'data/video_features_statistic_{suffix}.csv'
+            'log_random': 'data/log_random_4_22_to_5_08_pure.csv',
+            'log_standard_early': 'data/log_standard_4_08_to_4_21_pure.csv', 
+            'log_standard_late': 'data/log_standard_4_22_to_5_08_pure.csv',
+            'user_features': 'data/user_features_pure.csv',
+            'video_basic': 'data/video_features_basic_pure.csv',
+            'video_statistic': 'data/video_features_statistic_pure.csv'
         }
         
         # 内存中的数据
@@ -62,52 +44,17 @@ class KuaiRandDataLoader:
         total_files = len(self.data_files)
         
         for i, (key, file_path) in enumerate(self.data_files.items(), 1):
+            full_path = os.path.join(self.dataset_path, file_path)
             logger.info(f"[数据加载] ({i}/{total_files}) 正在加载 {key}: {file_path}")
             
-            # 尝试加载文件，如果不存在则尝试加载分片文件
-            data[key] = self._load_file_with_parts(key, file_path)
+            if not os.path.exists(full_path):
+                raise FileNotFoundError(f"数据文件不存在: {full_path}")
+                
+            data[key] = pd.read_csv(full_path)
             logger.info(f"[数据加载] {key} 加载完成，形状: {data[key].shape}")
             
         logger.info("[数据加载] 所有数据文件加载完成")
         return data
-    
-    def _load_file_with_parts(self, key: str, file_path: str) -> pd.DataFrame:
-        """加载文件，支持分片文件自动合并"""
-        full_path = os.path.join(self.dataset_path, file_path)
-        
-        # 首先尝试加载完整文件
-        if os.path.exists(full_path):
-            return pd.read_csv(full_path)
-        
-        # 如果完整文件不存在，尝试加载分片文件
-        base_path = full_path.replace('.csv', '')
-        part_files = []
-        part_num = 1
-        
-        while True:
-            part_path = f"{base_path}_part{part_num}.csv"
-            if os.path.exists(part_path):
-                part_files.append(part_path)
-                part_num += 1
-            else:
-                break
-        
-        if part_files:
-            logger.info(f"[数据加载] 发现 {key} 的分片文件 {len(part_files)} 个，开始合并...")
-            dataframes = []
-            for part_file in part_files:
-                logger.info(f"[数据加载] 正在加载分片: {os.path.basename(part_file)}")
-                df = pd.read_csv(part_file)
-                dataframes.append(df)
-                logger.info(f"[数据加载] 分片形状: {df.shape}")
-            
-            # 合并所有分片
-            merged_df = pd.concat(dataframes, ignore_index=True)
-            logger.info(f"[数据加载] {key} 分片合并完成，总形状: {merged_df.shape}")
-            return merged_df
-        
-        # 如果既没有完整文件也没有分片文件，抛出错误
-        raise FileNotFoundError(f"数据文件不存在: {full_path} (也未找到相应的分片文件)")
     
     def merge_features(self, log_data: pd.DataFrame, user_features: pd.DataFrame,
                       video_basic: pd.DataFrame, video_statistic: pd.DataFrame) -> pd.DataFrame:

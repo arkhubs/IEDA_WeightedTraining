@@ -31,45 +31,11 @@ class LogMAELoss(nn.Module):
         pred = torch.clamp(pred, min=self.epsilon)
         target = torch.clamp(target, min=self.epsilon)
         
-        # 对于播放时长为0的情况，使用特殊处理
-        # 只有当目标值大于epsilon时才使用log变换
-        mask = target > self.epsilon
+        # 计算log后的MAE
+        log_pred = torch.log(pred + self.epsilon)
+        log_target = torch.log(target + self.epsilon)
         
-        if mask.sum() == 0:
-            # 如果所有目标值都是0（或接近0），使用普通MAE
-            loss = F.l1_loss(pred, target)
-        else:
-            # 对大于0的值使用log变换，对接近0的值使用普通MAE
-            if mask.all():
-                # 所有值都大于0，使用log变换
-                log_pred = torch.log(pred + self.epsilon)
-                log_target = torch.log(target + self.epsilon)
-                loss = F.l1_loss(log_pred, log_target)
-            else:
-                # 混合情况
-                mask = mask.squeeze()
-                if pred.dim() > 1:
-                    pred = pred.squeeze()
-                if target.dim() > 1:
-                    target = target.squeeze()
-                
-                # 对大于0的样本使用log变换
-                if mask.sum() > 0:
-                    log_pred = torch.log(pred[mask] + self.epsilon)
-                    log_target = torch.log(target[mask] + self.epsilon)
-                    loss_positive = F.l1_loss(log_pred, log_target)
-                else:
-                    loss_positive = torch.tensor(0.0, device=pred.device)
-                
-                # 对接近0的样本使用普通MAE
-                if (~mask).sum() > 0:
-                    loss_zero = F.l1_loss(pred[~mask], target[~mask])
-                else:
-                    loss_zero = torch.tensor(0.0, device=pred.device)
-                
-                # 加权平均
-                loss = (mask.sum() * loss_positive + (~mask).sum() * loss_zero) / len(mask)
-        
+        loss = F.l1_loss(log_pred, log_target)
         return loss
 
 def get_loss_function(loss_name: str, **kwargs):
@@ -82,8 +48,6 @@ def get_loss_function(loss_name: str, **kwargs):
         return nn.MSELoss(**kwargs)
     elif loss_name.lower() == 'mae':
         return nn.L1Loss(**kwargs)
-    elif loss_name.lower() == 'huber':
-        return nn.HuberLoss(**kwargs)
     elif loss_name.lower() == 'crossentropy':
         return nn.CrossEntropyLoss(**kwargs)
     else:

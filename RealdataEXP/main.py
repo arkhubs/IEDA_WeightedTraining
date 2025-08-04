@@ -17,7 +17,6 @@ sys.path.insert(0, project_root)
 
 from libs.utils import setup_logger, create_experiment_dir
 from libs.modes import GlobalMode
-from libs.modes.global_mode_optimized import GlobalModeOptimized
 
 def load_config(config_path: str) -> dict:
     """加载配置文件"""
@@ -69,11 +68,6 @@ def main():
         if mode == 'global':
             logger.info("[模式选择] 运行Global模式实验")
             experiment = GlobalMode(config, exp_dir)
-            experiment.run()
-            
-        elif mode == 'global_optimized':
-            logger.info("[模式选择] 运行Global模式优化实验")
-            experiment = GlobalModeOptimized(config, exp_dir)
             experiment.run()
             
         elif mode == 'weighting':
