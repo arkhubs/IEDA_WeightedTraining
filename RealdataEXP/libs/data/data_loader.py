@@ -1,6 +1,7 @@
 """
 KuaiRand数据集加载器
 负责从原始数据文件中加载用户行为日志、用户特征和视频特征
+支持分片文件自动合并和优化的PyTorch Dataset接口
 """
 
 import os
@@ -8,9 +9,38 @@ import pandas as pd
 import numpy as np
 import logging
 from typing import Dict, List, Tuple, Optional
+import torch
+from torch.utils.data import Dataset
 from .cache_manager import CacheManager
 
 logger = logging.getLogger(__name__)
+
+class TabularDataset(Dataset):
+    """用于表格数据的PyTorch Dataset"""
+    
+    def __init__(self, features: pd.DataFrame, labels: pd.DataFrame, label_configs: List[Dict]):
+        """
+        Args:
+            features (pd.DataFrame): 包含所有输入特征的DataFrame
+            labels (pd.DataFrame): 包含所有目标标签的DataFrame
+            label_configs (List[Dict]): 标签的配置信息
+        """
+        self.features = torch.tensor(features.values, dtype=torch.float32)
+        self.labels = {}
+        self.label_configs = label_configs
+        
+        for config in self.label_configs:
+            target_col = config['target']
+            if target_col in labels.columns:
+                self.labels[config['name']] = torch.tensor(labels[target_col].values, dtype=torch.float32).unsqueeze(1)
+            
+    def __len__(self):
+        return len(self.features)
+        
+    def __getitem__(self, idx: int) -> Tuple[torch.Tensor, Dict[str, torch.Tensor]]:
+        feature_vector = self.features[idx]
+        target_dict = {name: label_tensor[idx] for name, label_tensor in self.labels.items()}
+        return feature_vector, target_dict
 
 class KuaiRandDataLoader:
     """KuaiRand数据集加载器"""
@@ -20,15 +50,28 @@ class KuaiRandDataLoader:
         self.dataset_path = config['dataset']['path']
         self.cache_manager = CacheManager(config['dataset']['cache_path'])
         
-        # 数据文件映射
-        self.data_files = {
-            'log_random': 'data/log_random_4_22_to_5_08_pure.csv',
-            'log_standard_early': 'data/log_standard_4_08_to_4_21_pure.csv', 
-            'log_standard_late': 'data/log_standard_4_22_to_5_08_pure.csv',
-            'user_features': 'data/user_features_pure.csv',
-            'video_basic': 'data/video_features_basic_pure.csv',
-            'video_statistic': 'data/video_features_statistic_pure.csv'
-        }
+        # 根据数据集名称选择数据文件映射
+        dataset_name = config['dataset']['name']
+        if dataset_name == "KuaiRand-Pure":
+            self.data_files = {
+                'log_random': 'data/log_random_4_22_to_5_08_pure.csv',
+                'log_standard_early': 'data/log_standard_4_08_to_4_21_pure.csv', 
+                'log_standard_late': 'data/log_standard_4_22_to_5_08_pure.csv',
+                'user_features': 'data/user_features_pure.csv',
+                'video_basic': 'data/video_features_basic_pure.csv',
+                'video_statistic': 'data/video_features_statistic_pure.csv'
+            }
+        elif dataset_name == "KuaiRand-27K":
+            self.data_files = {
+                'log_random': 'data/log_random_4_22_to_5_08_27k.csv',
+                'log_standard_early': 'data/log_standard_4_08_to_4_21_27k.csv', 
+                'log_standard_late': 'data/log_standard_4_22_to_5_08_27k.csv',
+                'user_features': 'data/user_features_27k.csv',
+                'video_basic': 'data/video_features_basic_27k.csv',
+                'video_statistic': 'data/video_features_statistic_27k.csv'
+            }
+        else:
+            raise ValueError(f"不支持的数据集: {dataset_name}")
         
         # 内存中的数据
         self.user_video_lists = {}  # user_id -> list of video_ids
@@ -37,7 +80,7 @@ class KuaiRandDataLoader:
         self.val_users = None
         
     def load_all_data(self) -> Dict[str, pd.DataFrame]:
-        """加载所有数据文件"""
+        """加载所有数据文件，支持分片文件自动合并"""
         logger.info("[数据加载] 开始加载所有数据文件...")
         
         data = {}
@@ -47,11 +90,39 @@ class KuaiRandDataLoader:
             full_path = os.path.join(self.dataset_path, file_path)
             logger.info(f"[数据加载] ({i}/{total_files}) 正在加载 {key}: {file_path}")
             
-            if not os.path.exists(full_path):
-                raise FileNotFoundError(f"数据文件不存在: {full_path}")
+            # 检查是否存在分片文件
+            base_name = os.path.splitext(file_path)[0]
+            base_path = os.path.join(self.dataset_path, base_name)
+            
+            # 查找分片文件
+            part_files = []
+            for part_num in range(1, 10):  # 最多支持9个分片
+                part_file = f"{base_path}_part{part_num}.csv"
+                if os.path.exists(part_file):
+                    part_files.append(part_file)
+                else:
+                    break
+            
+            if part_files:
+                # 存在分片文件，进行合并
+                logger.info(f"[数据加载] 发现 {key} 的分片文件 {len(part_files)} 个，开始合并...")
+                dfs = []
+                for part_file in part_files:
+                    logger.info(f"[数据加载] 正在加载分片: {os.path.basename(part_file)}")
+                    df_part = pd.read_csv(part_file)
+                    logger.info(f"[数据加载] 分片形状: {df_part.shape}")
+                    dfs.append(df_part)
                 
-            data[key] = pd.read_csv(full_path)
-            logger.info(f"[数据加载] {key} 加载完成，形状: {data[key].shape}")
+                # 合并所有分片
+                data[key] = pd.concat(dfs, ignore_index=True)
+                logger.info(f"[数据加载] {key} 分片合并完成，总形状: {data[key].shape}")
+            else:
+                # 没有分片文件，直接加载
+                if not os.path.exists(full_path):
+                    raise FileNotFoundError(f"数据文件不存在: {full_path}")
+                    
+                data[key] = pd.read_csv(full_path)
+                logger.info(f"[数据加载] {key} 加载完成，形状: {data[key].shape}")
             
         logger.info("[数据加载] 所有数据文件加载完成")
         return data

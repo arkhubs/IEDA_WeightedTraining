@@ -98,6 +98,10 @@ class MultiLabelModel:
         
         return predictions
     
+    def predict(self, x: torch.Tensor) -> Dict[str, torch.Tensor]:
+        """预测方法 - 与predict_all相同，保持接口兼容性"""
+        return self.predict_all(x)
+    
     def compute_losses(self, x: torch.Tensor, targets: Dict[str, torch.Tensor]) -> Dict[str, torch.Tensor]:
         """计算所有标签的损失"""
         losses = {}

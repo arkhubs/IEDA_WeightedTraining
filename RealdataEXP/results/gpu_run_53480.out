@@ -1,0 +1,83 @@
+============================================================
+作业开始时间: Tue Aug 12 10:57:23 HKT 2025
+作业ID: 53480
+节点名称: gpu05
+GPU数量: 1
+CPU核心数: 32
+============================================================
+加载CUDA模块...
+启动GPU利用率监控...
+GPU监控进程PID: 170966
+
+============================================================
+=== Python环境检查 ===
+============================================================
+Python版本: 3.13.5 | packaged by Anaconda, Inc. | (main, Jun 12 2025, 16:09:02) [GCC 11.2.0]
+PyTorch版本: 2.7.1+cu126
+CUDA可用: True
+GPU数量: 1
+GPU名称: NVIDIA A30
+GPU内存: 23.6GB
+
+=== 开始运行优化实验 ===
+配置文件: configs/experiment_optimized.yaml
+开始时间: Tue Aug 12 10:57:25 HKT 2025
+Traceback (most recent call last):
+  File "/home/zhixuanhu/IEDA_WeightedTraining/RealdataEXP/main.py", line 26, in load_config
+    config = yaml.safe_load(f)
+  File "/home/zhixuanhu/miniconda3/lib/python3.13/site-packages/yaml/__init__.py", line 125, in safe_load
+    return load(stream, SafeLoader)
+  File "/home/zhixuanhu/miniconda3/lib/python3.13/site-packages/yaml/__init__.py", line 81, in load
+    return loader.get_single_data()
+           ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/zhixuanhu/miniconda3/lib/python3.13/site-packages/yaml/constructor.py", line 49, in get_single_data
+    node = self.get_single_node()
+  File "/home/zhixuanhu/miniconda3/lib/python3.13/site-packages/yaml/composer.py", line 36, in get_single_node
+    document = self.compose_document()
+  File "/home/zhixuanhu/miniconda3/lib/python3.13/site-packages/yaml/composer.py", line 58, in compose_document
+    self.get_event()
+    ~~~~~~~~~~~~~~^^
+  File "/home/zhixuanhu/miniconda3/lib/python3.13/site-packages/yaml/parser.py", line 118, in get_event
+    self.current_event = self.state()
+                         ~~~~~~~~~~^^
+  File "/home/zhixuanhu/miniconda3/lib/python3.13/site-packages/yaml/parser.py", line 193, in parse_document_end
+    token = self.peek_token()
+  File "/home/zhixuanhu/miniconda3/lib/python3.13/site-packages/yaml/scanner.py", line 129, in peek_token
+    self.fetch_more_tokens()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/zhixuanhu/miniconda3/lib/python3.13/site-packages/yaml/scanner.py", line 223, in fetch_more_tokens
+    return self.fetch_value()
+           ~~~~~~~~~~~~~~~~^^
+  File "/home/zhixuanhu/miniconda3/lib/python3.13/site-packages/yaml/scanner.py", line 577, in fetch_value
+    raise ScannerError(None, None,
+            "mapping values are not allowed here",
+            self.get_mark())
+yaml.scanner.ScannerError: mapping values are not allowed here
+  in "/home/zhixuanhu/IEDA_WeightedTraining/RealdataEXP/configs/experiment_optimized.yaml", line 2, column 8
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/zhixuanhu/IEDA_WeightedTraining/RealdataEXP/main.py", line 100, in <module>
+    main()
+    ~~~~^^
+  File "/home/zhixuanhu/IEDA_WeightedTraining/RealdataEXP/main.py", line 44, in main
+    config = load_config(config_path)
+  File "/home/zhixuanhu/IEDA_WeightedTraining/RealdataEXP/main.py", line 29, in load_config
+    raise RuntimeError(f"配置文件加载失败: {e}")
+RuntimeError: 配置文件加载失败: mapping values are not allowed here
+  in "/home/zhixuanhu/IEDA_WeightedTraining/RealdataEXP/configs/experiment_optimized.yaml", line 2, column 8
+
+============================================================
+停止GPU利用率监控 (PID: 170966)...
+✅ 实验成功完成！
+作业结束时间: Tue Aug 12 10:57:29 HKT 2025
+详细日志保存在: results/gpu_run_53480_detailed.log
+GPU利用率日志: results/gpu_utilization_53480.log
+
+=== GPU利用率统计 ===
+GPU利用率文件行数: 2
+最后几条GPU状态:
+timestamp, utilization.gpu [%], utilization.memory [%], memory.used [MiB], memory.total [MiB], power.draw [W], temperature.gpu
+2025/08/12 10:57:23.659, 0 %, 0 %, 1 MiB, 24576 MiB, 32.46 W, 30
+============================================================

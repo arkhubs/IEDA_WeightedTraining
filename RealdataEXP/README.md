@@ -159,7 +159,7 @@ global:
 - scikit-learn 1.6+
 - PyYAML
 
-### 运行实验
+### 运行实验（CPU）
 
 ```bash
 # 运行Global模式实验
@@ -170,6 +170,48 @@ python main.py --config configs/my_experiment.yaml
 
 # 指定实验模式（覆盖配置文件设置）
 python main.py --mode global --config configs/experiment.yaml
+```
+
+### 运行实验（GPU）
+## GPU集群使用指南
+
+本框架支持在HKUST HPC4集群上使用SLURM进行GPU加速训练。以下是完整的GPU使用流程。
+
+### 环境要求
+
+- HKUST HPC4集群账户
+- 项目组账户：`sigroup`
+- PyTorch 2.0+ (自带CUDA runtime)
+- SLURM作业调度系统
+
+### 1. 提交GPU作业
+
+#### 1.1 使用预配置脚本
+
+```bash
+# 提交GPU作业
+sbatch run_gpu.sh
+```
+### 2. 查看作业状态
+
+```bash
+# 查看用户作业队列
+squeue -u $USER
+
+# 查看作业详细信息
+scontrol show job <作业ID>
+
+# 取消作业
+scancel <作业ID>
+```
+
+### 3. 连接GPU节点
+
+#### 3.1 连接到已分配的GPU节点
+
+```bash
+# 连接到正在运行的作业节点 (示例: 作业52005在gpu01)
+srun --jobid=52098 -w gpu01 --overlap --pty bash -i
 ```
 
 ### 实验结果
