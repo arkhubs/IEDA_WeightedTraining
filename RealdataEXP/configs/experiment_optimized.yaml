@@ -11,7 +11,7 @@ mode: 'global_optimized'  # 使用优化模式
 #   'xpu':  Intel GPU with basic device placement only (No IPEX optimizations, no AMP).
 #   'dml':  DirectML-compatible GPU (AMD, Intel, etc.) (No AMP).
 #   'cpu':  CPU execution.
-device: 'auto'
+device: 'ipex'
 
 # 数据集配置
 dataset:

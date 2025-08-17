@@ -7,21 +7,25 @@ from contextlib import contextmanager
 
 logger = logging.getLogger(__name__)
 
+# --- 关键修复：提前在顶层导入IPEX ---
+# 我们在程序早期就尝试导入IPEX，避免与其他库（如numpy, pandas）产生底层DLL冲突。
+_IPEX_AVAILABLE = False
+try:
+    import intel_extension_for_pytorch as ipex
+    _IPEX_AVAILABLE = True
+    # 这条日志现在应该会在程序启动时很早就出现
+    logger.info("Intel Extension for PyTorch (IPEX) discovered and imported successfully at top level.")
+except ImportError:
+    # 如果这里失败，说明环境确实有问题
+    logger.info("Intel Extension for PyTorch (IPEX) not found during initial import. IPEX backend will be unavailable.")
+# --- 修复结束 ---
+
+
 def get_device_and_amp_helpers(device_choice='auto'):
     """
     Dynamically determines the best available device and corresponding AMP tools.
-    Separates 'ipex' (full optimization) from 'xpu' (basic device placement).
-
-    Args:
-        device_choice (str): 'auto', 'cuda', 'ipex', 'xpu', 'dml', 'cpu'.
-
-    Returns:
-        tuple: (torch.device, autocast_context_manager, GradScalerClass)
     """
-
-    # --- IMPORTANT: Helper definitions must be at the top of the function ---
     class StubScaler:
-        """A virtual GradScaler that does nothing."""
         def __init__(self, enabled=False): pass
         def scale(self, loss): return loss
         def step(self, optimizer): optimizer.step()
@@ -31,11 +35,8 @@ def get_device_and_amp_helpers(device_choice='auto'):
 
     @contextmanager
     def stub_autocast(device_type, *args, **kwargs):
-        """A virtual autocast context that does nothing."""
         yield
-    # --- End of helper definitions ---
 
-    # --- Detection Logic ---
     # 'auto' detection order: cuda -> ipex -> xpu -> dml -> cpu
 
     # 1. Check for CUDA
@@ -51,20 +52,22 @@ def get_device_and_amp_helpers(device_choice='auto'):
 
     # 2. Check for IPEX (Full Optimization)
     if device_choice.lower() in ['auto', 'ipex']:
-        try:
-            import intel_extension_for_pytorch as ipex
-            if torch.xpu.is_available():
-                from torch.xpu.amp import autocast, GradScaler
-                device = torch.device("xpu")
-                logger.info("[Device] Intel IPEX is available. Using XPU backend (Full IPEX Optimization & AMP).")
-                return device, autocast, GradScaler
-        except ImportError:
-            if device_choice.lower() == 'ipex':
-                logger.warning("[Device] 'ipex' was chosen, but Intel Extension for PyTorch not found.")
+        # 导入已在顶层完成，这里只检查标志和设备可用性
+        if _IPEX_AVAILABLE and torch.xpu.is_available():
+            # IPEX has autocast but not GradScaler. We return our StubScaler.
+            from torch.xpu.amp import autocast
+            device = torch.device("xpu")
+            logger.info("[Device] Intel IPEX is available. Using XPU backend (Full IPEX Optimization & AMP).")
+            # Return the REAL autocast but a FAKE scaler class
+            return device, autocast, StubScaler
+        elif device_choice.lower() == 'ipex':
+            # 处理用户明确要求'ipex'但顶层导入失败的情况
+            logger.warning("[Device] 'ipex' was chosen, but the IPEX library could not be imported or is not functional.")
 
     # 3. Check for XPU (Basic Device Placement)
     if device_choice.lower() in ['auto', 'xpu']:
         try:
+            # 即使没有顶层导入成功，基础的xpu设备也可能被torch识别
             if torch.xpu.is_available():
                 device = torch.device("xpu")
                 logger.info("[Device] Intel XPU device is available. Using XPU backend (Basic, NO IPEX Optimizations, NO AMP).")

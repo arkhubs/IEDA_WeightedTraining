@@ -78,9 +78,20 @@ class MultiLabelModel:
             raise ValueError(f"标签 {label_name} 的模型不存在")
         
         return self.models[label_name](x)
+
+    def set_train_mode(self):
+        """将所有模型设置为训练模式"""
+        for model in self.models.values():
+            model.train()
+
+    def set_eval_mode(self):
+        """将所有模型设置为评估模式"""
+        for model in self.models.values():
+            model.eval()
     
     def predict_all(self, x: torch.Tensor) -> Dict[str, torch.Tensor]:
         """预测所有标签"""
+        self.set_eval_mode()
         predictions = {}
         
         with torch.no_grad():
@@ -118,8 +129,7 @@ class MultiLabelModel:
     def train_step(self, x: torch.Tensor, targets: Dict[str, torch.Tensor]) -> Dict[str, float]:
         """训练步骤"""
         # 设置为训练模式
-        for model in self.models.values():
-            model.train()
+        self.set_train_mode()
         
         # 计算损失并更新模型
         losses = {}
@@ -149,11 +159,8 @@ class MultiLabelModel:
         return losses
     
     def evaluate(self, x: torch.Tensor, targets: Dict[str, torch.Tensor]) -> Dict[str, float]:
-        """评估模型"""
-        # 设置为评估模式
-        for model in self.models.values():
-            model.eval()
-        
+        """评估模型，返回每个标签的损失值"""
+        self.set_eval_mode()
         with torch.no_grad():
             losses = self.compute_losses(x, targets)
             return {name: loss.item() for name, loss in losses.items()}

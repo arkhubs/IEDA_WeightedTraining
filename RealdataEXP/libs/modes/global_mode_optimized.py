@@ -68,6 +68,13 @@ class GlobalModeOptimized:
         self.use_amp = self.device.type != 'cpu' and config.get('use_amp', True)
         self.scaler = GradScalerClass(enabled=self.use_amp)
         
+        # --- 关键修复：为autocast准备兼容性参数 ---
+        self.autocast_kwargs = {'enabled': self.use_amp}
+        if self.device.type == 'cuda':
+            self.autocast_kwargs['device_type'] = 'cuda'
+        # For IPEX, we don't add 'device_type'
+        # --- 修复结束 ---
+        
         logger.info(f"[Global模式优化] 初始化完成，设备: {self.device}, AMP: {self.use_amp}")
         
         self.data_loader_wrapper = KuaiRandDataLoader(config)
@@ -89,6 +96,32 @@ class GlobalModeOptimized:
         
         # GPU监控器
         self.gpu_monitor = None
+        
+    def _perform_training_step(self, X_batch, targets_batch):
+        """执行一个优化的训练步骤，支持AMP"""
+        self.multi_label_model.set_train_mode()
+        
+        # 清零所有梯度以备下次迭代
+        for optimizer in self.multi_label_model.optimizers.values():
+            optimizer.zero_grad(set_to_none=True)
+
+        # --- 关键修复：使用准备好的兼容性参数 ---
+        with self.autocast(**self.autocast_kwargs):
+            losses = self.multi_label_model.compute_losses(X_batch, targets_batch)
+            total_loss = sum(losses.values())
+        # --- 修复结束 ---
+
+        if self.scaler.is_enabled():
+            self.scaler.scale(total_loss).backward()
+            for optimizer in self.multi_label_model.optimizers.values():
+                self.scaler.step(optimizer)
+            self.scaler.update()
+        else:
+            total_loss.backward()
+            for optimizer in self.multi_label_model.optimizers.values():
+                optimizer.step()
+
+        return {name: loss.item() for name, loss in losses.items()}
         
     def start_gpu_monitoring(self):
         """启动GPU监控"""
@@ -154,6 +187,29 @@ class GlobalModeOptimized:
         self.multi_label_model = MultiLabelModel(
             config=self.config, input_dim=input_dim, device=self.device
         )
+        
+        # --- NEW: APPLY IPEX OPTIMIZE ---
+        # If we are in IPEX mode, apply the ipex.optimize() function here
+        if self.device.type == 'xpu':
+            logger.info("[IPEX] Applying ipex.optimize() to all models and optimizers...")
+            # Import ipex here, we know it's available because device_utils succeeded
+            import intel_extension_for_pytorch as ipex
+            
+            for label_name in self.multi_label_model.models:
+                model = self.multi_label_model.models[label_name]
+                optimizer = self.multi_label_model.optimizers[label_name]
+                
+                # The core of IPEX optimization. We use bfloat16 for mixed precision.
+                optimized_model, optimized_optimizer = ipex.optimize(
+                    model, optimizer=optimizer, dtype=torch.bfloat16
+                )
+                
+                # Replace original models/optimizers with the optimized ones
+                self.multi_label_model.models[label_name] = optimized_model
+                self.multi_label_model.optimizers[label_name] = optimized_optimizer
+            logger.info("[IPEX] ipex.optimize() applied successfully.")
+        # --- END OF NEW CODE ---
+        
         logger.info("[Global模式优化] 数据准备完成")
 
     def pretrain_models_optimized(self):
@@ -194,12 +250,8 @@ class GlobalModeOptimized:
                 targets_batch = {name: tensor.to(self.device, non_blocking=True) 
                                for name, tensor in targets_batch.items()}
                 
-                # 使用混合精度训练
-                if self.use_amp:
-                    with self.autocast(device_type=self.device.type, enabled=self.use_amp):
-                        losses = self.multi_label_model.train_step(X_batch, targets_batch)
-                else:
-                    losses = self.multi_label_model.train_step(X_batch, targets_batch)
+                # 使用兼容的训练步骤
+                losses = self._perform_training_step(X_batch, targets_batch)
                 
                 # 记录损失
                 for label_name, loss in losses.items():
@@ -282,10 +334,7 @@ class GlobalModeOptimized:
             
             # 预测每个候选视频的分数
             with torch.no_grad():
-                if self.use_amp:
-                    with self.autocast(device_type=self.device.type, enabled=self.use_amp):
-                        predictions = self.multi_label_model.predict(X_candidates)
-                else:
+                with self.autocast(**self.autocast_kwargs):
                     predictions = self.multi_label_model.predict(X_candidates)
             
             # 计算加权分数
@@ -431,11 +480,7 @@ class GlobalModeOptimized:
                     combined_targets[label_name] = combined_targets[label_name][:min_samples]
             
             # 执行训练步骤
-            if self.use_amp:
-                with self.autocast(device_type=self.device.type, enabled=self.use_amp):
-                    losses = self.multi_label_model.train_step(all_features, combined_targets)
-            else:
-                losses = self.multi_label_model.train_step(all_features, combined_targets)
+            losses = self._perform_training_step(all_features, combined_targets)
             
             # 记录损失（可选）
             loss_str = ", ".join([f"{name}: {loss:.6f}" for name, loss in losses.items()])
@@ -503,10 +548,7 @@ class GlobalModeOptimized:
             return
         
         with torch.no_grad():
-            if self.use_amp:
-                with self.autocast(device_type=self.device.type, enabled=self.use_amp):
-                    predictions = self.multi_label_model.predict(X_val)
-            else:
+            with self.autocast(**self.autocast_kwargs):
                 predictions = self.multi_label_model.predict(X_val)
         
         # 计算验证指标
