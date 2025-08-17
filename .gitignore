@@ -23,7 +23,7 @@ envs/
 miniconda3/
 RealdataEXP/miniconda3/
 Miniconda3-latest-Linux-x86_64.sh
-./datasets
+./datasets/
 
 
 # Model checkpoints and results
