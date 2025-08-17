@@ -32,7 +32,7 @@ def main():
     """主函数"""
     parser = argparse.ArgumentParser(description='RealdataEXP 实验框架')
     parser.add_argument('--config', '-c', type=str, 
-                      default='configs/experiment.yaml',
+                      default='configs/experiment_optimized.yaml',
                       help='配置文件路径')
     parser.add_argument('--mode', '-m', type=str,
                       help='实验模式 (覆盖配置文件中的mode设置)')
@@ -47,6 +47,9 @@ def main():
     if args.mode:
         config['mode'] = args.mode
     
+    # 从配置文件中获取设备选择
+    device_choice = config.get('device', 'auto')
+
     # 创建实验目录
     base_dir = config.get('base_dir', os.path.dirname(__file__))
     exp_dir = create_experiment_dir(base_dir)
@@ -59,6 +62,7 @@ def main():
     logger.info("RealdataEXP 实验框架启动")
     logger.info("=" * 60)
     logger.info(f"实验模式: {config['mode']}")
+    logger.info(f"设备选择 (来自配置): {device_choice}")
     logger.info(f"实验目录: {exp_dir}")
     logger.info(f"配置文件: {config_path}")
     
@@ -68,12 +72,12 @@ def main():
         
         if mode == 'global':
             logger.info("[模式选择] 运行Global模式实验")
-            experiment = GlobalMode(config, exp_dir)
+            experiment = GlobalMode(config, exp_dir, device_choice=device_choice)
             experiment.run()
             
         elif mode == 'global_optimized':
             logger.info("[模式选择] 运行Global模式优化实验")
-            experiment = GlobalModeOptimized(config, exp_dir)
+            experiment = GlobalModeOptimized(config, exp_dir, device_choice=device_choice)
             experiment.run()
             
         elif mode == 'weighting':

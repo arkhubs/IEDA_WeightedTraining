@@ -2,6 +2,17 @@
 base_dir: "/home/zhixuanhu/IEDA_WeightedTraining/RealdataEXP"
 mode: 'global'  # 实验模式: global, weighting, splitting等
 
+# --- Device Configuration ---
+# Specifies the hardware backend.
+# Options:
+#   'auto': (Recommended) Automatically detects best available hardware in order: cuda -> ipex -> xpu -> dml -> cpu
+#   'cuda': NVIDIA GPU with full AMP support.
+#   'ipex': Intel GPU with full IPEX optimizations and AMP support.
+#   'xpu':  Intel GPU with basic device placement only (No IPEX optimizations, no AMP).
+#   'dml':  DirectML-compatible GPU (AMD, Intel, etc.) (No AMP).
+#   'cpu':  CPU execution.
+device: 'auto'
+
 # 数据集配置
 dataset:
   name: "KuaiRand-Pure"  # 数据集名称: KuaiRand-Pure, KuaiRand-1K, KuaiRand-27K

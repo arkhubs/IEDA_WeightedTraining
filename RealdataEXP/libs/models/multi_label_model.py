@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 class MultiLabelModel:
     """多标签预测模型管理器"""
     
-    def __init__(self, config: Dict, input_dim: int, device: str = 'cpu'):
+    def __init__(self, config: Dict, input_dim: int, device: torch.device):
         self.config = config
         self.input_dim = input_dim
         self.device = device
@@ -38,7 +38,7 @@ class MultiLabelModel:
             label_name = label_config['name']
             logger.info(f"[模型构建] 构建 {label_name} 模型...")
             
-            # 创建模型
+            # 创建模型并移动到指定设备
             model = MLPModel(
                 input_dim=self.input_dim,
                 hidden_layers=label_config['model_params']['hidden_layers'],

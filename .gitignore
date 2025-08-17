@@ -43,4 +43,4 @@ RealdataEXP/results/[0-9]*/checkpoints/
 Thumbs.db
 
 # Logs
-*.log
+# *.log

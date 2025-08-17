@@ -12,7 +12,7 @@ import logging
 from typing import Dict, List, Tuple, Any
 from ..data import KuaiRandDataLoader, FeatureProcessor
 from ..models import MultiLabelModel
-from ..utils import MetricsTracker, save_results
+from ..utils import MetricsTracker, save_results, get_device_and_amp_helpers
 import random
 
 logger = logging.getLogger(__name__)
@@ -20,10 +20,12 @@ logger = logging.getLogger(__name__)
 class GlobalMode:
     """Global模式实验管理器"""
     
-    def __init__(self, config: Dict, exp_dir: str):
+    def __init__(self, config: Dict, exp_dir: str, device_choice: str = 'auto'):
         self.config = config
         self.exp_dir = exp_dir
-        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+        # 使用新的设备选择辅助函数
+        self.device, self.autocast, GradScalerClass = get_device_and_amp_helpers(device_choice)
         
         # 初始化组件
         self.data_loader = KuaiRandDataLoader(config)

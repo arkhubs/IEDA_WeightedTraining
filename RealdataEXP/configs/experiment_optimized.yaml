@@ -1,5 +1,17 @@
-base_dir: "/home/zhixuanhu/IEDA_WeightedTraining/RealdataEXP"
+# base_dir: "/home/zhixuanhu/IEDA_WeightedTraining/RealdataEXP"
+base_dir: "E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP"
 mode: 'global_optimized'  # 使用优化模式
+
+# --- Device Configuration ---
+# Specifies the hardware backend.
+# Options:
+#   'auto': (Recommended) Automatically detects best available hardware in order: cuda -> ipex -> xpu -> dml -> cpu
+#   'cuda': NVIDIA GPU with full AMP support.
+#   'ipex': Intel GPU with full IPEX optimizations and AMP support.
+#   'xpu':  Intel GPU with basic device placement only (No IPEX optimizations, no AMP).
+#   'dml':  DirectML-compatible GPU (AMD, Intel, etc.) (No AMP).
+#   'cpu':  CPU execution.
+device: 'auto'
 
 # 数据集配置
 dataset:
@@ -48,6 +60,7 @@ labels:
     model_params:
       hidden_layers: [256, 128, 64, 32]  # 增加模型容量
       dropout: 0.3  # 增加dropout防止过拟合
+      # dropout: 0.0 # dml会减速
       embedding_dim: 32  # 增加嵌入维度
     learning_rate: 0.0005  # 稍微增加学习率
     weight_decay: 0.0001
@@ -62,6 +75,7 @@ labels:
     model_params:
       hidden_layers: [128, 64, 32, 16]  # 增加模型容量
       dropout: 0.2  # 适度dropout
+      # dropout: 0.0
       embedding_dim: 16  # 增加嵌入维度
     learning_rate: 0.0005  # 稍微增加学习率
     weight_decay: 0.0001

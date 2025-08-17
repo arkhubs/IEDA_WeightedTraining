@@ -1,3 +1,47 @@
+## 20250817
+### Gemini设备管理优化实施
+
+#### 主要改进
+遵照Gemini的建议，全面重构了设备选择和管理系统：
+
+**新增核心功能**：
+1. **统一设备选择工具 (`device_utils.py`)**：
+   - 支持自动检测最佳可用硬件：`cuda -> ipex -> xpu -> dml -> cpu`
+   - 区分Intel IPEX完全优化模式(`ipex`)和基础XPU设备放置模式(`xpu`)
+   - 自动处理AMP混合精度训练的兼容性
+   - 提供虚拟GradScaler和autocast存根，确保所有后端的统一接口
+
+**YAML配置支持**：
+2. **设备配置从代码移入配置文件**：
+   - `experiment.yaml`和`experiment_optimized.yaml`添加`device`配置项
+   - 支持`'auto'`, `'cuda'`, `'ipex'`, `'xpu'`, `'dml'`, `'cpu'`选项
+   - 通过配置文件轻松切换硬件后端
+
+**代码重构**：
+3. **更新所有核心模块**：
+   - `main.py`: 从配置文件读取设备选择并传递给实验模式
+   - `global_mode.py`和`global_mode_optimized.py`: 使用新的设备选择函数
+   - `multi_label_model.py`: 支持torch.device对象而非字符串
+   - 移除旧的硬编码CUDA检测逻辑
+
+**兼容性提升**：
+4. **解决旧版兼容问题**：
+   - 替换已弃用的`torch.cuda.amp.autocast`调用
+   - 统一使用`torch.amp.autocast('cuda')`或对应设备类型
+   - 修复FutureWarning警告
+
+#### 技术细节
+- **设备检测优先级**：CUDA > Intel IPEX > Intel XPU > DirectML > CPU
+- **AMP支持**：仅在支持的后端启用，其他使用虚拟实现
+- **错误恢复**：导入失败时自动回退到下一个可用后端
+- **配置灵活性**：单一配置项控制整个计算后端
+
+#### 预期效果
+1. **更好的硬件利用**：自动选择最优计算后端
+2. **统一的训练接口**：所有设备使用相同的训练代码
+3. **简化部署**：通过配置文件适配不同环境
+4. **向前兼容**：支持未来新的硬件后端
+
 ## 20250802（night）
 ### 重新构建项目
 

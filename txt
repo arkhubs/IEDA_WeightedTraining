@@ -1,4 +1,5 @@
-code2prompt -p /home/zhixuanhu/IEDA_WeightedTraining/RealdataEXP -o /home/zhixuanhu/IEDA_WeightedTraining/RealdataEXP_prompt.md --line-number -e "**/KuaiRand/*,**/results/*,**/__pycache__/*,**/.ipynb_checkpoints/*,**/.vscode/*,*.pt,*.pth,*.zip,*.tar.gz,*.log,**/venv/*,**/env/*"
+code2prompt -p /home/zhixuanhu/IEDA_WeightedTraining/RealdataEXP -o /home/zhixuanhu/IEDA_WeightedTraining/RealdataEXP_prompt_202508141524.md --line-number -e "**/KuaiRand/*,**/results/*,**/__pycache__/*,**/.ipynb_checkpoints/*,**/.vscode/*,*.pt,*.pth,*.zip,*.tar.gz,*.log,**/venv/*,**/env/*"
+code2prompt -p E:\MyDocument\Codes_notnut\_notpad\IEDA\RealdataEXP -o E:\MyDocument\Codes_notnut\_notpad\IEDA\RealdataEXP_prompt_202508141524.md --line-number -e "**/KuaiRand/*,**/results/*,**/__pycache__/*,**/.ipynb_checkpoints/*,**/.vscode/*,*.pt,*.pth,*.zip,*.tar.gz,*.log,**/venv/*,**/env/*"
 
 <context> /home/zhixuanhu/IEDA_WeightedTraining/RealdataEXP/results/gpu_run_52005_detailed.log 结合预训练每一个epoch花了20min，系统负载: 1.12 (1分钟平均) CPU总体: 1.7% user, 98.2% idle 实验进程: 99.7% CPU使用率 (单核满载)和nvidia-smi显示gpu低占用，我怀疑
 1. 没有正确使用gpu进行训练，

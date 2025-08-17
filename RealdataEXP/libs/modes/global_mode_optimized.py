@@ -18,20 +18,11 @@ from tqdm import tqdm
 import random
 import time
 
-# 使用新的autocast API避免FutureWarning
-try:
-    from torch.amp import autocast, GradScaler
-    def get_autocast():
-        return autocast('cuda')
-except ImportError:
-    # 回退到旧的API
-    from torch.cuda.amp import autocast, GradScaler
-    def get_autocast():
-        return autocast()
+# 使用新的设备管理工具替代旧的autocast导入
 
 from ..data import KuaiRandDataLoader, FeatureProcessor
 from ..models import MultiLabelModel
-from ..utils import MetricsTracker, save_results
+from ..utils import MetricsTracker, save_results, get_device_and_amp_helpers
 from ..utils.gpu_utils import log_gpu_info, log_gpu_memory_usage, test_gpu_training_speed, setup_gpu_monitoring
 
 logger = logging.getLogger(__name__)
@@ -66,20 +57,16 @@ class TabularDataset(Dataset):
 class GlobalModeOptimized:
     """优化的Global模式实验管理器"""
     
-    def __init__(self, config: Dict, exp_dir: str):
+    def __init__(self, config: Dict, exp_dir: str, device_choice: str = 'auto'):
         self.config = config
         self.exp_dir = exp_dir
-        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         
+        # 使用新的设备选择辅助函数
+        self.device, self.autocast, GradScalerClass = get_device_and_amp_helpers(device_choice)
+
         # 初始化混合精度训练
-        self.use_amp = torch.cuda.is_available() and config.get('use_amp', True)
-        if self.use_amp:
-            try:
-                # 使用新的API
-                self.scaler = GradScaler('cuda')
-            except TypeError:
-                # 回退到旧的API
-                self.scaler = GradScaler()
+        self.use_amp = self.device.type != 'cpu' and config.get('use_amp', True)
+        self.scaler = GradScalerClass(enabled=self.use_amp)
         
         logger.info(f"[Global模式优化] 初始化完成，设备: {self.device}, AMP: {self.use_amp}")
         
@@ -209,7 +196,7 @@ class GlobalModeOptimized:
                 
                 # 使用混合精度训练
                 if self.use_amp:
-                    with get_autocast():
+                    with self.autocast(device_type=self.device.type, enabled=self.use_amp):
                         losses = self.multi_label_model.train_step(X_batch, targets_batch)
                 else:
                     losses = self.multi_label_model.train_step(X_batch, targets_batch)
@@ -296,7 +283,7 @@ class GlobalModeOptimized:
             # 预测每个候选视频的分数
             with torch.no_grad():
                 if self.use_amp:
-                    with get_autocast():
+                    with self.autocast(device_type=self.device.type, enabled=self.use_amp):
                         predictions = self.multi_label_model.predict(X_candidates)
                 else:
                     predictions = self.multi_label_model.predict(X_candidates)
@@ -445,7 +432,7 @@ class GlobalModeOptimized:
             
             # 执行训练步骤
             if self.use_amp:
-                with get_autocast():
+                with self.autocast(device_type=self.device.type, enabled=self.use_amp):
                     losses = self.multi_label_model.train_step(all_features, combined_targets)
             else:
                 losses = self.multi_label_model.train_step(all_features, combined_targets)
@@ -517,7 +504,7 @@ class GlobalModeOptimized:
         
         with torch.no_grad():
             if self.use_amp:
-                with get_autocast():
+                with self.autocast(device_type=self.device.type, enabled=self.use_amp):
                     predictions = self.multi_label_model.predict(X_val)
             else:
                 predictions = self.multi_label_model.predict(X_val)
