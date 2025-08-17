@@ -11,7 +11,7 @@ mode: 'global_optimized'  # 使用优化模式
 #   'xpu':  Intel GPU with basic device placement only (No IPEX optimizations, no AMP).
 #   'dml':  DirectML-compatible GPU (AMD, Intel, etc.) (No AMP).
 #   'cpu':  CPU execution.
-device: 'ipex'
+device: 'auto'
 
 # 数据集配置
 dataset:
@@ -19,11 +19,11 @@ dataset:
   path: "data/KuaiRand/Pure"  # Pure数据在KuaiRand/Pure目录下
   cache_path: "data/KuaiRand/cache"
   # --- 新增: DataLoader优化参数 ---
-  num_workers: 8  # 使用8个CPU核心进行并行数据加载
+  num_workers: 12  # 使用12个CPU核心进行并行数据加载
   pin_memory: true # 锁定内存，加速CPU到GPU的数据传输
 
 # 启用混合精度训练
-use_amp: true
+use_amp: false
 
 # 特征配置（27K数据集特征）
 feature:

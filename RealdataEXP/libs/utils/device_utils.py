@@ -33,9 +33,11 @@ def get_device_and_amp_helpers(device_choice='auto'):
         def get_scale(self): return 1.0
         def is_enabled(self): return False
 
+    # --- 关键修复：使 stub_autocast 的参数变为可选 ---
     @contextmanager
-    def stub_autocast(device_type, *args, **kwargs):
+    def stub_autocast(device_type=None, *args, **kwargs):
         yield
+    # --- 修复结束 ---
 
     # 'auto' detection order: cuda -> ipex -> xpu -> dml -> cpu
 
