@@ -15,11 +15,11 @@ device: 'auto'
 
 # 数据集配置
 dataset:
-  name: "KuaiRand-1K"
-  path: "data/KuaiRand/1K"  # 1K数据在KuaiRand/1K目录下
+  name: "KuaiRand-27K"
+  path: "data/KuaiRand/27K"  # 1K数据在KuaiRand/1K目录下
   cache_path: "data/KuaiRand/cache"
   # --- 新增: DataLoader优化参数 ---
-  num_workers: 12  # 使用12个CPU核心进行并行数据加载
+  num_workers: 32  # 使用32个CPU核心进行并行数据加载
   pin_memory: true # 锁定内存，加速CPU到GPU的数据传输
 
 # 启用混合精度训练
@@ -85,10 +85,10 @@ labels:
 # 预训练配置（优化）
 pretrain:
   enabled: true
-  batch_size: 64  # 增加batch size以更好利用GPU
+  batch_size: 256  # 增加batch size以更好利用GPU
   epochs: 150  
-  learning_rate: 0.001
-  weight_decay: 0.001
+  learning_rate: 0.01
+  weight_decay: 0.005
   early_stopping: 10
   # --- 新增配置 ---
   # 指定要加载的预训练权重文件路径，如果为null则不加载

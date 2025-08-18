@@ -15,8 +15,8 @@ device: 'auto'
 
 # 数据集配置
 dataset:
-  name: "KuaiRand-1K"
-  path: "data/KuaiRand/1K"  # 1K数据在KuaiRand/1K目录下
+  name: "KuaiRand-Pure"
+  path: "data/KuaiRand/Pure"  # Pure数据在KuaiRand/Pure目录下
   cache_path: "data/KuaiRand/cache"
   # --- 新增: DataLoader优化参数 ---
   num_workers: 12  # 使用12个CPU核心进行并行数据加载

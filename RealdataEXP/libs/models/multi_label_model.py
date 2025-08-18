@@ -178,13 +178,13 @@ class MultiLabelModel:
         
         return combined_score
     
-    def save_models(self, save_dir: str, step: int):
-        """保存所有模型"""
+    def save_models(self, save_dir: str, step_or_epoch_name):
+        """保存所有模型，支持步骤数字或epoch名称"""
         import os
         os.makedirs(save_dir, exist_ok=True)
         
         checkpoint = {
-            'step': step,
+            'step_or_epoch': step_or_epoch_name,
             'config': self.config,
             'input_dim': self.input_dim
         }
@@ -194,7 +194,12 @@ class MultiLabelModel:
             checkpoint[f'{label_name}_optimizer'] = self.optimizers[label_name].state_dict()
             checkpoint[f'{label_name}_scheduler'] = self.schedulers[label_name].state_dict()
         
-        save_path = os.path.join(save_dir, f'step_{step}.pt')
+        # 根据参数类型决定文件名
+        if isinstance(step_or_epoch_name, int):
+            save_path = os.path.join(save_dir, f'step_{step_or_epoch_name}.pt')
+        else:
+            save_path = os.path.join(save_dir, f'{step_or_epoch_name}.pt')
+        
         torch.save(checkpoint, save_path)
         logger.info(f"[模型保存] 模型已保存到: {save_path}")
     
@@ -211,7 +216,7 @@ class MultiLabelModel:
                 self.schedulers[label_name].load_state_dict(checkpoint[f'{label_name}_scheduler'])
         
         logger.info(f"[模型加载] 模型已从 {checkpoint_path} 加载")
-        return checkpoint.get('step', 0)
+        return checkpoint.get('step_or_epoch', checkpoint.get('step', 0))
     
     def update_schedulers(self, metrics: Dict[str, float]):
         """更新学习率调度器"""

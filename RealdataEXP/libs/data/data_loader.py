@@ -70,6 +70,15 @@ class KuaiRandDataLoader:
                 'video_basic': 'data/video_features_basic_27k.csv',
                 'video_statistic': 'data/video_features_statistic_27k.csv'
             }
+        elif dataset_name == "KuaiRand-1K":
+            self.data_files = {
+                'log_random': 'data/log_random_4_22_to_5_08_1k.csv',
+                'log_standard_early': 'data/log_standard_4_08_to_4_21_1k.csv', 
+                'log_standard_late': 'data/log_standard_4_22_to_5_08_1k.csv',
+                'user_features': 'data/user_features_1k.csv',
+                'video_basic': 'data/video_features_basic_1k.csv',
+                'video_statistic': 'data/video_features_statistic_1k.csv'
+            }
         else:
             raise ValueError(f"不支持的数据集: {dataset_name}")
         
@@ -131,19 +140,26 @@ class KuaiRandDataLoader:
                       video_basic: pd.DataFrame, video_statistic: pd.DataFrame) -> pd.DataFrame:
         """合并所有特征数据"""
         logger.info("[特征合并] 开始合并用户和视频特征...")
-        
+
+        # --- FIX: 先过滤日志数据，只保留目标用户 ---
+        logger.info(f"[特征合并] 原始日志形状: {log_data.shape}")
+        user_ids_to_keep = user_features['user_id'].unique()
+        log_data = log_data[log_data['user_id'].isin(user_ids_to_keep)]
+        logger.info(f"[特征合并] 过滤后日志形状 (仅保留 {len(user_ids_to_keep)} 个用户): {log_data.shape}")
+        # --- END FIX ---
+
         # 合并用户特征
         merged = log_data.merge(user_features, on='user_id', how='left')
         logger.info(f"[特征合并] 合并用户特征后形状: {merged.shape}")
-        
+
         # 合并视频基础特征
         merged = merged.merge(video_basic, on='video_id', how='left')
         logger.info(f"[特征合并] 合并视频基础特征后形状: {merged.shape}")
-        
+
         # 合并视频统计特征
         merged = merged.merge(video_statistic, on='video_id', how='left')
         logger.info(f"[特征合并] 合并视频统计特征后形状: {merged.shape}")
-        
+
         logger.info("[特征合并] 特征合并完成")
         return merged
     
