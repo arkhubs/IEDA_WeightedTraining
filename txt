@@ -2,7 +2,8 @@ conda activate py310
 code2prompt -p /home/zhixuanhu/IEDA_WeightedTraining/RealdataEXP -o /home/zhixuanhu/IEDA_WeightedTraining/RealdataEXP_prompt_202508141524.md --line-number -e "**/KuaiRand/*,**/results/*,**/__pycache__/*,**/.ipynb_checkpoints/*,**/.vscode/*,*.pt,*.pth,*.zip,*.tar.gz,*.log,**/venv/*,**/env/*"
 code2prompt -p E:\MyDocument\Codes_notnut\_notpad\IEDA\RealdataEXP -o E:\MyDocument\Codes_notnut\_notpad\IEDA\RealdataEXP_prompt_202508180044.md --line-number -e "**/KuaiRand/*,**/results/*,**/__pycache__/*,**/.ipynb_checkpoints/*,**/.vscode/*,*.pt,*.pth,*.zip,*.tar.gz,*.log,**/venv/*,**/env/*"
 
-git add .
+git config --global credential.helper libsecret
+git add -A
 git rm -r --cached .
 git commit -m "push deleted"
 git push
