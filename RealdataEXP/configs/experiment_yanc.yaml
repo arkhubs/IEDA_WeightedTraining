@@ -1,5 +1,5 @@
 # base_dir: "/home/zhixuanhu/IEDA_WeightedTraining/RealdataEXP"
-base_dir: "E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP"
+base_dir: "/home/export/base/sc100352/sc100352/online1/IEDA_WeightedTraining/RealdataEXP"
 mode: 'global_optimized'  # 使用优化模式
 
 # --- Device Configuration ---
@@ -19,8 +19,16 @@ dataset:
   path: "data/KuaiRand/1K"  # 1K数据在KuaiRand/1K目录下
   cache_path: "data/KuaiRand/cache"
   # --- 新增: DataLoader优化参数 ---
-  num_workers: 32  # 使用32个CPU核心进行并行数据加载
+  num_workers: 96  # 使用32个CPU核心进行并行数据加载
   pin_memory: true # 锁定内存，加速CPU到GPU的数据传输
+
+# dataset:
+#   name: "KuaiRand-Pure"
+#   path: "data/KuaiRand/Pure"  # 1K数据在KuaiRand/1K目录下
+#   cache_path: "data/KuaiRand/cache"
+#   # --- 新增: DataLoader优化参数 ---
+#   num_workers: 96  # 使用32个CPU核心进行并行数据加载
+#   pin_memory: true # 锁定内存，加速CPU到GPU的数据传输
 
 # 启用混合精度训练
 use_amp: true

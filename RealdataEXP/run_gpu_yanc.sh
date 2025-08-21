@@ -4,7 +4,7 @@
 # 使用方法: sbatch run_gpu_yanc.sh
 
 ## 新服务器SBATCH参数规则
-#SBATCH --partition=q_amd_share           # 指定分区
+#SBATCH --partition=q_intel_gpu_nvidia_nvlink_2           # 指定分区
 #SBATCH --job-name=global_optimized        # 指定作业名称
 #SBATCH --nodes=1                          # 使用节点数
 #SBATCH --ntasks=1                         # 总进程数
@@ -16,6 +16,13 @@
 #SBATCH --cpus-per-task=32                 # 每个进程使用CPU核心数
 #SBATCH --exclusive                        # 独占节点
 
+# 切换到项目目录
+cd /home/export/base/sc100352/sc100352/online1/IEDA_WeightedTraining/RealdataEXP
+
+# 加载CUDA模块
+echo "加载CUDA模块..."
+module load intel/cuda/12.1
+
 echo "============================================================"
 echo "作业开始时间: $(date)"
 echo "作业ID: $SLURM_JOB_ID"
@@ -23,13 +30,6 @@ echo "节点名称: $SLURM_NODELIST"
 echo "GPU数量: $SLURM_GPUS_PER_NODE"
 echo "CPU核心数: $SLURM_CPUS_PER_TASK"
 echo "============================================================"
-
-# 切换到项目目录
-cd /home/export/base/sc100352/sc100352/online1/RealdataEXP
-
-# 加载CUDA模块
-echo "加载CUDA模块..."
-module load cuda
 
 # --- GPU利用率监控 ---
 echo "启动GPU利用率监控..."
@@ -43,6 +43,13 @@ echo ""
 echo "============================================================"
 echo "=== Python环境检查 ==="
 echo "============================================================"
+
+# 设置环境变量
+export CUDA_VISIBLE_DEVICES=0
+export PYTHONPATH=$PYTHONPATH:/home/export/base/sc100352/sc100352/online1/RealdataEXP
+
+source /home/export/base/sc100352/sc100352/online1/ENTER/etc/profile.d/conda.sh
+conda activate ieda
 
 # 检查Python和PyTorch环境
 python -c "
@@ -61,10 +68,6 @@ echo ""
 echo "=== 开始运行优化实验 ==="
 echo "配置文件: configs/experiment_yanc.yaml"
 echo "开始时间: $(date)"
-
-# 设置环境变量
-export CUDA_VISIBLE_DEVICES=0
-export PYTHONPATH=$PYTHONPATH:/home/export/base/sc100352/sc100352/online1/RealdataEXP
 
 # 运行优化实验
 python main.py --config configs/experiment_yanc.yaml --mode global_optimized 2>&1 | tee results/gpu_run_${SLURM_JOB_ID}_detailed.log
