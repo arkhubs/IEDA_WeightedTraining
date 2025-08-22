@@ -19,7 +19,7 @@ dataset:
   path: "data/KuaiRand/1K"  # 1K数据在KuaiRand/1K目录下
   cache_path: "data/KuaiRand/cache"
   # --- 新增: DataLoader优化参数 ---
-  num_workers: 96  # 使用32个CPU核心进行并行数据加载
+  num_workers: 64  # 使用32个CPU核心进行并行数据加载
   pin_memory: true # 锁定内存，加速CPU到GPU的数据传输
 
 # dataset:

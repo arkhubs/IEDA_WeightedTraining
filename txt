@@ -1,7 +1,10 @@
 conda activate py310
 code2prompt -p /home/zhixuanhu/IEDA_WeightedTraining/RealdataEXP -o /home/zhixuanhu/IEDA_WeightedTraining/RealdataEXP_prompt_202508141524.md --line-number -e "**/KuaiRand/*,**/results/*,**/__pycache__/*,**/.ipynb_checkpoints/*,**/.vscode/*,*.pt,*.pth,*.zip,*.tar.gz,*.log,**/venv/*,**/env/*"
 code2prompt -p E:\MyDocument\Codes_notnut\_notpad\IEDA\RealdataEXP -o E:\MyDocument\Codes_notnut\_notpad\IEDA\RealdataEXP_prompt_202508180044.md --line-number -e "**/KuaiRand/*,**/results/*,**/__pycache__/*,**/.ipynb_checkpoints/*,**/.vscode/*,*.pt,*.pth,*.zip,*.tar.gz,*.log,**/venv/*,**/env/*"
+code2prompt -p /home/export/base/sc100352/sc100352/online1/IEDA_WeightedTraining/RealdataEXP -o /home/export/base/sc100352/sc100352/online1/IEDA_WeightedTraining/RealdataEXP_prompt_202508220924.md --line-number -e "**/KuaiRand/*,**/results/*,**/__pycache__/*,**/.ipynb_checkpoints/*,**/.vscode/*,*.pt,*.pth,*.zip,*.tar.gz,*.log,**/venv/*,**/env/*"
 
+
+cd /home/export/base/sc100352/sc100352/online1/IEDA_WeightedTraining
 git config --global credential.helper libsecret
 git add -A
 git rm -r --cached .
@@ -41,21 +44,6 @@ https://intel.github.io/intel-extension-for-pytorch/xpu/2.8.10+xpu/tutorials/exa
 :\miniconda\envs\intelxpu\Lib\site-packages\intel_extension_for_pytorch\xpu\amp\autocast_mode.py:22: UserWarning: torch.xpu.amp.autocast is deprecated. Please use torch.amp.autocast('xpu') instead.
   warnings.warn(
 
- LinuxPrereqs │ 远程主机可能不符合 glibc 和 libstdc++ VS  │ • https://aka.ms/vscode-remote/faq/old-li │ • https://aka.ms/vscode-remote/linux-prer ║
-║              │ Code 服务器的先决条件 (远程主机不满足运行 │ nux                                       │ equisites                                 ║
-║              │ VS Code服务器的先决条件)                  │                                           │                    
-
-服务器无法使用代理，甚至上不了github
-5、联网代理使用，命令行输入以下命令                                     |
-|     export http_proxy=http://174.0.250.13:3128                         |
-|     export https_proxy=http://174.0.250.13:3128     
-ping什么网都无效
-
-系统老
-vscode和numpy等包安装不上
-
-问了客服，说可以proxy
-网络玄学
 
 (intelxpu) PS E:\MyDocument\Codes_notnut\_notpad\IEDA\RealdataEXP> python main.py --config configs/experiment_optimized.yaml
 [W818 09:26:46.000000000 OperatorEntry.cpp:225] Warning: Warning only once for all operators,  other operators may also be overridden.

@@ -13,8 +13,9 @@
 #SBATCH --output=results/gpu_run_%j.out    # 输出文件
 #SBATCH --error=results/gpu_run_%j.err     # 错误文件
 #SBATCH --ntasks-per-node=1                # 每个节点进程数
-#SBATCH --cpus-per-task=32                 # 每个进程使用CPU核心数
+#SBATCH --cpus-per-task=64                 # 每个进程使用CPU核心数
 #SBATCH --exclusive                        # 独占节点
+#SBATCH --mem=512G
 
 # 切换到项目目录
 cd /home/export/base/sc100352/sc100352/online1/IEDA_WeightedTraining/RealdataEXP
