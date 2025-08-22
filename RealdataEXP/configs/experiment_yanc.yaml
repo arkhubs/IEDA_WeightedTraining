@@ -70,8 +70,8 @@ labels:
       dropout: 0.3  # 增加dropout防止过拟合
       # dropout: 0.0 # dml会减速
       embedding_dim: 32  # 增加嵌入维度
-    learning_rate: 0.01  # 稍微增加学习率
-    weight_decay: 0.005
+    learning_rate: 0.001  # 稍微增加学习率
+    weight_decay: 0.0005
     alpha_T: 1.0
     alpha_C: 0.5
     
@@ -85,8 +85,8 @@ labels:
       dropout: 0.2  # 适度dropout
       # dropout: 0.0
       embedding_dim: 16  # 增加嵌入维度
-    learning_rate: 0.01  # 稍微增加学习率
-    weight_decay: 0.005
+    learning_rate: 0.001  # 稍微增加学习率
+    weight_decay: 0.0005
     alpha_T: 1.0
     alpha_C: 0.8
 
@@ -96,7 +96,7 @@ pretrain:
   batch_size: 256  # 增加batch size以更好利用GPU
   epochs: 150  
   learning_rate: 0.001
-  weight_decay: 0.005
+  weight_decay: 0.0005
   early_stopping: 10
   # --- 新增配置 ---
   # 指定要加载的预训练权重文件路径，如果为null则不加载
@@ -106,7 +106,7 @@ pretrain:
   # 是否在每个epoch后绘制并保存损失曲线图
   plot_loss_curves: true
   # --- 新增：基于迭代次数的验证频率 ---
-  validate_every_iters: 100
+  validate_every_iters: 500
 
 # 全局仿真配置（优化）
 global:
@@ -116,8 +116,8 @@ global:
   n_steps: 5  # 减少步数以便快速测试优化效果
   validate_every: 1  # 更频繁的验证
   save_every: 25
-  learning_rate: 0.01
-  weight_decay: 0.005
+  learning_rate: 0.001
+  weight_decay: 0.0005
 
 # 日志配置
 logging:
