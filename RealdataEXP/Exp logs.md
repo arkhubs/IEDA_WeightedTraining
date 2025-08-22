@@ -1,6 +1,6 @@
 ## 2025-08-22
 
-### Gemini三次主要改进摘要
+### validation优化
 1. **迭代次数驱动的验证与高级指标**
     - 支持每N次迭代自动验证，频率可配置（`validate_every_iters`）。
     - 验证指标新增准确率(accuracy)、AUC、无穷值计数，提升训练监控粒度。
@@ -10,6 +10,11 @@
 3. **可视化与日志优化**
     - 训练/验证损失、准确率、AUC等多指标曲线按迭代绘制，去除inf_count曲线，英文标签。
     - 验证进度条与详细日志，提升用户体验。
+### ipex优化
+1. 修复 UserWarning: torch.xpu.amp.autocast is deprecated. Please use torch.amp.autocast('xpu') instead.
+  warnings.warn(
+2. 修复使用ipex时，设置amp false出现bfloat16与float32不匹配错误
+
 
 ## 2025-08-17
 

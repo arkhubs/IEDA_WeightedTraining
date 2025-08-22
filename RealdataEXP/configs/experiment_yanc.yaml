@@ -19,7 +19,7 @@ dataset:
   path: "data/KuaiRand/1K"  # 1K数据在KuaiRand/1K目录下
   cache_path: "data/KuaiRand/cache"
   # --- 新增: DataLoader优化参数 ---
-  num_workers: 64  # 使用32个CPU核心进行并行数据加载
+  num_workers: 64  # 使用64个CPU核心进行并行数据加载
   pin_memory: true # 锁定内存，加速CPU到GPU的数据传输
 
 # dataset:
@@ -70,8 +70,8 @@ labels:
       dropout: 0.3  # 增加dropout防止过拟合
       # dropout: 0.0 # dml会减速
       embedding_dim: 32  # 增加嵌入维度
-    learning_rate: 0.001  # 稍微增加学习率
-    weight_decay: 0.0005
+    learning_rate: 0.0001  # 稍微增加学习率
+    weight_decay: 0.00005
     alpha_T: 1.0
     alpha_C: 0.5
     

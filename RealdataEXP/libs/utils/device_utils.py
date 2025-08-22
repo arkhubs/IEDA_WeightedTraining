@@ -4,6 +4,8 @@
 import torch
 import logging
 from contextlib import contextmanager
+# 新增别名导入以兼容不同后端的autocast实现
+from torch.amp import autocast as torch_autocast
 
 logger = logging.getLogger(__name__)
 
@@ -57,7 +59,8 @@ def get_device_and_amp_helpers(device_choice='auto'):
         # 导入已在顶层完成，这里只检查标志和设备可用性
         if _IPEX_AVAILABLE and torch.xpu.is_available():
             # IPEX has autocast but not GradScaler. We return our StubScaler.
-            from torch.xpu.amp import autocast
+            # Use the standard torch.amp.autocast alias to avoid deprecated imports.
+            autocast = torch_autocast
             device = torch.device("xpu")
             logger.info("[Device] Intel IPEX is available. Using XPU backend (Full IPEX Optimization & AMP).")
             # Return the REAL autocast but a FAKE scaler class

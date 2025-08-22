@@ -76,8 +76,8 @@ class GlobalModeOptimized:
         
         # --- 关键修复：为autocast准备兼容性参数 ---
         self.autocast_kwargs = {'enabled': self.use_amp}
-        if self.device.type == 'cuda':
-            self.autocast_kwargs['device_type'] = 'cuda'
+        if self.device.type in ['cuda', 'xpu']:
+            self.autocast_kwargs['device_type'] = self.device.type
         # For IPEX, we don't add 'device_type'
         # --- 修复结束 ---
         
@@ -218,27 +218,33 @@ class GlobalModeOptimized:
             logger.warning(f"[模型加载] 配置文件中指定的权重文件不存在: {checkpoint_path}")
         # --- 结束新增部分 ---
         
-        # --- NEW: APPLY IPEX OPTIMIZE ---
-        # If we are in IPEX mode, apply the ipex.optimize() function here
+        # --- 关键修复：根据use_amp决定IPEX优化策略 ---
         if self.device.type == 'xpu':
             logger.info("[IPEX] Applying ipex.optimize() to all models and optimizers...")
-            # Import ipex here, we know it's available because device_utils succeeded
             import intel_extension_for_pytorch as ipex
             
             for label_name in self.multi_label_model.models:
                 model = self.multi_label_model.models[label_name]
                 optimizer = self.multi_label_model.optimizers[label_name]
                 
-                # The core of IPEX optimization. We use bfloat16 for mixed precision.
-                optimized_model, optimized_optimizer = ipex.optimize(
-                    model, optimizer=optimizer, dtype=torch.bfloat16
-                )
+                if self.use_amp:
+                    logger.info(f"[IPEX] Optimizing '{label_name}' with bfloat16 for AMP.")
+                    # 当AMP启用时，使用bfloat16进行混合精度优化
+                    optimized_model, optimized_optimizer = ipex.optimize(
+                        model, optimizer=optimizer, dtype=torch.bfloat16
+                    )
+                else:
+                    logger.info(f"[IPEX] Optimizing '{label_name}' in float32 (AMP disabled).")
+                    # 当AMP禁用时，不传递dtype参数，模型保持float32
+                    optimized_model, optimized_optimizer = ipex.optimize(
+                        model, optimizer=optimizer
+                    )
                 
-                # Replace original models/optimizers with the optimized ones
+                # 将原始模型和优化器替换为优化后的版本
                 self.multi_label_model.models[label_name] = optimized_model
                 self.multi_label_model.optimizers[label_name] = optimized_optimizer
             logger.info("[IPEX] ipex.optimize() applied successfully.")
-        # --- END OF NEW CODE ---
+        # --- 修复结束 ---
         
         logger.info("[Global模式优化] 数据准备完成")
 
