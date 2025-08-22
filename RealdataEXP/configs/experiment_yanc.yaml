@@ -105,6 +105,8 @@ pretrain:
   val_split_ratio: 0.5
   # 是否在每个epoch后绘制并保存损失曲线图
   plot_loss_curves: true
+  # --- 新增：基于迭代次数的验证频率 ---
+  validate_every_iters: 100
 
 # 全局仿真配置（优化）
 global:
@@ -121,3 +123,7 @@ global:
 logging:
   level: "INFO"
   log_dir: "results"
+
+# --- 新增：验证配置 ---
+validation:
+  primary_metric: "val_play_time_loss"  # 用于保存"最佳整体"模型的主要指标

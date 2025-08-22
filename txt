@@ -11,7 +11,7 @@ git rm -r --cached .
 git commit -m "push deleted"
 git push
 
-conda activate .conda
+conda activate E:\MyDocument\Codes_notnut\_notpad\IEDA\.conda
 cd RealdataEXP
 conda activate intelxpu
 conda activate pytorchDML
@@ -27,15 +27,7 @@ python -m ipykernel install --user --name coquiTTS --display-name "coquiTTS"
 计算：2,100,391 个样本 ÷64 个样本 / 批次 = 32818.6
 四舍五入得到总批次数为 32819。
 
-预训练一个epoch要保存一次参数，保存在result的下一级带时间戳文件夹里的checkpoints目录下，在config中允许加载指定的权重
-要单独划分预训练的训练集（一半的样本，另一半作为预训练的测试集），预训练中每一个epoch结束要使用预训练测试集val；
-每个epoch val完成后画横轴epoch，纵轴为每个label的训练损失、测试损失的曲线图，保存在result的下一级带时间戳文件夹里的；
 
-预训练使用测试集val的时候也要一个进度条，并且你告诉我目前val一次使用多少个数据点
-
-我要使用整个pure数据集的一半交互数据作为预训练训练集进行预训练，剩下一半是测试集，预训练所用的那一半训练集数据不再进入仿真环节
-
-run_gpu生成的log要放在result的下一级带时间戳文件夹里
 
 ipex不开amp会报错
 val时是不是还有优化

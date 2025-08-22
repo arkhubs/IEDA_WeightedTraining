@@ -15,11 +15,11 @@ device: 'auto'
 
 # 数据集配置
 dataset:
-  name: "KuaiRand-1K"
-  path: "data/KuaiRand/1K"  # 1K数据在KuaiRand/1K目录下
+  name: "KuaiRand-Pure"
+  path: "data/KuaiRand/Pure"  # 1K数据在KuaiRand/1K目录下
   cache_path: "data/KuaiRand/cache"
   # --- 新增: DataLoader优化参数 ---
-  num_workers: 12  # 使用12个CPU核心进行并行数据加载
+  num_workers: 16  # 使用20个CPU核心进行并行数据加载
   pin_memory: true # 锁定内存，加速CPU到GPU的数据传输
 
 # 启用混合精度训练
@@ -88,7 +88,7 @@ pretrain:
   batch_size: 64  # 增加batch size以更好利用GPU
   epochs: 150  
   learning_rate: 0.001
-  weight_decay: 0.001
+  weight_decay: 0.0005
   early_stopping: 10
   # --- 新增配置 ---
   # 指定要加载的预训练权重文件路径，如果为null则不加载
@@ -97,6 +97,8 @@ pretrain:
   val_split_ratio: 0.5
   # 是否在每个epoch后绘制并保存损失曲线图
   plot_loss_curves: true
+  # --- 新增：基于迭代次数的验证频率 ---
+  validate_every_iters: 1000
 
 # 全局仿真配置（优化）
 global:
@@ -113,3 +115,7 @@ global:
 logging:
   level: "INFO"
   log_dir: "results"
+
+# --- 新增：验证配置 ---
+validation:
+  primary_metric: "val_play_time_loss"  # 用于保存"最佳整体"模型的主要指标

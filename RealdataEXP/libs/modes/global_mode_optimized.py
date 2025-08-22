@@ -5,6 +5,8 @@ Global模式优化实现 - 解决GPU利用率低下问题
 2. 增加GPU状态监控和诊断
 3. 优化批处理和内存使用
 4. 添加详细的性能分析
+5. (新增) 基于迭代次数的验证、高级指标（准确率/AUC）和最佳模型检查点保存
+6. (修复) 添加训练损失跟踪和修复绘图字体问题
 """
 
 import os
@@ -20,6 +22,7 @@ import time
 # 新增的库
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score, roc_auc_score
 
 # 使用新的设备管理工具替代旧的autocast导入
 
@@ -99,6 +102,14 @@ class GlobalModeOptimized:
         
         # 新增：用于存储预训练过程中的指标，以便绘图
         self.pretrain_metrics = []
+        
+        # --- 新增：用于基于迭代次数的验证和绘图 ---
+        self.global_iteration_step = 0
+        
+        # --- 新增：用于最佳模型检查点保存 ---
+        self.best_metrics = {} 
+        self.primary_metric = self.config.get('validation', {}).get('primary_metric', 'val_play_time_loss')
+        logger.info(f"[检查点] 用于保存'最佳整体'模型的主要指标是: {self.primary_metric}")
         
         # GPU监控器
         self.gpu_monitor = None
@@ -232,67 +243,143 @@ class GlobalModeOptimized:
         logger.info("[Global模式优化] 数据准备完成")
 
     def _pretrain_validate_epoch(self, val_loader: DataLoader) -> Dict[str, float]:
-        """在预训练期间，对一个epoch进行验证"""
+        """在预训练期间进行验证，并计算包括准确率和AUC在内的高级指标"""
         self.multi_label_model.set_eval_mode()
-        epoch_losses = {label['name']: [] for label in self.config['labels']}
         
-        with torch.no_grad():
-            for X_batch, targets_batch in val_loader:
-                X_batch = X_batch.to(self.device, non_blocking=True)
-                targets_batch = {name: tensor.to(self.device, non_blocking=True) 
-                                 for name, tensor in targets_batch.items()}
-                
-                # --- 使用兼容的autocast上下文 ---
+        all_preds = {label['name']: [] for label in self.config['labels']}
+        all_targets = {label['name']: [] for label in self.config['labels']}
+        
+        # 新增：为验证添加tqdm进度条
+        pbar = tqdm(val_loader, desc="验证中", leave=False, total=len(val_loader))
+        for X_batch, targets_batch in pbar:
+            X_batch = X_batch.to(self.device, non_blocking=True)
+            
+            with torch.no_grad():
                 with self.autocast(**self.autocast_kwargs):
-                    losses = self.multi_label_model.compute_losses(X_batch, targets_batch)
+                    preds_batch = self.multi_label_model.predict(X_batch)
+            
+            for label_name, pred_tensor in preds_batch.items():
+                target_tensor = targets_batch[label_name]
+                all_preds[label_name].append(pred_tensor.cpu())
+                all_targets[label_name].append(target_tensor.cpu())
+
+        val_metrics = {}
+        for label_config in self.config['labels']:
+            label_name = label_config['name']
+            
+            preds = torch.cat(all_preds[label_name]).numpy().flatten()
+            targets = torch.cat(all_targets[label_name]).numpy().flatten()
+
+            # --- 1. 损失计算（处理inf/nan值） ---
+            # 在CPU上重新计算损失以确保所有指标在同一数据集上
+            loss_fn = self.multi_label_model.loss_functions[label_name]
+            loss_tensor = loss_fn(torch.tensor(preds), torch.tensor(targets))
+            
+            valid_losses = loss_tensor[~torch.isinf(loss_tensor) & ~torch.isnan(loss_tensor)]
+            inf_count = torch.isinf(loss_tensor).sum().item()
+
+            if inf_count > 0:
+                logger.warning(f"[验证] 在 '{label_name}' 损失计算中发现 {inf_count} 个无穷值")
+            
+            avg_loss = valid_losses.mean().item() if len(valid_losses) > 0 else 0.0
+            val_metrics[f'val_{label_name}_loss'] = avg_loss
+            val_metrics[f'val_{label_name}_inf_count'] = inf_count
+
+            # --- 2. 二元分类的准确率和AUC ---
+            if label_config['type'] == 'binary':
+                # 预测是logits，应用sigmoid
+                probs = 1 / (1 + np.exp(-preds))
+                # 获取二元预测
+                binary_preds = (probs >= 0.5).astype(int)
                 
-                for label_name, loss in losses.items():
-                    epoch_losses[label_name].append(loss.item())
+                try:
+                    accuracy = accuracy_score(targets, binary_preds)
+                    val_metrics[f'val_{label_name}_accuracy'] = accuracy
+                except Exception as e:
+                    logger.warning(f"无法计算 {label_name} 的准确率: {e}")
 
-        avg_losses = {f"val_{name}": np.mean(losses) for name, losses in epoch_losses.items() if losses}
-        return avg_losses
+                try:
+                    # 检查目标中是否有多个类别
+                    if len(np.unique(targets)) > 1:
+                        auc = roc_auc_score(targets, probs)
+                        val_metrics[f'val_{label_name}_auc'] = auc
+                    else:
+                        logger.debug(f"跳过 {label_name} 的AUC计算，因为此验证批次中只存在一个类别")
 
-    def _plot_pretrain_losses(self):
-        """绘制并保存预训练损失曲线"""
+                except Exception as e:
+                    logger.warning(f"无法计算 {label_name} 的AUC: {e}")
+
+        return val_metrics
+
+    def _plot_pretrain_metrics(self):
+
+        """绘制并保存预训练期间的所有指标（损失、准确率、AUC），不包含 inf_count"""
         if not self.pretrain_metrics:
             return
-            
-        metrics_df = pd.DataFrame(self.pretrain_metrics)
-        epochs = metrics_df['epoch'].values
-        
-        plt.style.use('default')  # 使用默认样式，避免seaborn依赖问题
-        fig, ax = plt.subplots(figsize=(12, 8))
-        
-        colors = plt.cm.get_cmap('tab10', len(self.config['labels']))
-        
-        for i, label_config in enumerate(self.config['labels']):
-            label_name = label_config['name']
-            train_loss_col = f'train_{label_name}'
-            val_loss_col = f'val_{label_name}'
-            
-            if train_loss_col in metrics_df.columns:
-                ax.plot(epochs, metrics_df[train_loss_col], 'o-', color=colors(i), label=f'{label_name} Train Loss')
-            if val_loss_col in metrics_df.columns:
-                ax.plot(epochs, metrics_df[val_loss_col], 'x--', color=colors(i), label=f'{label_name} Val Loss')
-
-        ax.set_title('Pre-training Loss Curves')
-        ax.set_xlabel('Epoch')
-        ax.set_ylabel('Loss')
-        ax.legend()
-        ax.grid(True, alpha=0.3)
-        ax.set_xticks(epochs)
-        
-        plot_path = os.path.join(self.exp_dir, 'pretrain_loss_curves.png')
         try:
-            plt.savefig(plot_path, dpi=150, bbox_inches='tight')
-            logger.info(f"[预训练绘图] 损失曲线图已保存到: {plot_path}")
-        except Exception as e:
-            logger.error(f"[预训练绘图] 保存损失曲线图失败: {e}")
-        finally:
+            metrics_df = pd.DataFrame(self.pretrain_metrics)
+            iterations = metrics_df['iteration'].values
+            train_cols = [c for c in metrics_df.columns if 'train_' in c]
+            val_cols = [c for c in metrics_df.columns if 'val_' in c]
+            # 排除 inf_count 指标
+            base_metrics = sorted(list(set(c.replace('train_', '').replace('val_', '') for c in train_cols + val_cols if 'inf_count' not in c)))
+
+            num_plots = len(base_metrics)
+            if num_plots == 0:
+                return
+            fig, axes = plt.subplots(num_plots, 1, figsize=(12, 6 * num_plots), sharex=True, squeeze=False)
+            for i, base_name in enumerate(base_metrics):
+                ax = axes.flatten()[i]
+                train_key = f'train_{base_name}'
+                val_key = f'val_{base_name}'
+                if train_key in metrics_df.columns:
+                    ax.plot(iterations, metrics_df[train_key], 'o-', label=f'Train {base_name.replace("_", " ").title()}', markersize=3, alpha=0.7)
+                if val_key in metrics_df.columns:
+                    ax.plot(iterations, metrics_df[val_key], 's-', label=f'Validation {base_name.replace("_", " ").title()}', markersize=3, alpha=0.7)
+                ax.set_title(f'Pre-training {base_name.replace("_", " ").title()} vs. Iterations')
+                ax.set_ylabel(base_name.split('_')[-1].capitalize())
+                ax.legend()
+                ax.grid(True, alpha=0.3)
+            axes.flatten()[-1].set_xlabel('Iteration')
+            plt.tight_layout()
+            plot_path = os.path.join(self.exp_dir, 'pretrain_metrics_curves.png')
+            plt.savefig(plot_path, dpi=150)
             plt.close(fig)
+            logger.info(f"[绘图] 预训练指标曲线图已保存: {plot_path}")
+        except Exception as e:
+            logger.error(f"[绘图] 保存指标曲线图失败: {e}")
+            if 'fig' in locals():
+                plt.close(fig)
+            
+    def _update_best_checkpoints(self, val_metrics: Dict[str, float]):
+        """根据验证指标，更新并保存最佳模型检查点"""
+        checkpoint_dir = os.path.join(self.exp_dir, "checkpoints")
+        
+        # --- 为每个跟踪的值更新最佳指标 ---
+        for key, value in val_metrics.items():
+            # 对于损失，越低越好。对于准确率/AUC，越高越好。
+            is_loss = 'loss' in key or 'inf' in key
+            current_best = self.best_metrics.get(key, float('inf') if is_loss else float('-inf'))
+
+            if (is_loss and value < current_best) or (not is_loss and value > current_best):
+                self.best_metrics[key] = value
+                logger.info(f"[检查点] '{key}' 新纪录: {value:.6f}。保存模型...")
+                self.multi_label_model.save_models(checkpoint_dir, f"pretrain_best_{key}")
+
+        # --- 基于主要指标更新最佳整体模型 ---
+        primary_value = val_metrics.get(self.primary_metric)
+        if primary_value is not None:
+            is_primary_loss = 'loss' in self.primary_metric or 'inf' in self.primary_metric
+            current_best_overall = self.best_metrics.get('overall', float('inf') if is_primary_loss else float('-inf'))
+            
+            if (is_primary_loss and primary_value < current_best_overall) or \
+               (not is_primary_loss and primary_value > current_best_overall):
+                self.best_metrics['overall'] = primary_value
+                logger.info(f"[检查点] 新的最佳整体模型 (基于 {self.primary_metric}): {primary_value:.6f}。保存模型...")
+                self.multi_label_model.save_models(checkpoint_dir, "pretrain_best_overall")
 
     def pretrain_models_optimized(self):
-        """优化的预训练过程，包含训练/验证集划分、按epoch验证、保存和绘图"""
+        """优化的预训练过程，基于迭代次数进行验证和保存，包含训练损失跟踪"""
         if not self.config['pretrain']['enabled']:
             logger.info("[预训练] 跳过预训练阶段")
             return
@@ -315,62 +402,67 @@ class GlobalModeOptimized:
         val_loader = self.create_optimized_dataloader(pretrain_val_df, batch_size, shuffle=False)
         
         epochs = self.config['pretrain']['epochs']
+        validate_every_iters = self.config['pretrain'].get('validate_every_iters', 100)
+        
+        self.global_iteration_step = 0
+        
+        # --- 新增：用于累积训练损失的列表 ---
+        train_loss_accumulator = {name: [] for name in self.multi_label_model.models.keys()}
         
         for epoch in range(1, epochs + 1):
             logger.info(f"[预训练优化] Epoch {epoch}/{epochs}")
             
-            # --- 3. 训练循环 ---
             self.multi_label_model.set_train_mode()
-            epoch_train_losses = {label['name']: [] for label in self.config['labels']}
-            epoch_start_time = time.time()
             pbar = tqdm(train_loader, desc=f"Epoch {epoch} Training")
-            batch_count = 0
             
             for X_batch, targets_batch in pbar:
-                batch_start_time = time.time()
+                self.global_iteration_step += 1
+                
                 X_batch = X_batch.to(self.device, non_blocking=True)
                 targets_batch = {name: tensor.to(self.device, non_blocking=True) for name, tensor in targets_batch.items()}
                 
                 losses = self._perform_training_step(X_batch, targets_batch)
                 
-                for label_name, loss in losses.items():
-                    epoch_train_losses[label_name].append(loss)
+                # 累积训练损失
+                for name, loss_val in losses.items():
+                    train_loss_accumulator[name].append(loss_val)
                 
-                batch_time = time.time() - batch_start_time
-                batch_count += 1
-                
-                # 更新进度条
-                loss_info = {f"{k}": f"{v:.4f}" for k, v in losses.items()}
-                loss_info['batch_time'] = f"{batch_time:.3f}s"
-                pbar.set_postfix(loss_info)
-                
-                # 每100个batch记录一次GPU状态
-                if batch_count % 100 == 0:
-                    log_gpu_memory_usage(f" - Epoch {epoch} Batch {batch_count}")
+                pbar.set_postfix({f"{k}_loss": f"{v:.4f}" for k, v in losses.items()})
 
-            epoch_time = time.time() - epoch_start_time
-            avg_train_losses = {f"train_{name}": np.mean(losses) for name, losses in epoch_train_losses.items() if losses}
-            loss_str_train = ", ".join([f"{k}: {v:.6f}" for k, v in avg_train_losses.items()])
-            logger.info(f"[预训练优化] Epoch {epoch} 训练完成，用时: {epoch_time:.2f}秒 - 平均损失: {loss_str_train}")
-            logger.info(f"[预训练优化] Epoch {epoch} 吞吐量: {len(pretrain_train_df)/epoch_time:.0f} 样本/秒")
+                # --- 基于迭代次数的验证 ---
+                if self.global_iteration_step % validate_every_iters == 0:
+                    # 计算区间内的平均训练损失
+                    avg_train_losses = {}
+                    for name, loss_list in train_loss_accumulator.items():
+                        if loss_list:
+                            avg_train_losses[f'train_{name}_loss'] = np.mean(loss_list)
+                            loss_list.clear()  # 为下一个区间重置
 
-            # --- 4. 验证循环 ---
-            avg_val_losses = self._pretrain_validate_epoch(val_loader)
-            loss_str_val = ", ".join([f"{k}: {v:.6f}" for k, v in avg_val_losses.items()])
-            logger.info(f"[预训练优化] Epoch {epoch} 验证完成 - 平均损失: {loss_str_val}")
-            
-            # --- 5. 保存指标用于绘图 ---
-            current_epoch_metrics = {'epoch': epoch, **avg_train_losses, **avg_val_losses}
-            self.pretrain_metrics.append(current_epoch_metrics)
-            
-            # --- 6. 保存模型检查点 ---
-            checkpoint_dir = os.path.join(self.exp_dir, "checkpoints")
-            self.multi_label_model.save_models(checkpoint_dir, f"pretrain_epoch_{epoch}")
-            logger.info(f"[预训练保存] Epoch {epoch} 的模型已保存到checkpoints目录")
-            
-            # --- 7. 绘制并保存损失曲线 ---
-            if self.config['pretrain'].get('plot_loss_curves', True):
-                self._plot_pretrain_losses()
+                    # 运行验证
+                    logger.info(f"\n--- 迭代 {self.global_iteration_step}: 运行验证 ---")
+                    val_metrics = self._pretrain_validate_epoch(val_loader)
+                    
+                    # 合并并记录所有指标
+                    all_metrics = {**avg_train_losses, **val_metrics}
+                    log_str = ", ".join([f"{k}: {v:.6f}" for k, v in all_metrics.items()])
+                    logger.info(f"[验证] 迭代 {self.global_iteration_step} - 指标: {log_str}")
+
+                    current_iter_metrics = {'iteration': self.global_iteration_step, **all_metrics}
+                    self.pretrain_metrics.append(current_iter_metrics)
+
+                    # 更新最佳检查点
+                    self._update_best_checkpoints(val_metrics)
+
+                    # 绘制指标
+                    if self.config['pretrain'].get('plot_loss_curves', True):
+                        self._plot_pretrain_metrics()
+
+                    # 保存最新模型以便恢复
+                    checkpoint_dir = os.path.join(self.exp_dir, "checkpoints")
+                    self.multi_label_model.save_models(checkpoint_dir, "pretrain_latest")
+                    
+                    # 验证后重新设置为训练模式
+                    self.multi_label_model.set_train_mode()
 
         log_gpu_memory_usage(" - 预训练完成后")
         logger.info("[预训练优化] 预训练阶段完成")
