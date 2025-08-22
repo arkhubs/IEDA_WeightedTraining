@@ -1,6 +1,6 @@
 conda activate py310
 code2prompt -p /home/zhixuanhu/IEDA_WeightedTraining/RealdataEXP -o /home/zhixuanhu/IEDA_WeightedTraining/RealdataEXP_prompt_202508141524.md --line-number -e "**/KuaiRand/*,**/results/*,**/__pycache__/*,**/.ipynb_checkpoints/*,**/.vscode/*,*.pt,*.pth,*.zip,*.tar.gz,*.log,**/venv/*,**/env/*"
-code2prompt -p E:\MyDocument\Codes_notnut\_notpad\IEDA\RealdataEXP -o E:\MyDocument\Codes_notnut\_notpad\IEDA\RealdataEXP_prompt_202508180044.md --line-number -e "**/KuaiRand/*,**/results/*,**/__pycache__/*,**/.ipynb_checkpoints/*,**/.vscode/*,*.pt,*.pth,*.zip,*.tar.gz,*.log,**/venv/*,**/env/*"
+code2prompt -p E:\MyDocument\Codes_notnut\_notpad\IEDA\RealdataEXP -o E:\MyDocument\Codes_notnut\_notpad\IEDA\RealdataEXP_prompt_202508222140.md --line-number -e "**/KuaiRand/*,**/results/*,**/__pycache__/*,**/.ipynb_checkpoints/*,**/.vscode/*,*.pt,*.pth,*.zip,*.tar.gz,*.log,**/venv/*,**/env/*"
 code2prompt -p /home/export/base/sc100352/sc100352/online1/IEDA_WeightedTraining/RealdataEXP -o /home/export/base/sc100352/sc100352/online1/IEDA_WeightedTraining/RealdataEXP_prompt_202508220924.md --line-number -e "**/KuaiRand/*,**/results/*,**/__pycache__/*,**/.ipynb_checkpoints/*,**/.vscode/*,*.pt,*.pth,*.zip,*.tar.gz,*.log,**/venv/*,**/env/*"
 
 
@@ -27,7 +27,10 @@ python -m ipykernel install --user --name coquiTTS --display-name "coquiTTS"
 计算：2,100,391 个样本 ÷64 个样本 / 批次 = 32818.6
 四舍五入得到总批次数为 32819。
 
-
+playtime损失函数异常
+val_click_accuracy不动，一直是同一个很低的值
+validation不需要那么多数据，时间占比过大
+内存占用优化
 
 ipex不开amp会报错
 val时是不是还有优化

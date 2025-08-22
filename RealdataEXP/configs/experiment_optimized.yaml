@@ -19,11 +19,11 @@ dataset:
   path: "data/KuaiRand/Pure"  # 1K数据在KuaiRand/1K目录下
   cache_path: "data/KuaiRand/cache"
   # --- 新增: DataLoader优化参数 ---
-  num_workers: 16  # 使用20个CPU核心进行并行数据加载
+  num_workers: 0  # 使用20个CPU核心进行并行数据加载
   pin_memory: true # 锁定内存，加速CPU到GPU的数据传输
 
 # 启用混合精度训练
-use_amp: true
+use_amp: false
 
 # 特征配置（27K数据集特征）
 feature:
@@ -60,10 +60,9 @@ labels:
     model_params:
       hidden_layers: [256, 128, 64, 32]  # 增加模型容量
       dropout: 0.3  # 增加dropout防止过拟合
-      # dropout: 0.0 # dml会减速
       embedding_dim: 32  # 增加嵌入维度
-    learning_rate: 0.01  # 稍微增加学习率
-    weight_decay: 0.005
+    learning_rate: 0.0001  # 稍微增加学习率
+    weight_decay: 0.00005
     alpha_T: 1.0
     alpha_C: 0.5
     
@@ -75,10 +74,9 @@ labels:
     model_params:
       hidden_layers: [128, 64, 32, 16]  # 增加模型容量
       dropout: 0.2  # 适度dropout
-      # dropout: 0.0
       embedding_dim: 16  # 增加嵌入维度
-    learning_rate: 0.01  # 稍微增加学习率
-    weight_decay: 0.005
+    learning_rate: 0.001  # 稍微增加学习率
+    weight_decay: 0.0005
     alpha_T: 1.0
     alpha_C: 0.8
 
@@ -98,7 +96,7 @@ pretrain:
   # 是否在每个epoch后绘制并保存损失曲线图
   plot_loss_curves: true
   # --- 新增：基于迭代次数的验证频率 ---
-  validate_every_iters: 1000
+  validate_every_iters: 3000
 
 # 全局仿真配置（优化）
 global:
