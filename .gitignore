@@ -42,6 +42,3 @@ RealdataEXP/results/[0-9]*/checkpoints/
 # System files
 .DS_Store
 Thumbs.db
-
-# Logs
-# *.log
