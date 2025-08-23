@@ -127,3 +127,4 @@ logging:
 # --- 新增：验证配置 ---
 validation:
   primary_metric: "val_play_time_loss"  # 用于保存"最佳整体"模型的主要指标
+  validation_batches: 100  # 限制验证为100个批次以提高速度
