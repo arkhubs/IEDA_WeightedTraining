@@ -23,7 +23,7 @@ dataset:
   pin_memory: true # 锁定内存，加速CPU到GPU的数据传输
 
 # 启用混合精度训练
-use_amp: false
+use_amp: true
 
 # 特征配置（27K数据集特征）
 feature:
@@ -117,3 +117,4 @@ logging:
 # --- 新增：验证配置 ---
 validation:
   primary_metric: "val_play_time_loss"  # 用于保存"最佳整体"模型的主要指标
+  validation_batches: 100  # 限制验证为100个批次以提高速度

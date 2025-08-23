@@ -1,3 +1,9 @@
+## 2025-08-23
+
+### 配置与训练引擎优化
+1. 配置文件（experiment_yanc.yaml 和 experiment_optimized.yaml）新增 validation_batches 参数，支持限制验证批次数量（如 100），加速验证过程。
+
+
 ## 2025-08-22
 
 ### validation优化
