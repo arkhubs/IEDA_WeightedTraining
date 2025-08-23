@@ -19,6 +19,7 @@ from typing import Dict, List, Tuple, Any
 from tqdm import tqdm
 import random
 import time
+import itertools  # 新增：用于限制验证批次
 # 新增的库
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
@@ -255,8 +256,11 @@ class GlobalModeOptimized:
         all_preds = {label['name']: [] for label in self.config['labels']}
         all_targets = {label['name']: [] for label in self.config['labels']}
         
-        # 新增：为验证添加tqdm进度条
-        pbar = tqdm(val_loader, desc="验证中", leave=False, total=len(val_loader))
+        # 新增：限制验证批次数量（如果在配置中指定）
+        validation_batches = self.config.get('validation', {}).get('validation_batches')
+        
+        pbar_total = validation_batches if validation_batches is not None else len(val_loader)
+        pbar = tqdm(itertools.islice(val_loader, validation_batches), desc="验证中", leave=False, total=pbar_total)
         for X_batch, targets_batch in pbar:
             X_batch = X_batch.to(self.device, non_blocking=True)
             
@@ -318,42 +322,46 @@ class GlobalModeOptimized:
         return val_metrics
 
     def _plot_pretrain_metrics(self):
-
-        """绘制并保存预训练期间的所有指标（损失、准确率、AUC），不包含 inf_count"""
-        if not self.pretrain_metrics:
+        """绘制并保存预训练期间的所有指标（损失、准确率、AUC），不包含 inf_count，使用英文标题和标签解决字体渲染问题"""
+        if not self.pretrain_metrics: 
             return
         try:
             metrics_df = pd.DataFrame(self.pretrain_metrics)
-            iterations = metrics_df['iteration'].values
+            
+            # 获取所有基础指标名称，排除 'inf_count'
             train_cols = [c for c in metrics_df.columns if 'train_' in c]
             val_cols = [c for c in metrics_df.columns if 'val_' in c]
-            # 排除 inf_count 指标
-            base_metrics = sorted(list(set(c.replace('train_', '').replace('val_', '') for c in train_cols + val_cols if 'inf_count' not in c)))
+            all_base_metrics = set(c.replace('train_', '').replace('val_', '') for c in train_cols + val_cols)
+            base_metrics_to_plot = sorted([m for m in all_base_metrics if 'inf_count' not in m])
 
-            num_plots = len(base_metrics)
-            if num_plots == 0:
+            num_plots = len(base_metrics_to_plot)
+            if num_plots == 0: 
                 return
+            
             fig, axes = plt.subplots(num_plots, 1, figsize=(12, 6 * num_plots), sharex=True, squeeze=False)
-            for i, base_name in enumerate(base_metrics):
+            for i, base_name in enumerate(base_metrics_to_plot):
                 ax = axes.flatten()[i]
                 train_key = f'train_{base_name}'
                 val_key = f'val_{base_name}'
+                
                 if train_key in metrics_df.columns:
-                    ax.plot(iterations, metrics_df[train_key], 'o-', label=f'Train {base_name.replace("_", " ").title()}', markersize=3, alpha=0.7)
+                    ax.plot(metrics_df['iteration'], metrics_df[train_key], 'o-', label=f'Train {base_name}', markersize=3, alpha=0.7)
                 if val_key in metrics_df.columns:
-                    ax.plot(iterations, metrics_df[val_key], 's-', label=f'Validation {base_name.replace("_", " ").title()}', markersize=3, alpha=0.7)
+                    ax.plot(metrics_df['iteration'], metrics_df[val_key], 's-', label=f'Validation {base_name}', markersize=3, alpha=0.7)
+                
+                # 使用英文标题和标签
                 ax.set_title(f'Pre-training {base_name.replace("_", " ").title()} vs. Iterations')
                 ax.set_ylabel(base_name.split('_')[-1].capitalize())
                 ax.legend()
                 ax.grid(True, alpha=0.3)
+            
             axes.flatten()[-1].set_xlabel('Iteration')
             plt.tight_layout()
-            plot_path = os.path.join(self.exp_dir, 'pretrain_metrics_curves.png')
-            plt.savefig(plot_path, dpi=150)
+            plt.savefig(os.path.join(self.exp_dir, 'pretrain_metrics_curves.png'), dpi=150)
             plt.close(fig)
-            logger.info(f"[绘图] 预训练指标曲线图已保存: {plot_path}")
+            logger.info(f"[Plotting] Pre-training metrics chart saved.")
         except Exception as e:
-            logger.error(f"[绘图] 保存指标曲线图失败: {e}")
+            logger.error(f"Failed to plot metrics: {e}")
             if 'fig' in locals():
                 plt.close(fig)
             

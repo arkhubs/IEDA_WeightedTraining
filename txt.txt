@@ -5,14 +5,15 @@ code2prompt -p /home/export/base/sc100352/sc100352/online1/IEDA_WeightedTraining
 
 
 cd /home/export/base/sc100352/sc100352/online1/IEDA_WeightedTraining
-git remote set-url origin git@github.com:arkhubs/IEDA_WeightedTraining.git
-git remote set-url origin git@githubfast.com:arkhubs/IEDA_WeightedTraining.git
+git remote set-url origin https://github.com/arkhubs/IEDA_WeightedTraining.git
+git remote set-url origin https://githubfast.com/arkhubs/IEDA_WeightedTraining.git
 git config --global credential.helper libsecret
 git config --global credential.helper 'cache --timeout=360000000000'
 git add -A
 git rm -r --cached .
 git commit -m "push deleted"
 git push
+git remote -v
 
 conda activate E:\MyDocument\Codes_notnut\_notpad\IEDA\.conda
 cd RealdataEXP
