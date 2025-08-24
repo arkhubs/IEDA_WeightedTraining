@@ -2,6 +2,7 @@
 base_dir: "/home/export/base/sc100352/sc100352/online1/IEDA_WeightedTraining/RealdataEXP"
 mode: 'global_optimized'  # 使用优化模式
 
+
 # --- Device Configuration ---
 # Specifies the hardware backend.
 # Options:
@@ -12,6 +13,15 @@ mode: 'global_optimized'  # 使用优化模式
 #   'dml':  DirectML-compatible GPU (AMD, Intel, etc.) (No AMP).
 #   'cpu':  CPU execution.
 device: 'auto'
+# --- New: Optimization Settings ---
+optimization:
+  # --- New: Choose the optimization strategy for Intel GPUs (IPEX) ---
+  # 'optimize': (Default, Recommended) Uses the stable ipex.optimize() function.
+  # 'compile': (Experimental) Uses the newer torch.compile(backend='ipex'). May be unstable.
+  ipex_strategy: 'optimize'
+  torch_compile:
+    enabled: true  # Set to true to enable torch.compile where supported
+    backend: "ipex" # Options: default, inductor, ipex
 
 # 数据集配置
 dataset:
@@ -70,8 +80,21 @@ labels:
       dropout: 0.3  # 增加dropout防止过拟合
       # dropout: 0.0 # dml会减速
       embedding_dim: 32  # 增加嵌入维度
-    learning_rate: 0.0001  # 稍微增加学习率
-    weight_decay: 0.00005
+    # --- New: Configurable Optimizer ---
+    optimizer:
+      name: "Lookahead" # Options: Adam, Lookahead
+      learning_rate: 0.00001
+      weight_decay: 0.000005
+      params: # Optimizer-specific parameters
+        k: 5
+        alpha: 0.5
+    # --- New: Configurable Scheduler ---
+    scheduler:
+      name: "CosineAnnealingLR" # Options: ReduceLROnPlateau, CosineAnnealingLR
+      params:
+        T_max: 10000000 # Set to total expected iterations
+        eta_min: 0.000001
+    # removed legacy top-level learning_rate/weight_decay (use optimizer block above)
     alpha_T: 1.0
     alpha_C: 0.5
     
@@ -85,8 +108,20 @@ labels:
       dropout: 0.2  # 适度dropout
       # dropout: 0.0
       embedding_dim: 16  # 增加嵌入维度
-    learning_rate: 0.001  # 稍微增加学习率
-    weight_decay: 0.0005
+    # --- New: Configurable Optimizer ---
+    optimizer:
+      name: "Adam" # Options: Adam, Lookahead
+      learning_rate: 0.0001
+      weight_decay: 0.00005
+      params: {}
+    # --- New: Configurable Scheduler ---
+    scheduler:
+      name: "ReduceLROnPlateau" # Options: ReduceLROnPlateau, CosineAnnealingLR
+      params:
+        mode: 'min'
+        factor: 0.5
+        patience: 5
+    # removed legacy top-level learning_rate/weight_decay (use optimizer block above)
     alpha_T: 1.0
     alpha_C: 0.8
 
@@ -95,12 +130,12 @@ pretrain:
   enabled: true
   batch_size: 1024  # 增加batch size以更好利用GPU
   epochs: 150  
-  learning_rate: 0.001
-  weight_decay: 0.0005
+  # learning_rate and weight_decay removed here in favor of per-label optimizer blocks
+  # (Use label.optimizer.learning_rate and label.optimizer.weight_decay)
   early_stopping: 10
   # --- 新增配置 ---
   # 指定要加载的预训练权重文件路径，如果为null则不加载
-  load_checkpoint_path: null # example: "results/20250818_0110/checkpoints/pretrain_epoch_1.pt"
+  load_checkpoint_path: null  # "results/YYYYMMDD_HHMM/checkpoints/pretrain_latest.pt"
   # 预训练数据的验证集划分比例
   val_split_ratio: 0.5
   # 是否在每个epoch后绘制并保存损失曲线图
@@ -116,8 +151,7 @@ global:
   n_steps: 5  # 减少步数以便快速测试优化效果
   validate_every: 1  # 更频繁的验证
   save_every: 25
-  learning_rate: 0.001
-  weight_decay: 0.0005
+  # learning_rate and weight_decay removed from global config; use per-label optimizer settings
 
 # 日志配置
 logging:
@@ -126,5 +160,26 @@ logging:
 
 # --- 新增：验证配置 ---
 validation:
-  primary_metric: "val_play_time_loss"  # 用于保存"最佳整体"模型的主要指标
   validation_batches: 100  # 限制验证为100个批次以提高速度
+  # --- New: Weighted score for determining the best overall model ---
+  # The final score is the sum of (metric * weight). A higher score is better.
+  # This allows you to balance different aspects of model performance.
+  #
+  # Available metrics to use (based on your current code):
+  #   - val_play_time_loss
+  #   - val_click_loss
+  #   - val_click_accuracy
+  #   - val_click_auc
+  #
+  best_overall_score:
+    # For LOSS metrics, use a NEGATIVE weight because a lower loss is better.
+    # A weight of -0.4 means that a decrease of 0.1 in loss will increase the score by 0.04.
+    val_play_time_loss: -0.1
+    val_click_loss: -0.4
+
+    # For ACCURACY and AUC metrics, use a POSITIVE weight because higher is better.
+    # A weight of +0.2 means that an increase of 0.1 in accuracy will increase the score by 0.02.
+    val_click_accuracy: 0.2
+    val_click_auc: 0.3
+    val_play_time_mape: -0.2 # Added the new MAPE metric
+

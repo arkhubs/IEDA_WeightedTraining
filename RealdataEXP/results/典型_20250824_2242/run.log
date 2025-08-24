@@ -1,0 +1,568 @@
+2025-08-24 22:42:12 - root - INFO - ============================================================
+2025-08-24 22:42:12 - root - INFO - RealdataEXP 实验框架启动
+2025-08-24 22:42:12 - root - INFO - ============================================================
+2025-08-24 22:42:12 - root - INFO - 实验模式: global_optimized
+2025-08-24 22:42:12 - root - INFO - 设备选择 (来自配置): auto
+2025-08-24 22:42:12 - root - INFO - 实验目录: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242
+2025-08-24 22:42:12 - root - INFO - 配置文件: E:\MyDocument\Codes_notnut\_notpad\IEDA\RealdataEXP\configs/experiment_optimized.yaml
+2025-08-24 22:42:12 - root - INFO - [模式选择] 运行Global模式优化实验
+2025-08-24 22:42:12 - libs.utils.device_utils - INFO - [Device] No specified or available GPU backend found. Falling back to CPU.
+2025-08-24 22:42:12 - libs.modes.global_mode_optimized - INFO - [Global模式优化] 初始化完成，设备: cpu, AMP: False
+2025-08-24 22:42:12 - libs.modes.global_mode_optimized - INFO - [Global模式优化] 开始运行完整实验...
+2025-08-24 22:42:12 - libs.utils.gpu_utils - WARNING - [GPU检查] CUDA不可用，将使用CPU运行
+2025-08-24 22:42:12 - libs.utils.gpu_utils - WARNING - [GPU速度测试] CUDA不可用，跳过测试
+2025-08-24 22:42:12 - libs.modes.global_mode_optimized - INFO - [Global模式优化] 开始数据加载和准备...
+2025-08-24 22:42:12 - libs.data.data_loader - INFO - [数据准备] 开始数据加载和准备流程...
+2025-08-24 22:42:12 - libs.data.data_loader - INFO - [数据加载] 开始加载所有数据文件...
+2025-08-24 22:42:12 - libs.data.data_loader - INFO - [数据加载] (1/6) 正在加载 log_random: data/log_random_4_22_to_5_08_pure.csv
+2025-08-24 22:42:13 - libs.data.data_loader - INFO - [数据加载] log_random 加载完成，形状: (1186059, 19)
+2025-08-24 22:42:13 - libs.data.data_loader - INFO - [数据加载] (2/6) 正在加载 log_standard_early: data/log_standard_4_08_to_4_21_pure.csv
+2025-08-24 22:42:14 - libs.data.data_loader - INFO - [数据加载] log_standard_early 加载完成，形状: (1141112, 19)
+2025-08-24 22:42:14 - libs.data.data_loader - INFO - [数据加载] (3/6) 正在加载 log_standard_late: data/log_standard_4_22_to_5_08_pure.csv
+2025-08-24 22:42:14 - libs.data.data_loader - INFO - [数据加载] log_standard_late 加载完成，形状: (295497, 19)
+2025-08-24 22:42:14 - libs.data.data_loader - INFO - [数据加载] (4/6) 正在加载 user_features: data/user_features_pure.csv
+2025-08-24 22:42:14 - libs.data.data_loader - INFO - [数据加载] user_features 加载完成，形状: (27285, 31)
+2025-08-24 22:42:14 - libs.data.data_loader - INFO - [数据加载] (5/6) 正在加载 video_basic: data/video_features_basic_pure.csv
+2025-08-24 22:42:14 - libs.data.data_loader - INFO - [数据加载] video_basic 加载完成，形状: (7583, 12)
+2025-08-24 22:42:14 - libs.data.data_loader - INFO - [数据加载] (6/6) 正在加载 video_statistic: data/video_features_statistic_pure.csv
+2025-08-24 22:42:14 - libs.data.data_loader - INFO - [数据加载] video_statistic 加载完成，形状: (7583, 52)
+2025-08-24 22:42:14 - libs.data.data_loader - INFO - [数据加载] 所有数据文件加载完成
+2025-08-24 22:42:14 - libs.data.data_loader - INFO - [数据合并] 合并多个日志文件...
+2025-08-24 22:42:14 - libs.data.data_loader - INFO - [数据合并] 合并后日志数据形状: (2622668, 19)
+2025-08-24 22:42:14 - libs.data.data_loader - INFO - [特征合并] 开始合并用户和视频特征...
+2025-08-24 22:42:15 - libs.data.data_loader - INFO - [特征合并] 合并用户特征后形状: (2622668, 49)
+2025-08-24 22:42:16 - libs.data.data_loader - INFO - [特征合并] 合并视频基础特征后形状: (2622668, 60)
+2025-08-24 22:42:17 - libs.data.data_loader - INFO - [特征合并] 合并视频统计特征后形状: (2622668, 111)
+2025-08-24 22:42:17 - libs.data.data_loader - INFO - [特征合并] 特征合并完成
+2025-08-24 22:42:18 - libs.data.cache_manager - INFO - [缓存] 数据已加载: user_video_lists
+2025-08-24 22:42:18 - libs.data.data_loader - INFO - [缓存] 从缓存加载用户-视频交互列表
+2025-08-24 22:42:18 - libs.data.data_loader - INFO - [用户划分] 开始划分用户，验证集比例: 0.2
+2025-08-24 22:42:18 - libs.data.data_loader - INFO - [用户划分] 训练用户数: 21828, 验证用户数: 5457
+2025-08-24 22:42:18 - libs.data.data_loader - INFO - [标记位] 添加mask和used标记位...
+2025-08-24 22:42:18 - libs.data.data_loader - INFO - [标记位] mask=1的样本数: 522996/2622668 (19.94%)
+2025-08-24 22:42:18 - libs.data.data_loader - INFO - [标记位] 标记位添加完成
+2025-08-24 22:42:18 - libs.data.data_loader - INFO - [数据准备] 数据准备流程完成
+2025-08-24 22:42:18 - libs.modes.global_mode_optimized - INFO - [数据统计] total_samples: 2622668
+2025-08-24 22:42:18 - libs.modes.global_mode_optimized - INFO - [数据统计] unique_users: 27285
+2025-08-24 22:42:18 - libs.modes.global_mode_optimized - INFO - [数据统计] unique_videos: 7583
+2025-08-24 22:42:18 - libs.modes.global_mode_optimized - INFO - [数据统计] train_users: 21828
+2025-08-24 22:42:18 - libs.modes.global_mode_optimized - INFO - [数据统计] val_users: 5457
+2025-08-24 22:42:18 - libs.modes.global_mode_optimized - INFO - [数据统计] click_rate: 0.3314472132957736
+2025-08-24 22:42:18 - libs.modes.global_mode_optimized - INFO - [数据统计] avg_play_time: 15676.53942435718
+2025-08-24 22:42:18 - libs.modes.global_mode_optimized - INFO - [数据统计] features_used: {'numerical': ['video_duration', 'server_width', 'server_height', 'show_cnt', 'play_cnt', 'play_user_num', 'complete_play_cnt', 'like_cnt', 'comment_cnt', 'share_cnt', 'collect_cnt', 'is_live_streamer', 'is_video_author', 'follow_user_num', 'fans_user_num', 'friend_user_num', 'register_days'], 'categorical': ['user_active_degree', 'video_type', 'tag']}
+2025-08-24 22:42:18 - libs.modes.global_mode_optimized - INFO - [特征处理] 开始特征预处理...
+2025-08-24 22:42:18 - libs.data.feature_processor - INFO - [特征处理] 开始特征拟合和转换...
+2025-08-24 22:42:18 - libs.data.feature_processor - INFO - [特征处理] 处理缺失值...
+2025-08-24 22:42:19 - libs.data.feature_processor - INFO - [特征处理] video_duration: 用0填充 65794 个缺失值
+2025-08-24 22:42:19 - libs.data.feature_processor - INFO - [特征处理] tag: 将 28107 个缺失值标记为'MISSING'
+2025-08-24 22:42:20 - libs.data.feature_processor - INFO - [特征处理] 缺失值处理完成
+2025-08-24 22:42:20 - libs.data.feature_processor - INFO - [特征处理] 处理分类特征...
+2025-08-24 22:42:21 - libs.data.feature_processor - INFO - [特征处理] user_active_degree: 9 个唯一值
+2025-08-24 22:42:23 - libs.data.feature_processor - INFO - [特征处理] user_active_degree -> 9 个one-hot特征
+2025-08-24 22:42:23 - libs.data.feature_processor - INFO - [特征处理] video_type: 3 个唯一值
+2025-08-24 22:42:24 - libs.data.feature_processor - INFO - [特征处理] video_type -> 3 个one-hot特征
+2025-08-24 22:42:24 - libs.data.feature_processor - INFO - [特征处理] tag: 111 个唯一值
+2025-08-24 22:42:26 - libs.data.feature_processor - INFO - [特征处理] tag -> 111 个one-hot特征
+2025-08-24 22:42:26 - libs.data.feature_processor - INFO - [特征处理] 分类特征处理完成，总维度: 123
+2025-08-24 22:42:26 - libs.data.feature_processor - INFO - [特征处理] 处理数值特征...
+2025-08-24 22:42:27 - libs.data.feature_processor - WARNING - [特征处理] 缺失的数值特征: ['follow_user_num']
+2025-08-24 22:42:27 - libs.data.feature_processor - INFO - [特征处理] 数值特征标准化器已拟合，特征数: 16
+2025-08-24 22:42:28 - libs.data.feature_processor - INFO - [特征处理] 数值特征标准化完成，维度: 16
+2025-08-24 22:42:28 - libs.data.feature_processor - INFO - [特征处理] 特征处理完成，总维度: 139 (数值: 16, 分类: 123)
+2025-08-24 22:42:28 - libs.data.feature_processor - INFO - [特征处理] 数据类型转换完成
+2025-08-24 22:42:28 - libs.modes.global_mode_optimized - INFO - [特征处理] 特征维度: 139
+2025-08-24 22:42:28 - libs.modes.global_mode_optimized - INFO - [特征处理] 特征列: ['video_duration', 'server_width', 'server_height', 'show_cnt', 'play_cnt', 'play_user_num', 'complete_play_cnt', 'like_cnt', 'comment_cnt', 'share_cnt', 'collect_cnt', 'is_live_streamer', 'is_video_author', 'fans_user_num', 'friend_user_num', 'register_days', 'user_active_degree_2_14_day_new', 'user_active_degree_30day_retention', 'user_active_degree_UNKNOWN', 'user_active_degree_day_new', 'user_active_degree_full_active', 'user_active_degree_high_active', 'user_active_degree_low_active', 'user_active_degree_middle_active', 'user_active_degree_single_low_active', 'video_type_AD', 'video_type_NORMAL', 'video_type_UNKNOWN', 'tag_1', 'tag_1,62', 'tag_10', 'tag_10,60', 'tag_11', 'tag_11,60', 'tag_12', 'tag_12,54', 'tag_12,54,60', 'tag_12,60', 'tag_12,62', 'tag_12,62,42', 'tag_12,62,60', 'tag_12,65', 'tag_12,65,60', 'tag_13', 'tag_13,62', 'tag_13,65', 'tag_14', 'tag_15', 'tag_15,67', 'tag_16', 'tag_17', 'tag_18', 'tag_19', 'tag_2', 'tag_20', 'tag_20,43', 'tag_20,54', 'tag_20,67', 'tag_20,67,68', 'tag_20,68', 'tag_21', 'tag_22', 'tag_23', 'tag_24', 'tag_25', 'tag_25,54', 'tag_25,65', 'tag_25,67', 'tag_26', 'tag_26,62', 'tag_26,65', 'tag_26,67', 'tag_27', 'tag_27,42', 'tag_27,42,54', 'tag_27,54', 'tag_27,67', 'tag_28', 'tag_29', 'tag_3', 'tag_3,42', 'tag_3,62', 'tag_3,62,42', 'tag_3,67', 'tag_30', 'tag_34', 'tag_35', 'tag_36', 'tag_37', 'tag_38', 'tag_39', 'tag_39,43', 'tag_39,68', 'tag_39,9', 'tag_4', 'tag_40,39', 'tag_42,18', 'tag_42,4', 'tag_42,60,18', 'tag_5', 'tag_5,42', 'tag_5,42,60', 'tag_5,54', 'tag_5,65', 'tag_5,65,42', 'tag_5,67', 'tag_56,39', 'tag_6', 'tag_62,10,60', 'tag_62,16', 'tag_62,18', 'tag_62,2', 'tag_62,27', 'tag_62,27,42', 'tag_62,4', 'tag_62,42,18', 'tag_62,42,4', 'tag_62,5', 'tag_62,5,42', 'tag_62,65,4', 'tag_62,7', 'tag_65,11', 'tag_65,18', 'tag_65,27,42', 'tag_65,36', 'tag_65,4', 'tag_65,42,18', 'tag_67,11', 'tag_67,19', 'tag_67,34', 'tag_67,4', 'tag_67,6', 'tag_67,7', 'tag_68,6', 'tag_7', 'tag_8', 'tag_8,67', 'tag_9', 'tag_MISSING']
+2025-08-24 22:42:28 - libs.models.multi_label_model - INFO - [模型构建] 开始构建多标签预测模型...
+2025-08-24 22:42:28 - libs.models.multi_label_model - INFO - [模型构建] 构建 play_time 模型...
+2025-08-24 22:42:30 - libs.models.multi_label_model - INFO - [模型构建] play_time 模型: 79105 参数, 优化器: Lookahead, 调度器: CosineAnnealingLR
+2025-08-24 22:42:30 - libs.models.multi_label_model - INFO - [模型构建] 构建 click 模型...
+2025-08-24 22:42:30 - libs.models.multi_label_model - INFO - [模型构建] click 模型: 28801 参数, 优化器: Adam, 调度器: ReduceLROnPlateau
+2025-08-24 22:42:30 - libs.models.multi_label_model - INFO - [模型构建] 多标签模型构建完成，共 2 个模型
+2025-08-24 22:42:30 - libs.modes.global_mode_optimized - INFO - [Global模式优化] 数据准备完成
+2025-08-24 22:42:30 - libs.modes.global_mode_optimized - INFO - [Optimization] Checking for torch.compile support...
+2025-08-24 22:42:30 - libs.modes.global_mode_optimized - INFO - [Optimization] Current device 'cpu' is not supported by torch.compile, skipping.
+2025-08-24 22:42:30 - libs.modes.global_mode_optimized - INFO - [预训练优化] 开始预训练阶段...
+2025-08-24 22:42:37 - libs.modes.global_mode_optimized - INFO - [预训练优化] 数据划分完成 - 训练集: 1049836, 验证集: 1049836
+2025-08-24 22:42:42 - libs.modes.global_mode_optimized - INFO - [数据集] 创建TabularDataset，样本数: 1049836, 特征维度: 139
+2025-08-24 22:42:42 - libs.modes.global_mode_optimized - INFO - [DataLoader] 创建完成 - batch_size: 64, num_workers: 0, pin_memory: False
+2025-08-24 22:42:47 - libs.modes.global_mode_optimized - INFO - [数据集] 创建TabularDataset，样本数: 1049836, 特征维度: 139
+2025-08-24 22:42:47 - libs.modes.global_mode_optimized - INFO - [DataLoader] 创建完成 - batch_size: 64, num_workers: 0, pin_memory: False
+2025-08-24 22:42:48 - libs.modes.global_mode_optimized - INFO - [预训练优化] Epoch 1/150
+2025-08-24 22:43:05 - libs.modes.global_mode_optimized - INFO - 
+--- 迭代 3000: 运行验证 ---
+2025-08-24 22:43:05 - libs.modes.global_mode_optimized - INFO - [验证] 迭代 3000 - 指标: train_play_time_loss: 19.812213, train_click_loss: 0.624802, val_play_time_loss: 17.350060, val_play_time_inf_count: 0.000000, val_click_loss: 0.751815, val_click_inf_count: 0.000000, val_click_accuracy: 0.333281, val_click_auc: 0.667529
+2025-08-24 22:43:05 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_play_time_loss': 17.350060. Saving model...
+2025-08-24 22:43:05 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_play_time_loss.pt
+2025-08-24 22:43:05 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_click_loss': 0.751815. Saving model...
+2025-08-24 22:43:05 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_click_loss.pt
+2025-08-24 22:43:05 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_click_accuracy': 0.333281. Saving model...
+2025-08-24 22:43:05 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_click_accuracy.pt
+2025-08-24 22:43:05 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_click_auc': 0.667529. Saving model...
+2025-08-24 22:43:05 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_click_auc.pt
+2025-08-24 22:43:05 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best OVERALL weighted score: -1.768817. Saving model...
+2025-08-24 22:43:05 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_overall.pt
+2025-08-24 22:43:06 - libs.modes.global_mode_optimized - INFO - [Plotting] Pre-training metrics chart saved.
+2025-08-24 22:43:06 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_latest.pt
+2025-08-24 22:43:23 - libs.modes.global_mode_optimized - INFO - 
+--- 迭代 6000: 运行验证 ---
+2025-08-24 22:43:23 - libs.modes.global_mode_optimized - INFO - [验证] 迭代 6000 - 指标: train_play_time_loss: 16.528391, train_click_loss: 0.605885, val_play_time_loss: 11.795027, val_play_time_inf_count: 0.000000, val_click_loss: 0.751112, val_click_inf_count: 0.000000, val_click_accuracy: 0.333281, val_click_auc: 0.670743
+2025-08-24 22:43:23 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_play_time_loss': 11.795027. Saving model...
+2025-08-24 22:43:23 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_play_time_loss.pt
+2025-08-24 22:43:23 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_click_loss': 0.751112. Saving model...
+2025-08-24 22:43:23 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_click_loss.pt
+2025-08-24 22:43:23 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_click_auc': 0.670743. Saving model...
+2025-08-24 22:43:23 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_click_auc.pt
+2025-08-24 22:43:23 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best OVERALL weighted score: -1.212068. Saving model...
+2025-08-24 22:43:23 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_overall.pt
+2025-08-24 22:43:24 - libs.modes.global_mode_optimized - INFO - [Plotting] Pre-training metrics chart saved.
+2025-08-24 22:43:24 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_latest.pt
+2025-08-24 22:43:41 - libs.modes.global_mode_optimized - INFO - 
+--- 迭代 9000: 运行验证 ---
+2025-08-24 22:43:41 - libs.modes.global_mode_optimized - INFO - [验证] 迭代 9000 - 指标: train_play_time_loss: 13.601693, train_click_loss: 0.602199, val_play_time_loss: 10.519565, val_play_time_inf_count: 0.000000, val_click_loss: 0.750390, val_click_inf_count: 0.000000, val_click_accuracy: 0.333281, val_click_auc: 0.671464
+2025-08-24 22:43:41 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_play_time_loss': 10.519565. Saving model...
+2025-08-24 22:43:41 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_play_time_loss.pt
+2025-08-24 22:43:41 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_click_loss': 0.750390. Saving model...
+2025-08-24 22:43:41 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_click_loss.pt
+2025-08-24 22:43:41 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_click_auc': 0.671464. Saving model...
+2025-08-24 22:43:41 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_click_auc.pt
+2025-08-24 22:43:41 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best OVERALL weighted score: -1.084017. Saving model...
+2025-08-24 22:43:41 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_overall.pt
+2025-08-24 22:43:42 - libs.modes.global_mode_optimized - INFO - [Plotting] Pre-training metrics chart saved.
+2025-08-24 22:43:42 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_latest.pt
+2025-08-24 22:43:59 - libs.modes.global_mode_optimized - INFO - 
+--- 迭代 12000: 运行验证 ---
+2025-08-24 22:43:59 - libs.modes.global_mode_optimized - INFO - [验证] 迭代 12000 - 指标: train_play_time_loss: 11.329920, train_click_loss: 0.599036, val_play_time_loss: 10.060914, val_play_time_inf_count: 0.000000, val_click_loss: 0.747872, val_click_inf_count: 0.000000, val_click_accuracy: 0.333281, val_click_auc: 0.673292
+2025-08-24 22:43:59 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_play_time_loss': 10.060914. Saving model...
+2025-08-24 22:43:59 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_play_time_loss.pt
+2025-08-24 22:43:59 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_click_loss': 0.747872. Saving model...
+2025-08-24 22:43:59 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_click_loss.pt
+2025-08-24 22:43:59 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_click_auc': 0.673292. Saving model...
+2025-08-24 22:43:59 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_click_auc.pt
+2025-08-24 22:43:59 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best OVERALL weighted score: -1.036596. Saving model...
+2025-08-24 22:43:59 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_overall.pt
+2025-08-24 22:44:00 - libs.modes.global_mode_optimized - INFO - [Plotting] Pre-training metrics chart saved.
+2025-08-24 22:44:00 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_latest.pt
+2025-08-24 22:44:16 - libs.modes.global_mode_optimized - INFO - 
+--- 迭代 15000: 运行验证 ---
+2025-08-24 22:44:17 - libs.modes.global_mode_optimized - INFO - [验证] 迭代 15000 - 指标: train_play_time_loss: 10.285981, train_click_loss: 0.596540, val_play_time_loss: 9.700079, val_play_time_inf_count: 0.000000, val_click_loss: 0.748675, val_click_inf_count: 0.000000, val_click_accuracy: 0.333281, val_click_auc: 0.674230
+2025-08-24 22:44:17 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_play_time_loss': 9.700079. Saving model...
+2025-08-24 22:44:17 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_play_time_loss.pt
+2025-08-24 22:44:17 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_click_auc': 0.674230. Saving model...
+2025-08-24 22:44:17 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_click_auc.pt
+2025-08-24 22:44:17 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best OVERALL weighted score: -1.000553. Saving model...
+2025-08-24 22:44:17 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_overall.pt
+2025-08-24 22:44:17 - libs.modes.global_mode_optimized - INFO - [Plotting] Pre-training metrics chart saved.
+2025-08-24 22:44:17 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_latest.pt
+2025-08-24 22:44:25 - libs.modes.global_mode_optimized - INFO - [预训练优化] Epoch 2/150
+2025-08-24 22:44:34 - libs.modes.global_mode_optimized - INFO - 
+--- 迭代 18000: 运行验证 ---
+2025-08-24 22:44:34 - libs.modes.global_mode_optimized - INFO - [验证] 迭代 18000 - 指标: train_play_time_loss: 9.617634, train_click_loss: 0.596029, val_play_time_loss: 9.212911, val_play_time_inf_count: 0.000000, val_click_loss: 0.748070, val_click_inf_count: 0.000000, val_click_accuracy: 0.333281, val_click_auc: 0.676684
+2025-08-24 22:44:34 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_play_time_loss': 9.212911. Saving model...
+2025-08-24 22:44:34 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_play_time_loss.pt
+2025-08-24 22:44:34 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_click_auc': 0.676684. Saving model...
+2025-08-24 22:44:34 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_click_auc.pt
+2025-08-24 22:44:34 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best OVERALL weighted score: -0.950857. Saving model...
+2025-08-24 22:44:34 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_overall.pt
+2025-08-24 22:44:34 - libs.modes.global_mode_optimized - INFO - [Plotting] Pre-training metrics chart saved.
+2025-08-24 22:44:34 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_latest.pt
+2025-08-24 22:44:51 - libs.modes.global_mode_optimized - INFO - 
+--- 迭代 21000: 运行验证 ---
+2025-08-24 22:44:52 - libs.modes.global_mode_optimized - INFO - [验证] 迭代 21000 - 指标: train_play_time_loss: 8.917411, train_click_loss: 0.595962, val_play_time_loss: 8.413339, val_play_time_inf_count: 0.000000, val_click_loss: 0.748970, val_click_inf_count: 0.000000, val_click_accuracy: 0.333281, val_click_auc: 0.677227
+2025-08-24 22:44:52 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_play_time_loss': 8.413339. Saving model...
+2025-08-24 22:44:52 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_play_time_loss.pt
+2025-08-24 22:44:52 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_click_auc': 0.677227. Saving model...
+2025-08-24 22:44:52 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_click_auc.pt
+2025-08-24 22:44:52 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best OVERALL weighted score: -0.871098. Saving model...
+2025-08-24 22:44:52 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_overall.pt
+2025-08-24 22:44:52 - libs.modes.global_mode_optimized - INFO - [Plotting] Pre-training metrics chart saved.
+2025-08-24 22:44:52 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_latest.pt
+2025-08-24 22:45:09 - libs.modes.global_mode_optimized - INFO - 
+--- 迭代 24000: 运行验证 ---
+2025-08-24 22:45:09 - libs.modes.global_mode_optimized - INFO - [验证] 迭代 24000 - 指标: train_play_time_loss: 7.982940, train_click_loss: 0.594258, val_play_time_loss: 7.378126, val_play_time_inf_count: 0.000000, val_click_loss: 0.745335, val_click_inf_count: 0.000000, val_click_accuracy: 0.333281, val_click_auc: 0.678745
+2025-08-24 22:45:09 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_play_time_loss': 7.378126. Saving model...
+2025-08-24 22:45:09 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_play_time_loss.pt
+2025-08-24 22:45:09 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_click_loss': 0.745335. Saving model...
+2025-08-24 22:45:09 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_click_loss.pt
+2025-08-24 22:45:09 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_click_auc': 0.678745. Saving model...
+2025-08-24 22:45:09 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_click_auc.pt
+2025-08-24 22:45:09 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best OVERALL weighted score: -0.765667. Saving model...
+2025-08-24 22:45:09 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_overall.pt
+2025-08-24 22:45:10 - libs.modes.global_mode_optimized - INFO - [Plotting] Pre-training metrics chart saved.
+2025-08-24 22:45:10 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_latest.pt
+2025-08-24 22:45:27 - libs.modes.global_mode_optimized - INFO - 
+--- 迭代 27000: 运行验证 ---
+2025-08-24 22:45:27 - libs.modes.global_mode_optimized - INFO - [验证] 迭代 27000 - 指标: train_play_time_loss: 6.907972, train_click_loss: 0.593869, val_play_time_loss: 6.317555, val_play_time_inf_count: 0.000000, val_click_loss: 0.748574, val_click_inf_count: 0.000000, val_click_accuracy: 0.333281, val_click_auc: 0.678562
+2025-08-24 22:45:27 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_play_time_loss': 6.317555. Saving model...
+2025-08-24 22:45:27 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_play_time_loss.pt
+2025-08-24 22:45:27 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best OVERALL weighted score: -0.660960. Saving model...
+2025-08-24 22:45:27 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_overall.pt
+2025-08-24 22:45:28 - libs.modes.global_mode_optimized - INFO - [Plotting] Pre-training metrics chart saved.
+2025-08-24 22:45:28 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_latest.pt
+2025-08-24 22:45:45 - libs.modes.global_mode_optimized - INFO - 
+--- 迭代 30000: 运行验证 ---
+2025-08-24 22:45:45 - libs.modes.global_mode_optimized - INFO - [验证] 迭代 30000 - 指标: train_play_time_loss: 5.885202, train_click_loss: 0.592402, val_play_time_loss: 5.350681, val_play_time_inf_count: 0.000000, val_click_loss: 0.749257, val_click_inf_count: 0.000000, val_click_accuracy: 0.333281, val_click_auc: 0.678663
+2025-08-24 22:45:45 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_play_time_loss': 5.350681. Saving model...
+2025-08-24 22:45:45 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_play_time_loss.pt
+2025-08-24 22:45:45 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best OVERALL weighted score: -0.564516. Saving model...
+2025-08-24 22:45:45 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_overall.pt
+2025-08-24 22:45:45 - libs.modes.global_mode_optimized - INFO - [Plotting] Pre-training metrics chart saved.
+2025-08-24 22:45:45 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_latest.pt
+2025-08-24 22:46:02 - libs.modes.global_mode_optimized - INFO - [预训练优化] Epoch 3/150
+2025-08-24 22:46:03 - libs.modes.global_mode_optimized - INFO - 
+--- 迭代 33000: 运行验证 ---
+2025-08-24 22:46:03 - libs.modes.global_mode_optimized - INFO - [验证] 迭代 33000 - 指标: train_play_time_loss: 5.004115, train_click_loss: 0.591166, val_play_time_loss: 4.505802, val_play_time_inf_count: 0.000000, val_click_loss: 0.746970, val_click_inf_count: 0.000000, val_click_accuracy: 0.333281, val_click_auc: 0.678955
+2025-08-24 22:46:03 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_play_time_loss': 4.505802. Saving model...
+2025-08-24 22:46:03 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_play_time_loss.pt
+2025-08-24 22:46:03 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_click_auc': 0.678955. Saving model...
+2025-08-24 22:46:03 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_click_auc.pt
+2025-08-24 22:46:03 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best OVERALL weighted score: -0.479026. Saving model...
+2025-08-24 22:46:03 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_overall.pt
+2025-08-24 22:46:03 - libs.modes.global_mode_optimized - INFO - [Plotting] Pre-training metrics chart saved.
+2025-08-24 22:46:03 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_latest.pt
+2025-08-24 22:46:20 - libs.modes.global_mode_optimized - INFO - 
+--- 迭代 36000: 运行验证 ---
+2025-08-24 22:46:20 - libs.modes.global_mode_optimized - INFO - [验证] 迭代 36000 - 指标: train_play_time_loss: 4.197685, train_click_loss: 0.592146, val_play_time_loss: 3.789540, val_play_time_inf_count: 0.000000, val_click_loss: 0.746287, val_click_inf_count: 0.000000, val_click_accuracy: 0.333281, val_click_auc: 0.680143
+2025-08-24 22:46:20 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_play_time_loss': 3.789540. Saving model...
+2025-08-24 22:46:20 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_play_time_loss.pt
+2025-08-24 22:46:20 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_click_auc': 0.680143. Saving model...
+2025-08-24 22:46:20 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_click_auc.pt
+2025-08-24 22:46:20 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best OVERALL weighted score: -0.406769. Saving model...
+2025-08-24 22:46:20 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_overall.pt
+2025-08-24 22:46:21 - libs.modes.global_mode_optimized - INFO - [Plotting] Pre-training metrics chart saved.
+2025-08-24 22:46:21 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_latest.pt
+2025-08-24 22:46:38 - libs.modes.global_mode_optimized - INFO - 
+--- 迭代 39000: 运行验证 ---
+2025-08-24 22:46:38 - libs.modes.global_mode_optimized - INFO - [验证] 迭代 39000 - 指标: train_play_time_loss: 3.562422, train_click_loss: 0.591363, val_play_time_loss: 3.262173, val_play_time_inf_count: 0.000000, val_click_loss: 0.746736, val_click_inf_count: 0.000000, val_click_accuracy: 0.333281, val_click_auc: 0.680328
+2025-08-24 22:46:38 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_play_time_loss': 3.262173. Saving model...
+2025-08-24 22:46:38 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_play_time_loss.pt
+2025-08-24 22:46:38 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_click_auc': 0.680328. Saving model...
+2025-08-24 22:46:38 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_click_auc.pt
+2025-08-24 22:46:38 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best OVERALL weighted score: -0.354157. Saving model...
+2025-08-24 22:46:38 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_overall.pt
+2025-08-24 22:46:39 - libs.modes.global_mode_optimized - INFO - [Plotting] Pre-training metrics chart saved.
+2025-08-24 22:46:39 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_latest.pt
+2025-08-24 22:47:01 - libs.modes.global_mode_optimized - INFO - 
+--- 迭代 42000: 运行验证 ---
+2025-08-24 22:47:02 - libs.modes.global_mode_optimized - INFO - [验证] 迭代 42000 - 指标: train_play_time_loss: 3.198787, train_click_loss: 0.590799, val_play_time_loss: 3.055841, val_play_time_inf_count: 0.000000, val_click_loss: 0.747299, val_click_inf_count: 0.000000, val_click_accuracy: 0.333281, val_click_auc: 0.680452
+2025-08-24 22:47:02 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_play_time_loss': 3.055841. Saving model...
+2025-08-24 22:47:02 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_play_time_loss.pt
+2025-08-24 22:47:02 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_click_auc': 0.680452. Saving model...
+2025-08-24 22:47:02 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_click_auc.pt
+2025-08-24 22:47:02 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best OVERALL weighted score: -0.333712. Saving model...
+2025-08-24 22:47:02 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_overall.pt
+2025-08-24 22:47:02 - libs.modes.global_mode_optimized - INFO - [Plotting] Pre-training metrics chart saved.
+2025-08-24 22:47:02 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_latest.pt
+2025-08-24 22:47:38 - libs.modes.global_mode_optimized - INFO - 
+--- 迭代 45000: 运行验证 ---
+2025-08-24 22:47:39 - libs.modes.global_mode_optimized - INFO - [验证] 迭代 45000 - 指标: train_play_time_loss: 3.066409, train_click_loss: 0.589317, val_play_time_loss: 3.001998, val_play_time_inf_count: 0.000000, val_click_loss: 0.747175, val_click_inf_count: 0.000000, val_click_accuracy: 0.333281, val_click_auc: 0.681560
+2025-08-24 22:47:39 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_play_time_loss': 3.001998. Saving model...
+2025-08-24 22:47:39 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_play_time_loss.pt
+2025-08-24 22:47:39 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_click_auc': 0.681560. Saving model...
+2025-08-24 22:47:39 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_click_auc.pt
+2025-08-24 22:47:39 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best OVERALL weighted score: -0.327945. Saving model...
+2025-08-24 22:47:39 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_overall.pt
+2025-08-24 22:47:39 - libs.modes.global_mode_optimized - INFO - [Plotting] Pre-training metrics chart saved.
+2025-08-24 22:47:39 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_latest.pt
+2025-08-24 22:48:05 - libs.modes.global_mode_optimized - INFO - 
+--- 迭代 48000: 运行验证 ---
+2025-08-24 22:48:05 - libs.modes.global_mode_optimized - INFO - [验证] 迭代 48000 - 指标: train_play_time_loss: 3.079787, train_click_loss: 0.588273, val_play_time_loss: 2.986322, val_play_time_inf_count: 0.000000, val_click_loss: 0.746281, val_click_inf_count: 0.000000, val_click_accuracy: 0.333281, val_click_auc: 0.682154
+2025-08-24 22:48:05 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_play_time_loss': 2.986322. Saving model...
+2025-08-24 22:48:05 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_play_time_loss.pt
+2025-08-24 22:48:05 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_click_auc': 0.682154. Saving model...
+2025-08-24 22:48:05 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_click_auc.pt
+2025-08-24 22:48:05 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best OVERALL weighted score: -0.325842. Saving model...
+2025-08-24 22:48:05 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_overall.pt
+2025-08-24 22:48:06 - libs.modes.global_mode_optimized - INFO - [Plotting] Pre-training metrics chart saved.
+2025-08-24 22:48:06 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_latest.pt
+2025-08-24 22:48:13 - libs.modes.global_mode_optimized - INFO - [预训练优化] Epoch 4/150
+2025-08-24 22:48:24 - libs.modes.global_mode_optimized - INFO - 
+--- 迭代 51000: 运行验证 ---
+2025-08-24 22:48:24 - libs.modes.global_mode_optimized - INFO - [验证] 迭代 51000 - 指标: train_play_time_loss: 3.000506, train_click_loss: 0.589629, val_play_time_loss: 2.976905, val_play_time_inf_count: 0.000000, val_click_loss: 0.746878, val_click_inf_count: 0.000000, val_click_accuracy: 0.333281, val_click_auc: 0.682590
+2025-08-24 22:48:24 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_play_time_loss': 2.976905. Saving model...
+2025-08-24 22:48:24 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_play_time_loss.pt
+2025-08-24 22:48:24 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_click_auc': 0.682590. Saving model...
+2025-08-24 22:48:24 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_click_auc.pt
+2025-08-24 22:48:24 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best OVERALL weighted score: -0.325009. Saving model...
+2025-08-24 22:48:24 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_overall.pt
+2025-08-24 22:48:24 - libs.modes.global_mode_optimized - INFO - [Plotting] Pre-training metrics chart saved.
+2025-08-24 22:48:24 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_latest.pt
+2025-08-24 22:48:42 - libs.modes.global_mode_optimized - INFO - 
+--- 迭代 54000: 运行验证 ---
+2025-08-24 22:48:42 - libs.modes.global_mode_optimized - INFO - [验证] 迭代 54000 - 指标: train_play_time_loss: 2.993156, train_click_loss: 0.589975, val_play_time_loss: 2.970119, val_play_time_inf_count: 0.000000, val_click_loss: 0.746535, val_click_inf_count: 0.000000, val_click_accuracy: 0.333281, val_click_auc: 0.682668
+2025-08-24 22:48:42 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_play_time_loss': 2.970119. Saving model...
+2025-08-24 22:48:42 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_play_time_loss.pt
+2025-08-24 22:48:42 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_click_auc': 0.682668. Saving model...
+2025-08-24 22:48:42 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_click_auc.pt
+2025-08-24 22:48:42 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best OVERALL weighted score: -0.324169. Saving model...
+2025-08-24 22:48:42 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_overall.pt
+2025-08-24 22:48:43 - libs.modes.global_mode_optimized - INFO - [Plotting] Pre-training metrics chart saved.
+2025-08-24 22:48:43 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_latest.pt
+2025-08-24 22:49:01 - libs.modes.global_mode_optimized - INFO - 
+--- 迭代 57000: 运行验证 ---
+2025-08-24 22:49:01 - libs.modes.global_mode_optimized - INFO - [验证] 迭代 57000 - 指标: train_play_time_loss: 3.030892, train_click_loss: 0.588281, val_play_time_loss: 2.964493, val_play_time_inf_count: 0.000000, val_click_loss: 0.745248, val_click_inf_count: 0.000000, val_click_accuracy: 0.333281, val_click_auc: 0.682722
+2025-08-24 22:49:01 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_play_time_loss': 2.964493. Saving model...
+2025-08-24 22:49:01 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_play_time_loss.pt
+2025-08-24 22:49:01 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_click_loss': 0.745248. Saving model...
+2025-08-24 22:49:01 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_click_loss.pt
+2025-08-24 22:49:01 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_click_auc': 0.682722. Saving model...
+2025-08-24 22:49:01 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_click_auc.pt
+2025-08-24 22:49:01 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best OVERALL weighted score: -0.323076. Saving model...
+2025-08-24 22:49:01 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_overall.pt
+2025-08-24 22:49:01 - libs.modes.global_mode_optimized - INFO - [Plotting] Pre-training metrics chart saved.
+2025-08-24 22:49:01 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_latest.pt
+2025-08-24 22:49:20 - libs.modes.global_mode_optimized - INFO - 
+--- 迭代 60000: 运行验证 ---
+2025-08-24 22:49:20 - libs.modes.global_mode_optimized - INFO - [验证] 迭代 60000 - 指标: train_play_time_loss: 2.996286, train_click_loss: 0.587875, val_play_time_loss: 2.960495, val_play_time_inf_count: 0.000000, val_click_loss: 0.747165, val_click_inf_count: 0.000000, val_click_accuracy: 0.333281, val_click_auc: 0.683615
+2025-08-24 22:49:20 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_play_time_loss': 2.960495. Saving model...
+2025-08-24 22:49:20 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_play_time_loss.pt
+2025-08-24 22:49:20 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_click_auc': 0.683615. Saving model...
+2025-08-24 22:49:20 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_click_auc.pt
+2025-08-24 22:49:21 - libs.modes.global_mode_optimized - INFO - [Plotting] Pre-training metrics chart saved.
+2025-08-24 22:49:21 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_latest.pt
+2025-08-24 22:49:58 - libs.modes.global_mode_optimized - INFO - 
+--- 迭代 63000: 运行验证 ---
+2025-08-24 22:49:59 - libs.modes.global_mode_optimized - INFO - [验证] 迭代 63000 - 指标: train_play_time_loss: 3.033684, train_click_loss: 0.586890, val_play_time_loss: 2.957417, val_play_time_inf_count: 0.000000, val_click_loss: 0.744086, val_click_inf_count: 0.000000, val_click_accuracy: 0.333281, val_click_auc: 0.682829
+2025-08-24 22:49:59 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_play_time_loss': 2.957417. Saving model...
+2025-08-24 22:49:59 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_play_time_loss.pt
+2025-08-24 22:49:59 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_click_loss': 0.744086. Saving model...
+2025-08-24 22:49:59 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_click_loss.pt
+2025-08-24 22:49:59 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best OVERALL weighted score: -0.321871. Saving model...
+2025-08-24 22:49:59 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_overall.pt
+2025-08-24 22:50:00 - libs.modes.global_mode_optimized - INFO - [Plotting] Pre-training metrics chart saved.
+2025-08-24 22:50:00 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_latest.pt
+2025-08-24 22:50:17 - libs.modes.global_mode_optimized - INFO - [预训练优化] Epoch 5/150
+2025-08-24 22:50:19 - libs.modes.global_mode_optimized - INFO - 
+--- 迭代 66000: 运行验证 ---
+2025-08-24 22:50:19 - libs.modes.global_mode_optimized - INFO - [验证] 迭代 66000 - 指标: train_play_time_loss: 3.012650, train_click_loss: 0.587659, val_play_time_loss: 2.955282, val_play_time_inf_count: 0.000000, val_click_loss: 0.744412, val_click_inf_count: 0.000000, val_click_accuracy: 0.333281, val_click_auc: 0.682604
+2025-08-24 22:50:19 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_play_time_loss': 2.955282. Saving model...
+2025-08-24 22:50:19 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_play_time_loss.pt
+2025-08-24 22:50:19 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best OVERALL weighted score: -0.321855. Saving model...
+2025-08-24 22:50:19 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_overall.pt
+2025-08-24 22:50:20 - libs.modes.global_mode_optimized - INFO - [Plotting] Pre-training metrics chart saved.
+2025-08-24 22:50:20 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_latest.pt
+2025-08-24 22:50:37 - libs.modes.global_mode_optimized - INFO - 
+--- 迭代 69000: 运行验证 ---
+2025-08-24 22:50:37 - libs.modes.global_mode_optimized - INFO - [验证] 迭代 69000 - 指标: train_play_time_loss: 3.027380, train_click_loss: 0.586695, val_play_time_loss: 2.953359, val_play_time_inf_count: 0.000000, val_click_loss: 0.744290, val_click_inf_count: 0.000000, val_click_accuracy: 0.333281, val_click_auc: 0.684308
+2025-08-24 22:50:37 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_play_time_loss': 2.953359. Saving model...
+2025-08-24 22:50:37 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_play_time_loss.pt
+2025-08-24 22:50:37 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_click_auc': 0.684308. Saving model...
+2025-08-24 22:50:37 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_click_auc.pt
+2025-08-24 22:50:37 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best OVERALL weighted score: -0.321103. Saving model...
+2025-08-24 22:50:37 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_overall.pt
+2025-08-24 22:50:38 - libs.modes.global_mode_optimized - INFO - [Plotting] Pre-training metrics chart saved.
+2025-08-24 22:50:38 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_latest.pt
+2025-08-24 22:50:56 - libs.modes.global_mode_optimized - INFO - 
+--- 迭代 72000: 运行验证 ---
+2025-08-24 22:50:56 - libs.modes.global_mode_optimized - INFO - [验证] 迭代 72000 - 指标: train_play_time_loss: 2.985959, train_click_loss: 0.587714, val_play_time_loss: 2.952049, val_play_time_inf_count: 0.000000, val_click_loss: 0.748358, val_click_inf_count: 0.000000, val_click_accuracy: 0.333281, val_click_auc: 0.685288
+2025-08-24 22:50:56 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_play_time_loss': 2.952049. Saving model...
+2025-08-24 22:50:56 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_play_time_loss.pt
+2025-08-24 22:50:56 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_click_auc': 0.685288. Saving model...
+2025-08-24 22:50:56 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_click_auc.pt
+2025-08-24 22:50:56 - libs.modes.global_mode_optimized - INFO - [Plotting] Pre-training metrics chart saved.
+2025-08-24 22:50:56 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_latest.pt
+2025-08-24 22:51:14 - libs.modes.global_mode_optimized - INFO - 
+--- 迭代 75000: 运行验证 ---
+2025-08-24 22:51:14 - libs.modes.global_mode_optimized - INFO - [验证] 迭代 75000 - 指标: train_play_time_loss: 3.003310, train_click_loss: 0.585676, val_play_time_loss: 2.950772, val_play_time_inf_count: 0.000000, val_click_loss: 0.745368, val_click_inf_count: 0.000000, val_click_accuracy: 0.333281, val_click_auc: 0.684775
+2025-08-24 22:51:14 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_play_time_loss': 2.950772. Saving model...
+2025-08-24 22:51:14 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_play_time_loss.pt
+2025-08-24 22:51:14 - libs.modes.global_mode_optimized - INFO - [Plotting] Pre-training metrics chart saved.
+2025-08-24 22:51:14 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_latest.pt
+2025-08-24 22:51:33 - libs.modes.global_mode_optimized - INFO - 
+--- 迭代 78000: 运行验证 ---
+2025-08-24 22:51:33 - libs.modes.global_mode_optimized - INFO - [验证] 迭代 78000 - 指标: train_play_time_loss: 3.002337, train_click_loss: 0.585298, val_play_time_loss: 2.949866, val_play_time_inf_count: 0.000000, val_click_loss: 0.741959, val_click_inf_count: 0.000000, val_click_accuracy: 0.333281, val_click_auc: 0.685550
+2025-08-24 22:51:33 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_play_time_loss': 2.949866. Saving model...
+2025-08-24 22:51:33 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_play_time_loss.pt
+2025-08-24 22:51:33 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_click_loss': 0.741959. Saving model...
+2025-08-24 22:51:33 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_click_loss.pt
+2025-08-24 22:51:33 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_click_auc': 0.685550. Saving model...
+2025-08-24 22:51:33 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_click_auc.pt
+2025-08-24 22:51:33 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best OVERALL weighted score: -0.319449. Saving model...
+2025-08-24 22:51:33 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_overall.pt
+2025-08-24 22:51:33 - libs.modes.global_mode_optimized - INFO - [Plotting] Pre-training metrics chart saved.
+2025-08-24 22:51:33 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_latest.pt
+2025-08-24 22:52:00 - libs.modes.global_mode_optimized - INFO - 
+--- 迭代 81000: 运行验证 ---
+2025-08-24 22:52:00 - libs.modes.global_mode_optimized - INFO - [验证] 迭代 81000 - 指标: train_play_time_loss: 2.966695, train_click_loss: 0.586978, val_play_time_loss: 2.949117, val_play_time_inf_count: 0.000000, val_click_loss: 0.743991, val_click_inf_count: 0.000000, val_click_accuracy: 0.333281, val_click_auc: 0.685401
+2025-08-24 22:52:00 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_play_time_loss': 2.949117. Saving model...
+2025-08-24 22:52:00 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_play_time_loss.pt
+2025-08-24 22:52:00 - libs.modes.global_mode_optimized - INFO - [Plotting] Pre-training metrics chart saved.
+2025-08-24 22:52:00 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_latest.pt
+2025-08-24 22:52:07 - libs.modes.global_mode_optimized - INFO - [预训练优化] Epoch 6/150
+2025-08-24 22:52:19 - libs.modes.global_mode_optimized - INFO - 
+--- 迭代 84000: 运行验证 ---
+2025-08-24 22:52:19 - libs.modes.global_mode_optimized - INFO - [验证] 迭代 84000 - 指标: train_play_time_loss: 3.002667, train_click_loss: 0.585961, val_play_time_loss: 2.948338, val_play_time_inf_count: 0.000000, val_click_loss: 0.743062, val_click_inf_count: 0.000000, val_click_accuracy: 0.333281, val_click_auc: 0.685447
+2025-08-24 22:52:19 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_play_time_loss': 2.948338. Saving model...
+2025-08-24 22:52:19 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_play_time_loss.pt
+2025-08-24 22:52:19 - libs.modes.global_mode_optimized - INFO - [Plotting] Pre-training metrics chart saved.
+2025-08-24 22:52:19 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_latest.pt
+2025-08-24 22:52:38 - libs.modes.global_mode_optimized - INFO - 
+--- 迭代 87000: 运行验证 ---
+2025-08-24 22:52:38 - libs.modes.global_mode_optimized - INFO - [验证] 迭代 87000 - 指标: train_play_time_loss: 3.014729, train_click_loss: 0.585798, val_play_time_loss: 2.947681, val_play_time_inf_count: 0.000000, val_click_loss: 0.743593, val_click_inf_count: 0.000000, val_click_accuracy: 0.333281, val_click_auc: 0.687594
+2025-08-24 22:52:38 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_play_time_loss': 2.947681. Saving model...
+2025-08-24 22:52:38 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_play_time_loss.pt
+2025-08-24 22:52:38 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_click_auc': 0.687594. Saving model...
+2025-08-24 22:52:38 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_click_auc.pt
+2025-08-24 22:52:38 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best OVERALL weighted score: -0.319271. Saving model...
+2025-08-24 22:52:38 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_overall.pt
+2025-08-24 22:52:38 - libs.modes.global_mode_optimized - INFO - [Plotting] Pre-training metrics chart saved.
+2025-08-24 22:52:38 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_latest.pt
+2025-08-24 22:52:57 - libs.modes.global_mode_optimized - INFO - 
+--- 迭代 90000: 运行验证 ---
+2025-08-24 22:52:57 - libs.modes.global_mode_optimized - INFO - [验证] 迭代 90000 - 指标: train_play_time_loss: 3.005836, train_click_loss: 0.586166, val_play_time_loss: 2.947157, val_play_time_inf_count: 0.000000, val_click_loss: 0.743883, val_click_inf_count: 0.000000, val_click_accuracy: 0.333281, val_click_auc: 0.685105
+2025-08-24 22:52:57 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_play_time_loss': 2.947157. Saving model...
+2025-08-24 22:52:57 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_play_time_loss.pt
+2025-08-24 22:52:58 - libs.modes.global_mode_optimized - INFO - [Plotting] Pre-training metrics chart saved.
+2025-08-24 22:52:58 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_latest.pt
+2025-08-24 22:53:21 - libs.modes.global_mode_optimized - INFO - 
+--- 迭代 93000: 运行验证 ---
+2025-08-24 22:53:21 - libs.modes.global_mode_optimized - INFO - [验证] 迭代 93000 - 指标: train_play_time_loss: 2.973722, train_click_loss: 0.585708, val_play_time_loss: 2.946594, val_play_time_inf_count: 0.000000, val_click_loss: 0.745101, val_click_inf_count: 0.000000, val_click_accuracy: 0.333281, val_click_auc: 0.685345
+2025-08-24 22:53:21 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_play_time_loss': 2.946594. Saving model...
+2025-08-24 22:53:21 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_play_time_loss.pt
+2025-08-24 22:53:22 - libs.modes.global_mode_optimized - INFO - [Plotting] Pre-training metrics chart saved.
+2025-08-24 22:53:22 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_latest.pt
+2025-08-24 22:53:39 - libs.modes.global_mode_optimized - INFO - 
+--- 迭代 96000: 运行验证 ---
+2025-08-24 22:53:39 - libs.modes.global_mode_optimized - INFO - [验证] 迭代 96000 - 指标: train_play_time_loss: 2.984891, train_click_loss: 0.584193, val_play_time_loss: 2.946284, val_play_time_inf_count: 0.000000, val_click_loss: 0.744284, val_click_inf_count: 0.000000, val_click_accuracy: 0.333281, val_click_auc: 0.685543
+2025-08-24 22:53:39 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_play_time_loss': 2.946284. Saving model...
+2025-08-24 22:53:39 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_play_time_loss.pt
+2025-08-24 22:53:40 - libs.modes.global_mode_optimized - INFO - [Plotting] Pre-training metrics chart saved.
+2025-08-24 22:53:40 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_latest.pt
+2025-08-24 22:53:56 - libs.modes.global_mode_optimized - INFO - [预训练优化] Epoch 7/150
+2025-08-24 22:53:59 - libs.modes.global_mode_optimized - INFO - 
+--- 迭代 99000: 运行验证 ---
+2025-08-24 22:53:59 - libs.modes.global_mode_optimized - INFO - [验证] 迭代 99000 - 指标: train_play_time_loss: 3.003609, train_click_loss: 0.585475, val_play_time_loss: 2.945753, val_play_time_inf_count: 0.000000, val_click_loss: 0.744943, val_click_inf_count: 0.000000, val_click_accuracy: 0.333281, val_click_auc: 0.684673
+2025-08-24 22:53:59 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_play_time_loss': 2.945753. Saving model...
+2025-08-24 22:53:59 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_play_time_loss.pt
+2025-08-24 22:54:00 - libs.modes.global_mode_optimized - INFO - [Plotting] Pre-training metrics chart saved.
+2025-08-24 22:54:00 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_latest.pt
+2025-08-24 22:54:18 - libs.modes.global_mode_optimized - INFO - 
+--- 迭代 102000: 运行验证 ---
+2025-08-24 22:54:18 - libs.modes.global_mode_optimized - INFO - [验证] 迭代 102000 - 指标: train_play_time_loss: 2.993591, train_click_loss: 0.585633, val_play_time_loss: 2.945515, val_play_time_inf_count: 0.000000, val_click_loss: 0.744461, val_click_inf_count: 0.000000, val_click_accuracy: 0.333281, val_click_auc: 0.686343
+2025-08-24 22:54:18 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_play_time_loss': 2.945515. Saving model...
+2025-08-24 22:54:18 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_play_time_loss.pt
+2025-08-24 22:54:18 - libs.modes.global_mode_optimized - INFO - [Plotting] Pre-training metrics chart saved.
+2025-08-24 22:54:18 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_latest.pt
+2025-08-24 22:54:37 - libs.modes.global_mode_optimized - INFO - 
+--- 迭代 105000: 运行验证 ---
+2025-08-24 22:54:37 - libs.modes.global_mode_optimized - INFO - [验证] 迭代 105000 - 指标: train_play_time_loss: 2.961564, train_click_loss: 0.585343, val_play_time_loss: 2.945176, val_play_time_inf_count: 0.000000, val_click_loss: 0.744686, val_click_inf_count: 0.000000, val_click_accuracy: 0.333281, val_click_auc: 0.686934
+2025-08-24 22:54:37 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_play_time_loss': 2.945176. Saving model...
+2025-08-24 22:54:37 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_play_time_loss.pt
+2025-08-24 22:54:37 - libs.modes.global_mode_optimized - INFO - [Plotting] Pre-training metrics chart saved.
+2025-08-24 22:54:37 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_latest.pt
+2025-08-24 22:54:57 - libs.modes.global_mode_optimized - INFO - 
+--- 迭代 108000: 运行验证 ---
+2025-08-24 22:54:57 - libs.modes.global_mode_optimized - INFO - [验证] 迭代 108000 - 指标: train_play_time_loss: 3.006138, train_click_loss: 0.584039, val_play_time_loss: 2.944725, val_play_time_inf_count: 0.000000, val_click_loss: 0.745277, val_click_inf_count: 0.000000, val_click_accuracy: 0.333281, val_click_auc: 0.687186
+2025-08-24 22:54:57 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_play_time_loss': 2.944725. Saving model...
+2025-08-24 22:54:57 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_play_time_loss.pt
+2025-08-24 22:54:57 - libs.modes.global_mode_optimized - INFO - [Plotting] Pre-training metrics chart saved.
+2025-08-24 22:54:57 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_latest.pt
+2025-08-24 22:55:16 - libs.modes.global_mode_optimized - INFO - 
+--- 迭代 111000: 运行验证 ---
+2025-08-24 22:55:16 - libs.modes.global_mode_optimized - INFO - [验证] 迭代 111000 - 指标: train_play_time_loss: 3.026427, train_click_loss: 0.583050, val_play_time_loss: 2.944271, val_play_time_inf_count: 0.000000, val_click_loss: 0.741264, val_click_inf_count: 0.000000, val_click_accuracy: 0.333281, val_click_auc: 0.687524
+2025-08-24 22:55:16 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_play_time_loss': 2.944271. Saving model...
+2025-08-24 22:55:16 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_play_time_loss.pt
+2025-08-24 22:55:16 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_click_loss': 0.741264. Saving model...
+2025-08-24 22:55:16 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_click_loss.pt
+2025-08-24 22:55:16 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best OVERALL weighted score: -0.318019. Saving model...
+2025-08-24 22:55:16 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_overall.pt
+2025-08-24 22:55:17 - libs.modes.global_mode_optimized - INFO - [Plotting] Pre-training metrics chart saved.
+2025-08-24 22:55:17 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_latest.pt
+2025-08-24 22:55:35 - libs.modes.global_mode_optimized - INFO - 
+--- 迭代 114000: 运行验证 ---
+2025-08-24 22:55:35 - libs.modes.global_mode_optimized - INFO - [验证] 迭代 114000 - 指标: train_play_time_loss: 2.968681, train_click_loss: 0.585011, val_play_time_loss: 2.944071, val_play_time_inf_count: 0.000000, val_click_loss: 0.742575, val_click_inf_count: 0.000000, val_click_accuracy: 0.333281, val_click_auc: 0.688098
+2025-08-24 22:55:35 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_play_time_loss': 2.944071. Saving model...
+2025-08-24 22:55:35 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_play_time_loss.pt
+2025-08-24 22:55:35 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_click_auc': 0.688098. Saving model...
+2025-08-24 22:55:35 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_click_auc.pt
+2025-08-24 22:55:36 - libs.modes.global_mode_optimized - INFO - [Plotting] Pre-training metrics chart saved.
+2025-08-24 22:55:36 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_latest.pt
+2025-08-24 22:55:41 - libs.modes.global_mode_optimized - INFO - [预训练优化] Epoch 8/150
+2025-08-24 22:55:55 - libs.modes.global_mode_optimized - INFO - 
+--- 迭代 117000: 运行验证 ---
+2025-08-24 22:55:56 - libs.modes.global_mode_optimized - INFO - [验证] 迭代 117000 - 指标: train_play_time_loss: 3.001719, train_click_loss: 0.584561, val_play_time_loss: 2.943910, val_play_time_inf_count: 0.000000, val_click_loss: 0.745378, val_click_inf_count: 0.000000, val_click_accuracy: 0.333281, val_click_auc: 0.686834
+2025-08-24 22:55:56 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_play_time_loss': 2.943910. Saving model...
+2025-08-24 22:55:56 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_play_time_loss.pt
+2025-08-24 22:55:56 - libs.modes.global_mode_optimized - INFO - [Plotting] Pre-training metrics chart saved.
+2025-08-24 22:55:56 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_latest.pt
+2025-08-24 22:56:15 - libs.modes.global_mode_optimized - INFO - 
+--- 迭代 120000: 运行验证 ---
+2025-08-24 22:56:15 - libs.modes.global_mode_optimized - INFO - [验证] 迭代 120000 - 指标: train_play_time_loss: 2.995802, train_click_loss: 0.584347, val_play_time_loss: 2.943633, val_play_time_inf_count: 0.000000, val_click_loss: 0.742139, val_click_inf_count: 0.000000, val_click_accuracy: 0.333281, val_click_auc: 0.687589
+2025-08-24 22:56:15 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_play_time_loss': 2.943633. Saving model...
+2025-08-24 22:56:15 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_play_time_loss.pt
+2025-08-24 22:56:16 - libs.modes.global_mode_optimized - INFO - [Plotting] Pre-training metrics chart saved.
+2025-08-24 22:56:16 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_latest.pt
+2025-08-24 22:56:35 - libs.modes.global_mode_optimized - INFO - 
+--- 迭代 123000: 运行验证 ---
+2025-08-24 22:56:35 - libs.modes.global_mode_optimized - INFO - [验证] 迭代 123000 - 指标: train_play_time_loss: 3.004612, train_click_loss: 0.584322, val_play_time_loss: 2.943319, val_play_time_inf_count: 0.000000, val_click_loss: 0.743393, val_click_inf_count: 0.000000, val_click_accuracy: 0.333281, val_click_auc: 0.685926
+2025-08-24 22:56:35 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_play_time_loss': 2.943319. Saving model...
+2025-08-24 22:56:35 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_play_time_loss.pt
+2025-08-24 22:56:35 - libs.modes.global_mode_optimized - INFO - [Plotting] Pre-training metrics chart saved.
+2025-08-24 22:56:35 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_latest.pt
+2025-08-24 22:56:59 - libs.modes.global_mode_optimized - INFO - 
+--- 迭代 126000: 运行验证 ---
+2025-08-24 22:56:59 - libs.modes.global_mode_optimized - INFO - [验证] 迭代 126000 - 指标: train_play_time_loss: 2.984370, train_click_loss: 0.583587, val_play_time_loss: 2.943051, val_play_time_inf_count: 0.000000, val_click_loss: 0.743401, val_click_inf_count: 0.000000, val_click_accuracy: 0.333281, val_click_auc: 0.687668
+2025-08-24 22:56:59 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_play_time_loss': 2.943051. Saving model...
+2025-08-24 22:56:59 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_play_time_loss.pt
+2025-08-24 22:57:00 - libs.modes.global_mode_optimized - INFO - [Plotting] Pre-training metrics chart saved.
+2025-08-24 22:57:00 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_latest.pt
+2025-08-24 22:57:34 - libs.modes.global_mode_optimized - INFO - 
+--- 迭代 129000: 运行验证 ---
+2025-08-24 22:57:34 - libs.modes.global_mode_optimized - INFO - [验证] 迭代 129000 - 指标: train_play_time_loss: 2.977552, train_click_loss: 0.583306, val_play_time_loss: 2.942790, val_play_time_inf_count: 0.000000, val_click_loss: 0.743385, val_click_inf_count: 0.000000, val_click_accuracy: 0.333281, val_click_auc: 0.687708
+2025-08-24 22:57:34 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_play_time_loss': 2.942790. Saving model...
+2025-08-24 22:57:34 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_play_time_loss.pt
+2025-08-24 22:57:35 - libs.modes.global_mode_optimized - INFO - [Plotting] Pre-training metrics chart saved.
+2025-08-24 22:57:35 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_latest.pt
+2025-08-24 22:57:49 - libs.modes.global_mode_optimized - INFO - [预训练优化] Epoch 9/150
+2025-08-24 22:57:53 - libs.modes.global_mode_optimized - INFO - 
+--- 迭代 132000: 运行验证 ---
+2025-08-24 22:57:54 - libs.modes.global_mode_optimized - INFO - [验证] 迭代 132000 - 指标: train_play_time_loss: 2.970478, train_click_loss: 0.584124, val_play_time_loss: 2.942626, val_play_time_inf_count: 0.000000, val_click_loss: 0.743365, val_click_inf_count: 0.000000, val_click_accuracy: 0.333281, val_click_auc: 0.687077
+2025-08-24 22:57:54 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_play_time_loss': 2.942626. Saving model...
+2025-08-24 22:57:54 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_play_time_loss.pt
+2025-08-24 22:57:54 - libs.modes.global_mode_optimized - INFO - [Plotting] Pre-training metrics chart saved.
+2025-08-24 22:57:54 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_latest.pt
+2025-08-24 22:58:13 - libs.modes.global_mode_optimized - INFO - 
+--- 迭代 135000: 运行验证 ---
+2025-08-24 22:58:13 - libs.modes.global_mode_optimized - INFO - [验证] 迭代 135000 - 指标: train_play_time_loss: 2.976775, train_click_loss: 0.583024, val_play_time_loss: 2.942461, val_play_time_inf_count: 0.000000, val_click_loss: 0.743446, val_click_inf_count: 0.000000, val_click_accuracy: 0.333281, val_click_auc: 0.687881
+2025-08-24 22:58:13 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_play_time_loss': 2.942461. Saving model...
+2025-08-24 22:58:13 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_play_time_loss.pt
+2025-08-24 22:58:14 - libs.modes.global_mode_optimized - INFO - [Plotting] Pre-training metrics chart saved.
+2025-08-24 22:58:14 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_latest.pt
+2025-08-24 22:58:32 - libs.modes.global_mode_optimized - INFO - 
+--- 迭代 138000: 运行验证 ---
+2025-08-24 22:58:32 - libs.modes.global_mode_optimized - INFO - [验证] 迭代 138000 - 指标: train_play_time_loss: 3.007909, train_click_loss: 0.582172, val_play_time_loss: 2.942299, val_play_time_inf_count: 0.000000, val_click_loss: 0.739572, val_click_inf_count: 0.000000, val_click_accuracy: 0.333281, val_click_auc: 0.688211
+2025-08-24 22:58:32 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_play_time_loss': 2.942299. Saving model...
+2025-08-24 22:58:32 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_play_time_loss.pt
+2025-08-24 22:58:32 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_click_loss': 0.739572. Saving model...
+2025-08-24 22:58:32 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_click_loss.pt
+2025-08-24 22:58:32 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_click_auc': 0.688211. Saving model...
+2025-08-24 22:58:32 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_click_auc.pt
+2025-08-24 22:58:32 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best OVERALL weighted score: -0.316939. Saving model...
+2025-08-24 22:58:32 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_overall.pt
+2025-08-24 22:58:33 - libs.modes.global_mode_optimized - INFO - [Plotting] Pre-training metrics chart saved.
+2025-08-24 22:58:33 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_latest.pt
+2025-08-24 22:58:51 - libs.modes.global_mode_optimized - INFO - 
+--- 迭代 141000: 运行验证 ---
+2025-08-24 22:58:51 - libs.modes.global_mode_optimized - INFO - [验证] 迭代 141000 - 指标: train_play_time_loss: 2.996292, train_click_loss: 0.582762, val_play_time_loss: 2.941959, val_play_time_inf_count: 0.000000, val_click_loss: 0.743809, val_click_inf_count: 0.000000, val_click_accuracy: 0.333281, val_click_auc: 0.688379
+2025-08-24 22:58:51 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_play_time_loss': 2.941959. Saving model...
+2025-08-24 22:58:51 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_play_time_loss.pt
+2025-08-24 22:58:51 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_click_auc': 0.688379. Saving model...
+2025-08-24 22:58:51 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_click_auc.pt
+2025-08-24 22:58:51 - libs.modes.global_mode_optimized - INFO - [Plotting] Pre-training metrics chart saved.
+2025-08-24 22:58:51 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_latest.pt
+2025-08-24 22:59:09 - libs.modes.global_mode_optimized - INFO - 
+--- 迭代 144000: 运行验证 ---
+2025-08-24 22:59:09 - libs.modes.global_mode_optimized - INFO - [验证] 迭代 144000 - 指标: train_play_time_loss: 2.971156, train_click_loss: 0.584910, val_play_time_loss: 2.941935, val_play_time_inf_count: 0.000000, val_click_loss: 0.742754, val_click_inf_count: 0.000000, val_click_accuracy: 0.333281, val_click_auc: 0.688933
+2025-08-24 22:59:09 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_play_time_loss': 2.941935. Saving model...
+2025-08-24 22:59:09 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_play_time_loss.pt
+2025-08-24 22:59:09 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_click_auc': 0.688933. Saving model...
+2025-08-24 22:59:09 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_click_auc.pt
+2025-08-24 22:59:10 - libs.modes.global_mode_optimized - INFO - [Plotting] Pre-training metrics chart saved.
+2025-08-24 22:59:10 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_latest.pt
+2025-08-24 22:59:28 - libs.modes.global_mode_optimized - INFO - 
+--- 迭代 147000: 运行验证 ---
+2025-08-24 22:59:28 - libs.modes.global_mode_optimized - INFO - [验证] 迭代 147000 - 指标: train_play_time_loss: 2.985787, train_click_loss: 0.584251, val_play_time_loss: 2.941821, val_play_time_inf_count: 0.000000, val_click_loss: 0.745747, val_click_inf_count: 0.000000, val_click_accuracy: 0.333281, val_click_auc: 0.688084
+2025-08-24 22:59:28 - libs.modes.global_mode_optimized - INFO - [Checkpoint] New best for 'val_play_time_loss': 2.941821. Saving model...
+2025-08-24 22:59:28 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_best_play_time_loss.pt
+2025-08-24 22:59:29 - libs.modes.global_mode_optimized - INFO - [Plotting] Pre-training metrics chart saved.
+2025-08-24 22:59:29 - libs.models.multi_label_model - INFO - [模型保存] 模型已保存到: E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP\results\20250824_2242\checkpoints\pretrain_latest.pt
+2025-08-24 22:59:32 - libs.modes.global_mode_optimized - INFO - [预训练优化] Epoch 10/150

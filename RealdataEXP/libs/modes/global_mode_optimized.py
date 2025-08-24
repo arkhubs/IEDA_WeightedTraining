@@ -109,8 +109,7 @@ class GlobalModeOptimized:
         
         # --- 新增：用于最佳模型检查点保存 ---
         self.best_metrics = {} 
-        self.primary_metric = self.config.get('validation', {}).get('primary_metric', 'val_play_time_loss')
-        logger.info(f"[检查点] 用于保存'最佳整体'模型的主要指标是: {self.primary_metric}")
+        self.best_overall_score_config = self.config.get('validation', {}).get('best_overall_score', {})
         
         # GPU监控器
         self.gpu_monitor = None
@@ -206,46 +205,90 @@ class GlobalModeOptimized:
             config=self.config, input_dim=input_dim, device=self.device
         )
         
-        # --- 新增：加载预训练权重 ---
+        # --- New: Load checkpoint if specified ---
         checkpoint_path = self.config['pretrain'].get('load_checkpoint_path')
         if checkpoint_path and os.path.exists(checkpoint_path):
-            logger.info(f"[模型加载] 发现预训练权重配置，正在从 {checkpoint_path} 加载...")
+            logger.info(f"[Checkpoint] Resuming training from: {checkpoint_path}")
             try:
+                # The load_models method now also loads optimizer and scheduler states
                 self.multi_label_model.load_models(checkpoint_path)
-                logger.info(f"[模型加载] 成功加载预训练权重")
+                logger.info(f"[Checkpoint] Successfully loaded model, optimizer, and scheduler states.")
             except Exception as e:
-                logger.error(f"[模型加载] 加载预训练权重失败: {e}")
+                logger.error(f"[Checkpoint] Failed to load checkpoint: {e}")
         elif checkpoint_path:
-            logger.warning(f"[模型加载] 配置文件中指定的权重文件不存在: {checkpoint_path}")
-        # --- 结束新增部分 ---
+            logger.warning(f"[Checkpoint] Specified checkpoint path not found: {checkpoint_path}. Starting from scratch.")
+        # --- End of new block ---
         
-        # --- 关键修复：根据use_amp决定IPEX优化策略 ---
+        # --- New: Configurable Optimization Strategy ---
+        opt_config = self.config.get('optimization', {})
+        compile_config = opt_config.get('torch_compile', {})
+        ipex_strategy = opt_config.get('ipex_strategy', 'optimize') # Default to 'optimize' for safety
+
+        # Apply optimizations based on device and strategy
         if self.device.type == 'xpu':
-            logger.info("[IPEX] Applying ipex.optimize() to all models and optimizers...")
-            import intel_extension_for_pytorch as ipex
+            logger.info(f"[Optimization] IPEX device detected. Selected strategy: '{ipex_strategy}'")
             
-            for label_name in self.multi_label_model.models:
-                model = self.multi_label_model.models[label_name]
-                optimizer = self.multi_label_model.optimizers[label_name]
+            # --- Strategy 1: Use torch.compile with IPEX backend (Experimental) ---
+            if ipex_strategy == 'compile' and compile_config.get('enabled', False):
+                try:
+                    if hasattr(torch, 'compile'):
+                        logger.info("[Optimization] Applying torch.compile(backend='ipex')...")
+                        for label_name, model in self.multi_label_model.models.items():
+                            self.multi_label_model.models[label_name] = torch.compile(model, backend="ipex")
+                        logger.info("[Optimization] torch.compile with IPEX backend applied successfully.")
+                    else:
+                        logger.warning("[Optimization] torch.compile not found. Please ensure PyTorch version >= 2.0.")
+                except Exception as e:
+                    logger.error(f"[Optimization] Failed to apply torch.compile with IPEX backend: {e}. Consider switching ipex_strategy to 'optimize'.")
+
+            # --- Strategy 2: Use ipex.optimize (Default and Recommended) ---
+            else:
+                if ipex_strategy != 'optimize':
+                    logger.warning(f"Invalid ipex_strategy '{ipex_strategy}' or torch.compile disabled. Defaulting to 'optimize'.")
                 
-                if self.use_amp:
-                    logger.info(f"[IPEX] Optimizing '{label_name}' with bfloat16 for AMP.")
-                    # 当AMP启用时，使用bfloat16进行混合精度优化
-                    optimized_model, optimized_optimizer = ipex.optimize(
-                        model, optimizer=optimizer, dtype=torch.bfloat16
-                    )
+                logger.info("[Optimization] Applying ipex.optimize()...")
+                try:
+                    import intel_extension_for_pytorch as ipex
+                    for i, label_name in enumerate(self.multi_label_model.models):
+                        model = self.multi_label_model.models[label_name]
+                        optimizer = self.multi_label_model.optimizers[label_name]
+                        opt_name = self.config['labels'][i]['optimizer']['name']
+
+                        if self.use_amp:
+                            if 'sgd' in opt_name.lower():
+                                logger.info(f"[IPEX] Optimizing '{label_name}' with bfloat16 for AMP (SGD detected).")
+                                optimized_model, optimized_optimizer = ipex.optimize(model, optimizer=optimizer, dtype=torch.bfloat16)
+                            else:
+                                logger.warning(f"[IPEX] Optimizer '{opt_name}' for label '{label_name}' is not SGD. Skipping bfloat16 optimization to prevent instability. Training will use float32.")
+                                optimized_model, optimized_optimizer = ipex.optimize(model, optimizer=optimizer)
+                        else:
+                            logger.info(f"[IPEX] Optimizing '{label_name}' in float32 (AMP disabled).")
+                            optimized_model, optimized_optimizer = ipex.optimize(model, optimizer=optimizer)
+                        
+                        self.multi_label_model.models[label_name] = optimized_model
+                        self.multi_label_model.optimizers[label_name] = optimized_optimizer
+                    logger.info("[Optimization] ipex.optimize() applied successfully.")
+                except Exception as e:
+                    logger.error(f"[Optimization] Failed to apply ipex.optimize(): {e}")
+
+        # --- Strategy 3: Use torch.compile with CUDA backend ---
+        elif self.device.type == 'cuda' and compile_config.get('enabled', False):
+            try:
+                if hasattr(torch, 'compile'):
+                    logger.info(f"[Optimization] Enabling torch.compile on {self.device.type} backend...")
+                    backend = compile_config.get('backend', 'default')
+                    for label_name, model in self.multi_label_model.models.items():
+                        self.multi_label_model.models[label_name] = torch.compile(model, backend=backend)
+                    logger.info(f"[Optimization] torch.compile enabled successfully with backend '{backend}'.")
                 else:
-                    logger.info(f"[IPEX] Optimizing '{label_name}' in float32 (AMP disabled).")
-                    # 当AMP禁用时，不传递dtype参数，模型保持float32
-                    optimized_model, optimized_optimizer = ipex.optimize(
-                        model, optimizer=optimizer
-                    )
-                
-                # 将原始模型和优化器替换为优化后的版本
-                self.multi_label_model.models[label_name] = optimized_model
-                self.multi_label_model.optimizers[label_name] = optimized_optimizer
-            logger.info("[IPEX] ipex.optimize() applied successfully.")
-        # --- 修复结束 ---
+                    logger.warning("[Optimization] torch.compile not found. Please ensure PyTorch version >= 2.0.")
+            except Exception as e:
+                logger.error(f"[Optimization] Failed to apply torch.compile: {e}")
+        
+        else:
+            if compile_config.get('enabled', False):
+                 logger.info(f"[Optimization] No advanced optimizations applicable for the current device ('{self.device.type}') and configuration.")
+        # --- End of Optimization Strategy ---
         
         logger.info("[Global模式优化] 数据准备完成")
 
@@ -318,6 +361,12 @@ class GlobalModeOptimized:
 
                 except Exception as e:
                     logger.warning(f"无法计算 {label_name} 的AUC: {e}")
+                # --- 新增：数值型标签如 play_time 的 MAPE 计算 ---
+                if label_config['type'] == 'numerical':
+                    non_zero_mask = targets != 0
+                    if np.any(non_zero_mask):
+                        mape = np.mean(np.abs((targets[non_zero_mask] - preds[non_zero_mask]) / targets[non_zero_mask])) * 100
+                        val_metrics[f'val_{label_name}_mape'] = mape
 
         return val_metrics
 
@@ -369,28 +418,39 @@ class GlobalModeOptimized:
         """根据验证指标，更新并保存最佳模型检查点"""
         checkpoint_dir = os.path.join(self.exp_dir, "checkpoints")
         
-        # --- 为每个跟踪的值更新最佳指标 ---
+        # --- Update best metric for each tracked value ---
         for key, value in val_metrics.items():
-            # 对于损失，越低越好。对于准确率/AUC，越高越好。
-            is_loss = 'loss' in key or 'inf' in key
+            # --- New: Skip saving useless inf_count checkpoints ---
+            if 'inf_count' in key:
+                continue
+
+            is_loss = 'loss' in key
             current_best = self.best_metrics.get(key, float('inf') if is_loss else float('-inf'))
 
             if (is_loss and value < current_best) or (not is_loss and value > current_best):
                 self.best_metrics[key] = value
-                logger.info(f"[检查点] '{key}' 新纪录: {value:.6f}。保存模型...")
-                self.multi_label_model.save_models(checkpoint_dir, f"pretrain_best_{key}")
-
-        # --- 基于主要指标更新最佳整体模型 ---
-        primary_value = val_metrics.get(self.primary_metric)
-        if primary_value is not None:
-            is_primary_loss = 'loss' in self.primary_metric or 'inf' in self.primary_metric
-            current_best_overall = self.best_metrics.get('overall', float('inf') if is_primary_loss else float('-inf'))
+                logger.info(f"[Checkpoint] New best for '{key}': {value:.6f}. Saving model...")
+                self.multi_label_model.save_models(checkpoint_dir, f"pretrain_best_{key.replace('val_','')}")
+        
+        # --- New: Calculate and check weighted overall score ---
+        if self.best_overall_score_config:
+            current_overall_score = 0
+            is_score_valid = True
+            for metric_name, weight in self.best_overall_score_config.items():
+                if metric_name in val_metrics:
+                    current_overall_score += weight * val_metrics[metric_name]
+                else:
+                    logger.warning(f"[Checkpoint] Metric '{metric_name}' for overall score not found in validation results. Skipping overall score check.")
+                    is_score_valid = False
+                    break
             
-            if (is_primary_loss and primary_value < current_best_overall) or \
-               (not is_primary_loss and primary_value > current_best_overall):
-                self.best_metrics['overall'] = primary_value
-                logger.info(f"[检查点] 新的最佳整体模型 (基于 {self.primary_metric}): {primary_value:.6f}。保存模型...")
-                self.multi_label_model.save_models(checkpoint_dir, "pretrain_best_overall")
+            if is_score_valid:
+                # For the overall score, higher is always better
+                current_best_overall = self.best_metrics.get('overall_score', float('-inf'))
+                if current_overall_score > current_best_overall:
+                    self.best_metrics['overall_score'] = current_overall_score
+                    logger.info(f"[Checkpoint] New best OVERALL weighted score: {current_overall_score:.6f}. Saving model...")
+                    self.multi_label_model.save_models(checkpoint_dir, "pretrain_best_overall")
 
     def pretrain_models_optimized(self):
         """优化的预训练过程，基于迭代次数进行验证和保存，包含训练损失跟踪"""

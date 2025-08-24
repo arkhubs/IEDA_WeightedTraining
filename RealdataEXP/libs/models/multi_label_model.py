@@ -10,6 +10,8 @@ import logging
 from typing import Dict, List, Tuple, Any
 from .mlp_model import MLPModel
 from .loss_functions import get_loss_function
+from torch.optim.lr_scheduler import ReduceLROnPlateau, CosineAnnealingLR
+from torch_optimizer import Lookahead
 
 logger = logging.getLogger(__name__)
 
@@ -31,14 +33,13 @@ class MultiLabelModel:
         self._build_models()
         
     def _build_models(self):
-        """构建所有标签的模型"""
+        """构建所有标签的模型、优化器和调度器"""
         logger.info("[模型构建] 开始构建多标签预测模型...")
         
         for label_config in self.labels:
             label_name = label_config['name']
             logger.info(f"[模型构建] 构建 {label_name} 模型...")
             
-            # 创建模型并移动到指定设备
             model = MLPModel(
                 input_dim=self.input_dim,
                 hidden_layers=label_config['model_params']['hidden_layers'],
@@ -46,29 +47,44 @@ class MultiLabelModel:
                 dropout=label_config['model_params']['dropout']
             ).to(self.device)
             
-            # 创建优化器
-            optimizer = optim.Adam(
-                model.parameters(),
-                lr=label_config['learning_rate'],
-                weight_decay=label_config['weight_decay']
-            )
+            # --- New: Dynamic Optimizer Creation ---
+            opt_config = label_config['optimizer']
+            opt_params = opt_config.get('params', {})
             
-            # 创建损失函数
-            loss_fn = get_loss_function(label_config['loss_function'])
-            
-            # 创建学习率调度器
-            scheduler = optim.lr_scheduler.ReduceLROnPlateau(
-                optimizer, mode='min', factor=0.5, patience=5
-            )
-            
+            if opt_config['name'].lower() == 'adam':
+                optimizer = optim.Adam(
+                    model.parameters(),
+                    lr=opt_config['learning_rate'],
+                    weight_decay=opt_config['weight_decay']
+                )
+            elif opt_config['name'].lower() == 'lookahead':
+                base_optimizer = optim.Adam(
+                    model.parameters(),
+                    lr=opt_config['learning_rate'],
+                    weight_decay=opt_config['weight_decay']
+                )
+                optimizer = Lookahead(base_optimizer, **opt_params)
+            else:
+                raise ValueError(f"Unsupported optimizer: {opt_config['name']}")
+
+            # --- New: Dynamic Scheduler Creation ---
+            sched_config = label_config['scheduler']
+            sched_params = sched_config.get('params', {})
+
+            if sched_config['name'].lower() == 'reducelronplateau':
+                scheduler = ReduceLROnPlateau(optimizer, **sched_params)
+            elif sched_config['name'].lower() == 'cosineannealinglr':
+                scheduler = CosineAnnealingLR(optimizer, **sched_params)
+            else:
+                raise ValueError(f"Unsupported scheduler: {sched_config['name']}")
+
             self.models[label_name] = model
             self.optimizers[label_name] = optimizer
-            self.loss_functions[label_name] = loss_fn
+            self.loss_functions[label_name] = get_loss_function(label_config['loss_function'])
             self.schedulers[label_name] = scheduler
             
-            # 打印模型信息
             model_info = model.get_model_info()
-            logger.info(f"[模型构建] {label_name} 模型: {model_info['total_params']} 参数")
+            logger.info(f"[模型构建] {label_name} 模型: {model_info['total_params']} 参数, 优化器: {opt_config['name']}, 调度器: {sched_config['name']}")
         
         logger.info(f"[模型构建] 多标签模型构建完成，共 {len(self.models)} 个模型")
     
@@ -121,6 +137,13 @@ class MultiLabelModel:
             if label_name in targets:
                 pred = self.forward(x, label_name)
                 target = targets[label_name]
+
+                # --- Fix: Ensure non-negative predictions for numerical targets before loss calculation ---
+                label_config = next((lc for lc in self.labels if lc['name'] == label_name), None)
+                if label_config and label_config['type'] == 'numerical':
+                    pred = torch.clamp(pred, min=0)
+                # --- End of fix ---
+
                 loss = self.loss_functions[label_name](pred, target)
                 losses[label_name] = loss
         
@@ -191,7 +214,16 @@ class MultiLabelModel:
         
         for label_name in self.models:
             checkpoint[f'{label_name}_model'] = self.models[label_name].state_dict()
-            checkpoint[f'{label_name}_optimizer'] = self.optimizers[label_name].state_dict()
+            # --- Fix for Lookahead optimizer state_dict ---
+            optimizer = self.optimizers[label_name]
+            # Check if the optimizer is the Lookahead wrapper
+            if isinstance(optimizer, Lookahead):
+                # Save the state of the internal (fast) optimizer
+                checkpoint[f'{label_name}_optimizer'] = optimizer.optimizer.state_dict()
+            else:
+                # For other optimizers (like Adam), save as usual
+                checkpoint[f'{label_name}_optimizer'] = optimizer.state_dict()
+            # --- End of fix ---
             checkpoint[f'{label_name}_scheduler'] = self.schedulers[label_name].state_dict()
         
         # 根据参数类型决定文件名
@@ -210,8 +242,17 @@ class MultiLabelModel:
         for label_name in self.models:
             if f'{label_name}_model' in checkpoint:
                 self.models[label_name].load_state_dict(checkpoint[f'{label_name}_model'])
+            # --- Fix for Lookahead optimizer state_dict loading ---
             if f'{label_name}_optimizer' in checkpoint:
-                self.optimizers[label_name].load_state_dict(checkpoint[f'{label_name}_optimizer'])
+                optimizer = self.optimizers[label_name]
+                # Check if the optimizer is the Lookahead wrapper
+                if isinstance(optimizer, Lookahead):
+                    # Load the state into the internal (fast) optimizer
+                    optimizer.optimizer.load_state_dict(checkpoint[f'{label_name}_optimizer'])
+                else:
+                    # For other optimizers, load as usual
+                    optimizer.load_state_dict(checkpoint[f'{label_name}_optimizer'])
+            # --- End of fix ---
             if f'{label_name}_scheduler' in checkpoint:
                 self.schedulers[label_name].load_state_dict(checkpoint[f'{label_name}_scheduler'])
         
