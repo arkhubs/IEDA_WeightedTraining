@@ -14,6 +14,7 @@ git rm -r --cached .
 git commit -m "push deleted"
 git push
 git remote -v
+module load amd/git-lfs/2.7.2
 
 conda activate E:\MyDocument\Codes_notnut\_notpad\IEDA\.conda
 cd RealdataEXP
