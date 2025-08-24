@@ -45,3 +45,5 @@ Thumbs.db
 
 # Logs
 # *.log
+gpu_run_[0-9]*_detailed.log
+gpu_utilization_[0-9]*.log
