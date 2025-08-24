@@ -5,19 +5,25 @@ code2prompt -p /home/export/base/sc100352/sc100352/online1/IEDA_WeightedTraining
 
 
 cd /home/export/base/sc100352/sc100352/online1/IEDA_WeightedTraining
+git remote -v
 git remote set-url origin https://github.com/arkhubs/IEDA_WeightedTraining.git
 git remote set-url origin https://githubfast.com/arkhubs/IEDA_WeightedTraining.git
 git config --global credential.helper libsecret
 git config --global credential.helper 'cache --timeout=360000000000'
-git add -A
+module load amd/git-lfs/2.7.2
+git add -A .
 git rm -r --cached .
 git commit -m "push deleted"
 git push
-git remote -v
-module load amd/git-lfs/2.7.2
 
-conda activate E:\MyDocument\Codes_notnut\_notpad\IEDA\.conda
+
+salloc -p q_intel_gpu_nvidia_nvlink_2 --gres=gpu:1 --mem=512G --cpus-per-task=64
+ssh gpu002
+sh /home/export/base/sc100352/sc100352/online1/IEDA_WeightedTraining/RealdataEXP/run_gpu_yanc.sh
+sh /home/export/base/sc100352/sc100352/online1/IEDA_WeightedTraining/RealdataEXP/monitor.sh
+
 cd RealdataEXP
+conda activate E:\MyDocument\Codes_notnut\_notpad\IEDA\.conda
 conda activate intelxpu
 conda activate pytorchDML
 python main.py --config configs/experiment_optimized.yaml
