@@ -17,7 +17,7 @@ git rm -r --cached .
 git commit -m "push deleted"
 git push
 
-远程覆盖本地
+
 远程覆盖本地容易出现远程和本地冲突的情况
 解决办法如下
 // 从远程拉取所有内容
@@ -33,6 +33,14 @@ salloc -p q_intel_gpu_nvidia_nvlink_2 --gres=gpu:1 --mem=512G --cpus-per-task=64
 ssh gpu002
 sh /home/export/base/sc100352/sc100352/online1/IEDA_WeightedTraining/RealdataEXP/run_gpu_yanc.sh
 sh /home/export/base/sc100352/sc100352/online1/IEDA_WeightedTraining/RealdataEXP/monitor.sh
+
+清理内存的方法：
+free -h
+nvidia-smi
+或
+ps aux --sort=-%mem head -n 20
+找到进程PID
+kill -9 pid
 
 cd RealdataEXP
 conda activate E:\MyDocument\Codes_notnut\_notpad\IEDA\.conda
@@ -52,15 +60,22 @@ python -m ipykernel install --user --name coquiTTS --display-name "coquiTTS"
 
 
 请把canvas中的内容的源代码提供给我，把它包裹在`代码块中，这样使它不会编译
-你不需要给出完整代码，只需给出为copilot准备的详细修改指令，在哪里做出哪些修改
+
+你不需要给出完整代码，只需给出为copilot准备的详细修改指令，在哪里做出哪些修改；千万注意不要误删无关的代码部分
 
 
 奇怪的循环曲线
 val_click_accuracy不动，一直是同一个很低的值，可能是由于预测值全为极端值，需要打log检查诊断，寻找解决方法
 改模型结构 叫做什么双什么结构
 删除val_play_time_mape，换成别的连续指标（playtime auc）
-内存占用优化
+内存占用优化，保存并分片加载
 
 某次训练过程，我没有操作，但出现了调度器状态丢失
+缓存数据之后，加载时内存装不下了，使用措施会导致速度变慢
+解决：每个epoch只加载一个chunk，或者用完一个chunk之后才会移到下一个chunk
+之后：划分基于用户，这样可以确保每次交互数量足够
+为仿真服务 -> 索引数据库 (SQLite)：我们将把所有处理好的数据，额外存储到一个SQLite数据库文件中。通过为 (user_id, video_id) 创建索引，我们可以实现毫秒级的随机查询，完美满足仿真阶段的需求。
+
+原代码中，有关torch.compile和ipex.optimize()的部分虽然不应该划在这个部分，但是它用处很大，请你移到新方法中，并同步修改需要调用它的地方，调用代码放在符合逻辑的地方（比如model创建之后）
 
 A800价格：每小时8元左右

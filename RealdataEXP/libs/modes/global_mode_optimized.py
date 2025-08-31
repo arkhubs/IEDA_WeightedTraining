@@ -27,7 +27,7 @@ from sklearn.metrics import accuracy_score, roc_auc_score
 
 # 使用新的设备管理工具替代旧的autocast导入
 
-from ..data import KuaiRandDataLoader, FeatureProcessor
+from ..data import KuaiRandDataLoader, FeatureProcessor, CacheManager
 from ..models import MultiLabelModel
 from ..utils import MetricsTracker, save_results, get_device_and_amp_helpers
 from ..utils.gpu_utils import log_gpu_info, log_gpu_memory_usage, test_gpu_training_speed, setup_gpu_monitoring
@@ -85,6 +85,7 @@ class GlobalModeOptimized:
         logger.info(f"[Global模式优化] 初始化完成，设备: {self.device}, AMP: {self.use_amp}")
         
         self.data_loader_wrapper = KuaiRandDataLoader(config)
+        self.cache_manager = CacheManager(config['dataset']['cache_path'])
         self.feature_processor = FeatureProcessor(config)
         self.multi_label_model = None
         self.merged_data = None
@@ -114,111 +115,8 @@ class GlobalModeOptimized:
         # GPU监控器
         self.gpu_monitor = None
         
-    def _perform_training_step(self, X_batch, targets_batch):
-        """执行一个优化的训练步骤，支持AMP"""
-        self.multi_label_model.set_train_mode()
-        
-        # 清零所有梯度以备下次迭代
-        for optimizer in self.multi_label_model.optimizers.values():
-            optimizer.zero_grad(set_to_none=True)
-
-        # --- 关键修复：使用准备好的兼容性参数 ---
-        with self.autocast(**self.autocast_kwargs):
-            losses = self.multi_label_model.compute_losses(X_batch, targets_batch)
-            total_loss = sum(losses.values())
-        # --- 修复结束 ---
-
-        if self.scaler.is_enabled():
-            self.scaler.scale(total_loss).backward()
-            for optimizer in self.multi_label_model.optimizers.values():
-                self.scaler.step(optimizer)
-            self.scaler.update()
-        else:
-            total_loss.backward()
-            for optimizer in self.multi_label_model.optimizers.values():
-                optimizer.step()
-
-        return {name: loss.item() for name, loss in losses.items()}
-        
-    def start_gpu_monitoring(self):
-        """启动GPU监控"""
-        if torch.cuda.is_available():
-            self.gpu_monitor = setup_gpu_monitoring(log_interval=60)  # 每分钟记录一次
-            
-    def stop_gpu_monitoring(self):
-        """停止GPU监控"""
-        if self.gpu_monitor:
-            self.gpu_monitor.stop_monitoring()
-            
-    def create_optimized_dataloader(self, data: pd.DataFrame, batch_size: int, shuffle: bool = True) -> DataLoader:
-        """创建优化的DataLoader"""
-        feature_columns = self.feature_processor.get_feature_columns()
-        
-        # 准备特征数据
-        features = data[feature_columns].values.astype(np.float32)
-        
-        # 准备标签数据
-        labels = {}
-        for label_config in self.config['labels']:
-            target_col = label_config['target']
-            labels[label_config['name']] = data[target_col].values.astype(np.float32)
-        
-        # 创建Dataset
-        dataset = TabularDataset(features, labels, self.device)
-        
-        # DataLoader参数
-        num_workers = self.config['dataset'].get('num_workers', 4)
-        pin_memory = self.config['dataset'].get('pin_memory', True) and torch.cuda.is_available()
-        
-        dataloader = DataLoader(
-            dataset,
-            batch_size=batch_size,
-            shuffle=shuffle,
-            num_workers=num_workers,
-            pin_memory=pin_memory,
-            persistent_workers=num_workers > 0  # 保持worker进程
-        )
-        
-        logger.info(f"[DataLoader] 创建完成 - batch_size: {batch_size}, num_workers: {num_workers}, pin_memory: {pin_memory}")
-        return dataloader
-        
-    def load_and_prepare_data(self):
-        """加载和准备数据"""
-        logger.info("[Global模式优化] 开始数据加载和准备...")
-        
-        self.merged_data, self.user_video_lists, self.train_users, self.val_users = \
-            self.data_loader_wrapper.load_and_prepare_data()
-        
-        stats = self.data_loader_wrapper.get_dataset_stats()
-        for key, value in stats.items():
-            logger.info(f"[数据统计] {key}: {value}")
-        
-        logger.info("[特征处理] 开始特征预处理...")
-        self.processed_data = self.feature_processor.fit_transform(self.merged_data)
-        
-        feature_columns = self.feature_processor.get_feature_columns()
-        input_dim = len(feature_columns)
-        logger.info(f"[特征处理] 特征维度: {input_dim}")
-        logger.info(f"[特征处理] 特征列: {feature_columns}")
-        
-        self.multi_label_model = MultiLabelModel(
-            config=self.config, input_dim=input_dim, device=self.device
-        )
-        
-        # --- New: Load checkpoint if specified ---
-        checkpoint_path = self.config['pretrain'].get('load_checkpoint_path')
-        if checkpoint_path and os.path.exists(checkpoint_path):
-            logger.info(f"[Checkpoint] Resuming training from: {checkpoint_path}")
-            try:
-                # The load_models method now also loads optimizer and scheduler states
-                self.multi_label_model.load_models(checkpoint_path)
-                logger.info(f"[Checkpoint] Successfully loaded model, optimizer, and scheduler states.")
-            except Exception as e:
-                logger.error(f"[Checkpoint] Failed to load checkpoint: {e}")
-        elif checkpoint_path:
-            logger.warning(f"[Checkpoint] Specified checkpoint path not found: {checkpoint_path}. Starting from scratch.")
-        # --- End of new block ---
-        
+    def _apply_model_optimizations(self):
+        """Applies advanced model optimizations like torch.compile or IPEX."""
         # --- New: Configurable Optimization Strategy ---
         opt_config = self.config.get('optimization', {})
         compile_config = opt_config.get('torch_compile', {})
@@ -290,7 +188,182 @@ class GlobalModeOptimized:
                  logger.info(f"[Optimization] No advanced optimizations applicable for the current device ('{self.device.type}') and configuration.")
         # --- End of Optimization Strategy ---
         
-        logger.info("[Global模式优化] 数据准备完成")
+    def _perform_training_step(self, X_batch, targets_batch):
+        """执行一个优化的训练步骤，支持AMP"""
+        self.multi_label_model.set_train_mode()
+        
+        # 清零所有梯度以备下次迭代
+        for optimizer in self.multi_label_model.optimizers.values():
+            optimizer.zero_grad(set_to_none=True)
+
+        # --- 关键修复：使用准备好的兼容性参数 ---
+        with self.autocast(**self.autocast_kwargs):
+            losses = self.multi_label_model.compute_losses(X_batch, targets_batch)
+            total_loss = sum(losses.values())
+        # --- 修复结束 ---
+
+        if self.scaler.is_enabled():
+            self.scaler.scale(total_loss).backward()
+            for optimizer in self.multi_label_model.optimizers.values():
+                self.scaler.step(optimizer)
+            self.scaler.update()
+        else:
+            total_loss.backward()
+            for optimizer in self.multi_label_model.optimizers.values():
+                optimizer.step()
+
+        return {name: loss.item() for name, loss in losses.items()}
+        
+    def start_gpu_monitoring(self):
+        """启动GPU监控"""
+        if torch.cuda.is_available():
+            self.gpu_monitor = setup_gpu_monitoring(log_interval=60)  # 每分钟记录一次
+            
+    def stop_gpu_monitoring(self):
+        """停止GPU监控"""
+        if self.gpu_monitor:
+            self.gpu_monitor.stop_monitoring()
+            
+    def create_optimized_dataloader(self, data: pd.DataFrame, batch_size: int, shuffle: bool = True) -> DataLoader:
+        """创建优化的DataLoader"""
+        feature_columns = self.feature_processor.get_feature_columns()
+        
+        # 准备特征数据
+        features = data[feature_columns].values.astype(np.float32)
+        
+        # 准备标签数据
+        labels = {}
+        for label_config in self.config['labels']:
+            target_col = label_config['target']
+            labels[label_config['name']] = data[target_col].values.astype(np.float32)
+        
+        # 创建Dataset
+        dataset = TabularDataset(features, labels, self.device)
+        
+        # DataLoader参数
+        num_workers = self.config['dataset'].get('num_workers', 4)
+        pin_memory = self.config['dataset'].get('pin_memory', True) and torch.cuda.is_available()
+        
+        dataloader = DataLoader(
+            dataset,
+            batch_size=batch_size,
+            shuffle=shuffle,
+            num_workers=num_workers,
+            pin_memory=pin_memory,
+            persistent_workers=num_workers > 0  # 保持worker进程
+        )
+        
+        logger.info(f"[DataLoader] 创建完成 - batch_size: {batch_size}, num_workers: {num_workers}, pin_memory: {pin_memory}")
+        return dataloader
+        
+    def load_and_prepare_data(self):
+        """
+        Loads and prepares data, with support for chunking and caching to handle large datasets.
+        """
+        logger.info("[Global模式优化] 开始数据加载和准备...")
+        chunk_config = self.config['dataset'].get('chunking', {'enabled': False})
+
+        if chunk_config.get('enabled', False):
+            num_chunks = chunk_config.get('num_chunks', 1)
+            # 检查所有块是否都已缓存
+            all_chunks_cached = True
+            for i in range(num_chunks):
+                if not self.cache_manager.exists(f"processed_features_chunk_{i}"):
+                    all_chunks_cached = False
+                    break
+            
+            if all_chunks_cached:
+                logger.info(f"所有 {num_chunks} 个数据块都已在缓存中找到。跳过数据处理。")
+                # 即使跳过处理，仍然需要初始化模型
+                logger.info("[特征处理] 从缓存加载特征维度信息...")
+                # 假设第一个块的特征处理器信息是通用的
+                self.feature_processor.load_processors(self.config['dataset']['cache_path'])
+                feature_columns = self.feature_processor.get_feature_columns()
+                input_dim = len(feature_columns)
+
+                self.multi_label_model = MultiLabelModel(config=self.config, input_dim=input_dim, device=self.device)
+                self._apply_model_optimizations() # 应用模型优化
+                # 加载用户列表以便进行仿真
+                self.train_users, self.val_users = self.cache_manager.load("user_split")
+                logger.info(f"从缓存加载用户划分: {len(self.train_users)} 训练用户, {len(self.val_users)} 验证用户")
+
+                return # 提前退出
+
+        logger.info("缓存未找到或未启用分块。开始完整的数据处理流程...")
+        self.merged_data, self.user_video_lists, self.train_users, self.val_users = \
+            self.data_loader_wrapper.load_and_prepare_data()
+        
+        # 缓存用户划分信息
+        self.cache_manager.save((self.train_users, self.val_users), "user_split")
+
+        stats = self.data_loader_wrapper.get_dataset_stats()
+        for key, value in stats.items():
+            logger.info(f"[数据统计] {key}: {value}")
+        
+        logger.info("[特征处理] 开始特征预处理...")
+        
+        # --- 分块处理 ---
+        if chunk_config.get('enabled', False):
+            logger.info("启用数据分块处理...")
+            num_chunks = chunk_config.get('num_chunks', 1)
+            fit_sample_ratio = chunk_config.get('fit_sample_ratio', 0.2)
+
+            # 1. 在数据样本上拟合 FeatureProcessor
+            logger.info(f"在 {fit_sample_ratio*100}% 的数据样本上拟合特征处理器...")
+            fit_sample_data = self.merged_data.sample(frac=fit_sample_ratio, random_state=42)
+            self.feature_processor.fit_transform(fit_sample_data)
+            del fit_sample_data
+            
+            # 保存处理器（scaler, mappings）
+            self.feature_processor.save_processors(self.config['dataset']['cache_path'])
+
+            # 2. 将用户分块
+            all_users = self.merged_data['user_id'].unique()
+            np.random.shuffle(all_users)
+            user_chunks = np.array_split(all_users, num_chunks)
+
+            # 3. 逐块处理和缓存数据
+            for i, user_chunk in enumerate(user_chunks):
+                logger.info(f"--- 正在处理块 {i+1}/{num_chunks} ---")
+                chunk_data = self.merged_data[self.merged_data['user_id'].isin(user_chunk)]
+                
+                logger.info(f"块 {i+1} 包含 {len(chunk_data)} 行数据。应用特征转换...")
+                processed_chunk_df = self.feature_processor.transform(chunk_data)
+                
+                feature_columns = self.feature_processor.get_feature_columns()
+                features_array = processed_chunk_df[feature_columns].values.astype(np.float32)
+                
+                labels_dict = {}
+                for label_config in self.config['labels']:
+                    target_col = label_config['target']
+                    labels_dict[label_config['name']] = processed_chunk_df[target_col].values.astype(np.float32)
+                
+                # 缓存处理好的 NumPy 数组
+                self.cache_manager.save(features_array, f"processed_features_chunk_{i}")
+                self.cache_manager.save(labels_dict, f"processed_labels_chunk_{i}")
+                logger.info(f"块 {i+1} 已处理并缓存。")
+
+            # 4. 释放内存
+            del self.merged_data
+            del self.processed_data
+            self.merged_data = None
+            self.processed_data = None
+            import gc
+            gc.collect()
+            logger.info("原始数据已从内存中释放。")
+
+            input_dim = len(self.feature_processor.get_feature_columns())
+        else: # 非分块模式
+            self.processed_data = self.feature_processor.fit_transform(self.merged_data)
+            input_dim = len(self.feature_processor.get_feature_columns())
+
+        # 5. 初始化模型
+        self.multi_label_model = MultiLabelModel(
+            config=self.config, input_dim=input_dim, device=self.device
+        )
+        self._apply_model_optimizations()
+        
+        logger.info("[Global模式优化] 数据准备完成。")
 
     def _pretrain_validate_epoch(self, val_loader: DataLoader) -> Dict[str, float]:
         """在预训练期间进行验证，并计算包括准确率和AUC在内的高级指标"""
@@ -453,7 +526,9 @@ class GlobalModeOptimized:
                     self.multi_label_model.save_models(checkpoint_dir, "pretrain_best_overall")
 
     def pretrain_models_optimized(self):
-        """优化的预训练过程，基于迭代次数进行验证和保存，包含训练损失跟踪"""
+        """
+        Optimized pre-training process that loads and trains on one data chunk per epoch.
+        """
         if not self.config['pretrain']['enabled']:
             logger.info("[预训练] 跳过预训练阶段")
             return
@@ -461,82 +536,105 @@ class GlobalModeOptimized:
         logger.info("[预训练优化] 开始预训练阶段...")
         log_gpu_memory_usage(" - 预训练开始前")
         
-        # --- 1. 准备并划分数据 ---
-        full_train_data = self.processed_data[self.processed_data['mask'] == 0].copy()
-        val_split_ratio = self.config['pretrain'].get('val_split_ratio', 0.5)
-        
-        pretrain_train_df, pretrain_val_df = train_test_split(
-            full_train_data, test_size=val_split_ratio, random_state=42
-        )
-        logger.info(f"[预训练优化] 数据划分完成 - 训练集: {len(pretrain_train_df)}, 验证集: {len(pretrain_val_df)}")
-        
-        # --- 2. 创建DataLoaders ---
-        batch_size = self.config['pretrain']['batch_size']
-        train_loader = self.create_optimized_dataloader(pretrain_train_df, batch_size, shuffle=True)
-        val_loader = self.create_optimized_dataloader(pretrain_val_df, batch_size, shuffle=False)
+        chunk_config = self.config['dataset'].get('chunking', {'enabled': False})
+        num_chunks = chunk_config.get('num_chunks', 1) if chunk_config.get('enabled') else 1
         
         epochs = self.config['pretrain']['epochs']
         validate_every_iters = self.config['pretrain'].get('validate_every_iters', 100)
-        
         self.global_iteration_step = 0
-        
-        # --- 新增：用于累积训练损失的列表 ---
         train_loss_accumulator = {name: [] for name in self.multi_label_model.models.keys()}
-        
+
         for epoch in range(1, epochs + 1):
             logger.info(f"[预训练优化] Epoch {epoch}/{epochs}")
+
+            # --- 1. 每个 epoch 加载一个数据块 ---
+            current_chunk_index = (epoch - 1) % num_chunks
+            logger.info(f"Epoch {epoch}: 正在加载数据块 {current_chunk_index + 1}/{num_chunks}")
             
+            try:
+                if chunk_config.get('enabled'):
+                    features_array = self.cache_manager.load(f"processed_features_chunk_{current_chunk_index}")
+                    labels_dict = self.cache_manager.load(f"processed_labels_chunk_{current_chunk_index}")
+                    if features_array is None or labels_dict is None:
+                        logger.error(f"无法从缓存加载块 {current_chunk_index}。请确保数据已处理。")
+                        continue
+                else: # 非分块模式，数据应在 self.processed_data 中
+                    if self.processed_data is None:
+                        logger.error("非分块模式下，processed_data 未加载。")
+                        return
+                    feature_columns = self.feature_processor.get_feature_columns()
+                    features_array = self.processed_data[feature_columns].values.astype(np.float32)
+                    labels_dict = {}
+                    for label_config in self.config['labels']:
+                        target_col = label_config['target']
+                        labels_dict[label_config['name']] = self.processed_data[target_col].values.astype(np.float32)
+
+            except Exception as e:
+                logger.error(f"加载数据块 {current_chunk_index} 时出错: {e}")
+                continue
+            
+            # --- 2. 准备数据并创建 DataLoader ---
+            # 使用从块加载的数据创建训练集和验证集
+            val_split_ratio = self.config['pretrain'].get('val_split_ratio', 0.2)
+            indices = np.arange(len(features_array))
+            train_indices, val_indices = train_test_split(indices, test_size=val_split_ratio, random_state=42)
+
+            train_features = features_array[train_indices]
+            val_features = features_array[val_indices]
+            train_labels = {name: arr[train_indices] for name, arr in labels_dict.items()}
+            val_labels = {name: arr[val_indices] for name, arr in labels_dict.items()}
+            
+            batch_size = self.config['pretrain']['batch_size']
+            train_dataset = TabularDataset(train_features, train_labels, self.device)
+            val_dataset = TabularDataset(val_features, val_labels, self.device)
+
+            num_workers = self.config['dataset'].get('num_workers', 4)
+            pin_memory = self.config['dataset'].get('pin_memory', True) and torch.cuda.is_available()
+            
+            train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=num_workers, pin_memory=pin_memory, persistent_workers=num_workers > 0)
+            val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False, num_workers=num_workers, pin_memory=pin_memory, persistent_workers=num_workers > 0)
+            
+            # --- 3. 训练和验证循环 (与之前相同) ---
             self.multi_label_model.set_train_mode()
-            pbar = tqdm(train_loader, desc=f"Epoch {epoch} Training")
+            pbar = tqdm(train_loader, desc=f"Epoch {epoch} Training on Chunk {current_chunk_index+1}")
             
             for X_batch, targets_batch in pbar:
                 self.global_iteration_step += 1
-                
                 X_batch = X_batch.to(self.device, non_blocking=True)
                 targets_batch = {name: tensor.to(self.device, non_blocking=True) for name, tensor in targets_batch.items()}
                 
                 losses = self._perform_training_step(X_batch, targets_batch)
-                
-                # 累积训练损失
                 for name, loss_val in losses.items():
                     train_loss_accumulator[name].append(loss_val)
-                
                 pbar.set_postfix({f"{k}_loss": f"{v:.4f}" for k, v in losses.items()})
 
-                # --- 基于迭代次数的验证 ---
                 if self.global_iteration_step % validate_every_iters == 0:
-                    # 计算区间内的平均训练损失
                     avg_train_losses = {}
                     for name, loss_list in train_loss_accumulator.items():
                         if loss_list:
                             avg_train_losses[f'train_{name}_loss'] = np.mean(loss_list)
-                            loss_list.clear()  # 为下一个区间重置
+                            loss_list.clear()
 
-                    # 运行验证
                     logger.info(f"\n--- 迭代 {self.global_iteration_step}: 运行验证 ---")
                     val_metrics = self._pretrain_validate_epoch(val_loader)
-                    
-                    # 合并并记录所有指标
                     all_metrics = {**avg_train_losses, **val_metrics}
                     log_str = ", ".join([f"{k}: {v:.6f}" for k, v in all_metrics.items()])
                     logger.info(f"[验证] 迭代 {self.global_iteration_step} - 指标: {log_str}")
 
                     current_iter_metrics = {'iteration': self.global_iteration_step, **all_metrics}
                     self.pretrain_metrics.append(current_iter_metrics)
-
-                    # 更新最佳检查点
                     self._update_best_checkpoints(val_metrics)
-
-                    # 绘制指标
                     if self.config['pretrain'].get('plot_loss_curves', True):
                         self._plot_pretrain_metrics()
 
-                    # 保存最新模型以便恢复
                     checkpoint_dir = os.path.join(self.exp_dir, "checkpoints")
                     self.multi_label_model.save_models(checkpoint_dir, "pretrain_latest")
-                    
-                    # 验证后重新设置为训练模式
                     self.multi_label_model.set_train_mode()
+
+            # 释放数据块的内存
+            del features_array, labels_dict, train_dataset, val_dataset, train_loader, val_loader
+            import gc
+            gc.collect()
 
         log_gpu_memory_usage(" - 预训练完成后")
         logger.info("[预训练优化] 预训练阶段完成")
@@ -828,6 +926,9 @@ class GlobalModeOptimized:
 
     def run_global_simulation_optimized(self):
         """运行优化的Global仿真"""
+        # TODO: Global 仿真阶段尚未更新以处理数据块。
+        # 当前它假设 self.processed_data 和 self.user_video_lists 已加载到内存中。
+        # 未来的优化需要修改此处的逻辑，以按需加载用户数据。
         logger.info("[Global仿真优化] 开始完整实验...")
         
         # 启动GPU监控
