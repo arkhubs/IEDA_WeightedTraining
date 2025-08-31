@@ -4,6 +4,7 @@ code2prompt -p E:\MyDocument\Codes_notnut\_notpad\IEDA\RealdataEXP -o E:\MyDocum
 code2prompt -p /home/export/base/sc100352/sc100352/online1/IEDA_WeightedTraining/RealdataEXP -o /home/export/base/sc100352/sc100352/online1/IEDA_WeightedTraining/RealdataEXP_prompt_202508220924.md --line-number -e "**/KuaiRand/*,**/results/*,**/__pycache__/*,**/.ipynb_checkpoints/*,**/.vscode/*,*.pt,*.pth,*.zip,*.tar.gz,*.log,**/venv/*,**/env/*"
 
 
+module load amd/proxy/proxy-1.0
 cd /home/export/base/sc100352/sc100352/online1/IEDA_WeightedTraining
 git remote -v
 git remote set-url origin https://github.com/arkhubs/IEDA_WeightedTraining.git
@@ -17,6 +18,7 @@ git commit -m "push deleted"
 git push
 
 
+sinfo
 salloc -p q_intel_gpu_nvidia_nvlink_2 --gres=gpu:1 --mem=512G --cpus-per-task=64
 ssh gpu002
 sh /home/export/base/sc100352/sc100352/online1/IEDA_WeightedTraining/RealdataEXP/run_gpu_yanc.sh
@@ -42,7 +44,11 @@ python -m ipykernel install --user --name coquiTTS --display-name "coquiTTS"
 请把canvas中的内容的源代码提供给我，把它包裹在`代码块中，这样使它不会编译
 你不需要给出完整代码，只需给出为copilot准备的详细修改指令，在哪里做出哪些修改
 
-playtime优化不良
-val_click_accuracy不动，一直是同一个很低的值
-添加val_play_time_mape
+
+奇怪的循环曲线
+val_click_accuracy不动，一直是同一个很低的值，可能是由于预测值全为极端值，需要打log检查诊断，寻找解决方法
+改模型结构 叫做什么双什么结构
+删除val_play_time_mape，换成别的连续指标（playtime auc）
 内存占用优化
+
+A800价格：每小时8元左右
