@@ -158,7 +158,8 @@ class KuaiRandDataLoader:
     
     def create_user_video_lists(self, merged_data: pd.DataFrame) -> Dict[int, List[int]]:
         """创建用户-视频交互列表（缓存机制）"""
-        cache_key = "user_video_lists"
+        dataset_name = self.config['dataset']['name']
+        cache_key = f"{dataset_name}_user_video_lists"
         
         # 尝试从缓存加载
         cached_data = self.cache_manager.load(cache_key)

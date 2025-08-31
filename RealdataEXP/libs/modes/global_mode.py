@@ -399,7 +399,7 @@ class GlobalMode:
             # 6. 保存模型
             if step % save_every == 0:
                 checkpoint_dir = os.path.join(self.exp_dir, "checkpoints")
-                self.multi_label_model.save_models(checkpoint_dir, step)
+                self.multi_label_model.save_models(checkpoint_dir, "checkpoint", step)
                 
                 # 保存特征处理器
                 self.feature_processor.save_processors(checkpoint_dir)

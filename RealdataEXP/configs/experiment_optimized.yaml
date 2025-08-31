@@ -25,8 +25,8 @@ optimization:
 
 # 数据集配置
 dataset:
-  name: "KuaiRand-1K"
-  path: "data/KuaiRand/1K"  # 1K数据在KuaiRand/1K目录下
+  name: "KuaiRand-Pure"
+  path: "data/KuaiRand/Pure"  # 1K数据在KuaiRand/1K目录下
   cache_path: "data/KuaiRand/cache"
   # --- 新增: DataLoader优化参数 ---
   num_workers: 0  # 使用20个CPU核心进行并行数据加载
@@ -34,10 +34,11 @@ dataset:
   # --- 新增: 数据分块配置 ---
   chunking:
     enabled: true  # 设置为 true 来启用分块功能
-    num_chunks: 10 # 将用户数据分割成10个块
+    num_chunks: 2  # 将用户数据分割成8个块
     # 用于拟合特征处理器的采样比例（例如，使用20%的数据来学习标准化参数）
     # 这有助于在处理非常大的数据集时避免将所有数据加载到内存中进行拟合
     fit_sample_ratio: 0.2
+    rechunk_every_n_epochs: 0 
 
 # 启用混合精度训练
 use_amp: true
@@ -138,7 +139,7 @@ pretrain:
   # 是否在每个epoch后绘制并保存损失曲线图
   plot_loss_curves: true
   # --- 新增：基于迭代次数的验证频率 ---
-  validate_every_iters: 3000
+  validate_every_iters: 1000
 
 # 全局仿真配置（优化）
 global:

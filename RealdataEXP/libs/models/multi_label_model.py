@@ -201,36 +201,28 @@ class MultiLabelModel:
         
         return combined_score
     
-    def save_models(self, save_dir: str, step_or_epoch_name):
-        """保存所有模型，支持步骤数字或epoch名称"""
+    def save_models(self, save_dir: str, base_name: str, iteration: int):
+        """保存所有模型，文件名中包含迭代次数"""
         import os
         os.makedirs(save_dir, exist_ok=True)
         
         checkpoint = {
-            'step_or_epoch': step_or_epoch_name,
+            'iteration': iteration, # 保存迭代次数而不是旧的名称
             'config': self.config,
             'input_dim': self.input_dim
         }
         
         for label_name in self.models:
             checkpoint[f'{label_name}_model'] = self.models[label_name].state_dict()
-            # --- Fix for Lookahead optimizer state_dict ---
             optimizer = self.optimizers[label_name]
-            # Check if the optimizer is the Lookahead wrapper
             if isinstance(optimizer, Lookahead):
-                # Save the state of the internal (fast) optimizer
                 checkpoint[f'{label_name}_optimizer'] = optimizer.optimizer.state_dict()
             else:
-                # For other optimizers (like Adam), save as usual
                 checkpoint[f'{label_name}_optimizer'] = optimizer.state_dict()
-            # --- End of fix ---
             checkpoint[f'{label_name}_scheduler'] = self.schedulers[label_name].state_dict()
         
-        # 根据参数类型决定文件名
-        if isinstance(step_or_epoch_name, int):
-            save_path = os.path.join(save_dir, f'step_{step_or_epoch_name}.pt')
-        else:
-            save_path = os.path.join(save_dir, f'{step_or_epoch_name}.pt')
+        # 构建包含迭代次数的新文件名
+        save_path = os.path.join(save_dir, f'{base_name}_iter_{iteration}.pt')
         
         torch.save(checkpoint, save_path)
         logger.info(f"[模型保存] 模型已保存到: {save_path}")
