@@ -141,7 +141,7 @@ class MultiLabelModel:
                 # --- Fix: Ensure non-negative predictions for numerical targets before loss calculation ---
                 label_config = next((lc for lc in self.labels if lc['name'] == label_name), None)
                 if label_config and label_config['type'] == 'numerical':
-                    pred = torch.clamp(pred, min=0)
+                    pred = torch.clamp(pred, min=1e-6) # 确保输入到log函数的值为正数
                 # --- End of fix ---
 
                 loss = self.loss_functions[label_name](pred, target)

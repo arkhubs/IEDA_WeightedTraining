@@ -249,8 +249,7 @@ class GlobalModeOptimized:
             batch_size=batch_size,
             shuffle=shuffle,
             num_workers=num_workers,
-            pin_memory=pin_memory,
-            persistent_workers=num_workers > 0  # 保持worker进程
+            pin_memory=pin_memory
         )
         
         logger.info(f"[DataLoader] 创建完成 - batch_size: {batch_size}, num_workers: {num_workers}, pin_memory: {pin_memory}")
@@ -590,8 +589,8 @@ class GlobalModeOptimized:
             num_workers = self.config['dataset'].get('num_workers', 4)
             pin_memory = self.config['dataset'].get('pin_memory', True) and torch.cuda.is_available()
             
-            train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=num_workers, pin_memory=pin_memory, persistent_workers=num_workers > 0)
-            val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False, num_workers=num_workers, pin_memory=pin_memory, persistent_workers=num_workers > 0)
+            train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=num_workers, pin_memory=pin_memory)
+            val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False, num_workers=num_workers, pin_memory=pin_memory)
             
             # --- 3. 训练和验证循环 (与之前相同) ---
             self.multi_label_model.set_train_mode()
