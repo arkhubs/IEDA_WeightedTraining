@@ -29,12 +29,12 @@ dataset:
   path: "data/KuaiRand/1K"  # 1K数据在KuaiRand/1K目录下
   cache_path: "data/KuaiRand/cache"
   # --- 新增: DataLoader优化参数 ---
-  num_workers: 64  # 使用64个CPU核心进行并行数据加载
+  num_workers: 32  # 使用64个CPU核心进行并行数据加载
   pin_memory: true # 锁定内存，加速CPU到GPU的数据传输
   # --- 新增: 数据分块配置 ---
   chunking:
     enabled: true  # 设置为 true 来启用分块功能
-    num_chunks: 10 # 将用户数据分割成10个块
+    num_chunks: 20 # 将用户数据分割成20个块
     # 用于拟合特征处理器的采样比例（例如，使用20%的数据来学习标准化参数）
     # 这有助于在处理非常大的数据集时避免将所有数据加载到内存中进行拟合
     fit_sample_ratio: 0.2
