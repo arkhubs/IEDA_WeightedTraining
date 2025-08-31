@@ -20,7 +20,7 @@ optimization:
   # 'compile': (Experimental) Uses the newer torch.compile(backend='ipex'). May be unstable.
   ipex_strategy: 'optimize'
   torch_compile:
-    enabled: true  # Set to true to enable torch.compile where supported
+    enabled: false  # Set to true to enable torch.compile where supported
     backend: "inductor" # Options: default, inductor, ipex
 
 # 数据集配置

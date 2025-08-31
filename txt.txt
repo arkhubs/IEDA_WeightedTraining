@@ -38,7 +38,7 @@ sh /home/export/base/sc100352/sc100352/online1/IEDA_WeightedTraining/RealdataEXP
 free -h
 nvidia-smi
 或
-ps aux --sort=-%mem head -n 20
+ps aux --sort=-%mem | head -n 20
 找到进程PID
 kill -9 pid
 
@@ -76,6 +76,5 @@ val_click_accuracy不动，一直是同一个很低的值，可能是由于预�
 之后：划分基于用户，这样可以确保每次交互数量足够
 为仿真服务 -> 索引数据库 (SQLite)：我们将把所有处理好的数据，额外存储到一个SQLite数据库文件中。通过为 (user_id, video_id) 创建索引，我们可以实现毫秒级的随机查询，完美满足仿真阶段的需求。
 
-原代码中，有关torch.compile和ipex.optimize()的部分虽然不应该划在这个部分，但是它用处很大，请你移到新方法中，并同步修改需要调用它的地方，调用代码放在符合逻辑的地方（比如model创建之后）
-
+torch。compile报错
 A800价格：每小时8元左右
