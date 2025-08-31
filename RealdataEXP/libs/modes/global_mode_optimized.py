@@ -278,8 +278,7 @@ class GlobalModeOptimized:
                 logger.info("[特征处理] 从缓存加载特征维度信息...")
                 # 假设第一个块的特征处理器信息是通用的
                 self.feature_processor.load_processors(self.config['dataset']['cache_path'])
-                feature_columns = self.feature_processor.get_feature_columns()
-                input_dim = len(feature_columns)
+                input_dim = self.feature_processor.total_numerical_dim + self.feature_processor.total_categorical_dim
 
                 self.multi_label_model = MultiLabelModel(config=self.config, input_dim=input_dim, device=self.device)
                 self._apply_model_optimizations() # 应用模型优化
@@ -352,10 +351,10 @@ class GlobalModeOptimized:
             gc.collect()
             logger.info("原始数据已从内存中释放。")
 
-            input_dim = len(self.feature_processor.get_feature_columns())
+            input_dim = self.feature_processor.total_numerical_dim + self.feature_processor.total_categorical_dim
         else: # 非分块模式
             self.processed_data = self.feature_processor.fit_transform(self.merged_data)
-            input_dim = len(self.feature_processor.get_feature_columns())
+            input_dim = self.feature_processor.total_numerical_dim + self.feature_processor.total_categorical_dim
 
         # 5. 初始化模型
         self.multi_label_model = MultiLabelModel(
