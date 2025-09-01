@@ -195,16 +195,15 @@ class FeatureProcessor:
         return feature_columns
     
     def save_processors(self, save_dir: str) -> None:
-        """保存特征处理器（文件名与数据集关联）"""
+        """保存特征处理器"""
         os.makedirs(save_dir, exist_ok=True)
-        dataset_name = self.config['dataset']['name']
         
         # 保存标准化器
-        with open(os.path.join(save_dir, f'{dataset_name}_scaler.pkl'), 'wb') as f:
+        with open(os.path.join(save_dir, 'scaler.pkl'), 'wb') as f:
             pickle.dump(self.scaler, f)
         
         # 保存分类特征映射
-        with open(os.path.join(save_dir, f'{dataset_name}_categorical_mappings.pkl'), 'wb') as f:
+        with open(os.path.join(save_dir, 'categorical_mappings.pkl'), 'wb') as f:
             pickle.dump(self.categorical_mappings, f)
         
         # 保存维度信息
@@ -213,28 +212,27 @@ class FeatureProcessor:
             'categorical_dims': self.categorical_dims,
             'total_categorical_dim': self.total_categorical_dim
         }
-        with open(os.path.join(save_dir, f'{dataset_name}_dim_info.pkl'), 'wb') as f:
+        with open(os.path.join(save_dir, 'dim_info.pkl'), 'wb') as f:
             pickle.dump(dim_info, f)
             
-        logger.info(f"[特征处理] 处理器 '{dataset_name}' 已保存到: {save_dir}")
+        logger.info(f"[特征处理] 处理器已保存到: {save_dir}")
     
     def load_processors(self, save_dir: str) -> None:
-        """加载特征处理器（文件名与数据集关联）"""
-        dataset_name = self.config['dataset']['name']
+        """加载特征处理器"""
         
         # 加载标准化器
-        with open(os.path.join(save_dir, f'{dataset_name}_scaler.pkl'), 'rb') as f:
+        with open(os.path.join(save_dir, 'scaler.pkl'), 'rb') as f:
             self.scaler = pickle.load(f)
         
         # 加载分类特征映射
-        with open(os.path.join(save_dir, f'{dataset_name}_categorical_mappings.pkl'), 'rb') as f:
+        with open(os.path.join(save_dir, 'categorical_mappings.pkl'), 'rb') as f:
             self.categorical_mappings = pickle.load(f)
         
         # 加载维度信息
-        with open(os.path.join(save_dir, f'{dataset_name}_dim_info.pkl'), 'rb') as f:
+        with open(os.path.join(save_dir, 'dim_info.pkl'), 'rb') as f:
             dim_info = pickle.load(f)
             self.total_numerical_dim = dim_info['total_numerical_dim']
             self.categorical_dims = dim_info['categorical_dims']
             self.total_categorical_dim = dim_info['total_categorical_dim']
             
-        logger.info(f"[特征处理] 处理器 '{dataset_name}' 已从 {save_dir} 加载")
+        logger.info(f"[特征处理] 处理器已从 {save_dir} 加载")

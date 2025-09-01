@@ -8,7 +8,7 @@
 #SBATCH --partition=gpu-a30   # GPU分区 (A30 GPU)
 #SBATCH --gpus-per-node=1     # 每个节点使用1个GPU
 #SBATCH --cpus-per-task=32    # 每个任务使用32个CPU核心
-#SBATCH --mem=64G             # 内存需求
+#SBATCH --mem=256G             # 内存需求
 #SBATCH --job-name=global_optimized  # 作业名称
 #SBATCH --output=results/gpu_run_%j.out  # 标准输出文件
 #SBATCH --error=results/gpu_run_%j.err   # 错误输出文件

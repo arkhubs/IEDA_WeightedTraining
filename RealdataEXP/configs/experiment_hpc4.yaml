@@ -1,5 +1,4 @@
-# base_dir: "/home/zhixuanhu/IEDA_WeightedTraining/RealdataEXP"
-base_dir: "E:/MyDocument/Codes_notnut/_notpad/IEDA/RealdataEXP"
+base_dir: "/home/zhixuanhu/IEDA_WeightedTraining/RealdataEXP"
 mode: 'global_optimized'  # 使用优化模式
 
 # --- Device Configuration ---
@@ -20,7 +19,7 @@ optimization:
   ipex_strategy: 'optimize'
   torch_compile:
     enabled: true  # Set to true to enable torch.compile where supported
-    backend: "ipex" # Options: default, inductor, ipex
+    backend: "inductor" # Options: default, inductor, ipex
 
 
 # 数据集配置
@@ -29,16 +28,16 @@ dataset:
   path: "data/KuaiRand/1K"  # 1K数据在KuaiRand/1K目录下
   cache_path: "data/KuaiRand/cache"
   # --- 新增: DataLoader优化参数 ---
-  num_workers: 0  # 使用20个CPU核心进行并行数据加载
+  num_workers: 32  # 使用32个CPU核心进行并行数据加载
   pin_memory: true # 锁定内存，加速CPU到GPU的数据传输
   # --- 新增: 数据分块配置 ---
   chunking:
     enabled: true  # 设置为 true 来启用分块功能
-    num_chunks: 8  # 将用户数据分割成8个块
+    num_chunks: 4  # 将用户数据分割成4个块
     # 用于拟合特征处理器的采样比例（例如，使用20%的数据来学习标准化参数）
     # 这有助于在处理非常大的数据集时避免将所有数据加载到内存中进行拟合
     fit_sample_ratio: 0.2
-    rechunk_every_n_epochs: 0 
+    rechunk_every_n_epochs: 8
 
 # 启用混合精度训练
 use_amp: true
@@ -126,7 +125,7 @@ labels:
 # 预训练配置（优化）
 pretrain:
   enabled: true
-  batch_size: 64  # 增加batch size以更好利用GPU
+  batch_size: 512  # 增加batch size以更好利用GPU
   epochs: 1500  
   # learning_rate and weight_decay removed here in favor of per-label optimizer blocks
   # (Use label.optimizer.learning_rate and label.optimizer.weight_decay)
@@ -139,7 +138,7 @@ pretrain:
   # 是否在每个epoch后绘制并保存损失曲线图
   plot_loss_curves: true
   # --- 新增：基于迭代次数的验证频率 ---
-  validate_every_iters: 1000
+  validate_every_iters: 500
 
 # 全局仿真配置（优化）
 global:

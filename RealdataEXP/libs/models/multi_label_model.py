@@ -226,6 +226,7 @@ class MultiLabelModel:
         
         torch.save(checkpoint, save_path)
         logger.info(f"[模型保存] 模型已保存到: {save_path}")
+        return save_path
     
     def load_models(self, checkpoint_path: str):
         """加载所有模型"""

@@ -85,7 +85,8 @@ class GlobalModeOptimized:
         logger.info(f"[Global模式优化] 初始化完成，设备: {self.device}, AMP: {self.use_amp}")
         
         self.data_loader_wrapper = KuaiRandDataLoader(config)
-        self.cache_manager = CacheManager(config['dataset']['cache_path'])
+        self.run_cache_dir = self._get_or_create_cache_subdir()
+        self.cache_manager = CacheManager(self.run_cache_dir)
         self.feature_processor = FeatureProcessor(config)
         self.multi_label_model = None
         self.merged_data = None
@@ -114,11 +115,30 @@ class GlobalModeOptimized:
         
         # GPU监控器
         self.gpu_monitor = None
+        # --- 新增：用于追踪可覆盖的检查点文件路径 ---
+        self.overwritable_checkpoint_paths = {}
         
-    def _get_cache_key(self, base_key: str) -> str:
-        """Generates a dataset-specific cache key."""
+    def _get_or_create_cache_subdir(self):
+        """根据数据集和分块配置生成一个唯一的缓存子目录路径。"""
+        base_cache_path = self.config['dataset']['cache_path']
         dataset_name = self.config['dataset']['name']
-        return f"{dataset_name}_{base_key}"
+        chunk_config = self.config['dataset'].get('chunking', {})
+
+        if chunk_config.get('enabled', False):
+            num_chunks = chunk_config.get('num_chunks', 1)
+            # e.g., "KuaiRand-1K-8chunks"
+            subdir_name = f"{dataset_name}-{num_chunks}chunks"
+        else:
+            # e.g., "KuaiRand-Pure-nochunk"
+            subdir_name = f"{dataset_name}-nochunk"
+        
+        run_cache_dir = os.path.join(base_cache_path, subdir_name)
+
+        if not os.path.exists(run_cache_dir):
+            os.makedirs(run_cache_dir)
+            logger.info(f"已创建新的缓存子目录: {run_cache_dir}")
+
+        return run_cache_dir
         
     def _apply_model_optimizations(self):
         """Applies advanced model optimizations like torch.compile or IPEX."""
@@ -277,7 +297,7 @@ class GlobalModeOptimized:
         del fit_sample_data
         
         # Save the fitted processors (scaler, mappings, etc.)
-        self.feature_processor.save_processors(self.config['dataset']['cache_path'])
+        self.feature_processor.save_processors(self.run_cache_dir)
 
         # 2. Chunk users
         # Note: self.train_users and self.val_users are used here. We need all users for processing.
@@ -287,8 +307,8 @@ class GlobalModeOptimized:
         
         # Clear old chunk files before creating new ones
         for i in range(num_chunks):
-            self.cache_manager.clear(self._get_cache_key(f"processed_features_chunk_{i}"))
-            self.cache_manager.clear(self._get_cache_key(f"processed_labels_chunk_{i}"))
+            self.cache_manager.clear(f"processed_features_chunk_{i}")
+            self.cache_manager.clear(f"processed_labels_chunk_{i}")
 
         # 3. Process and cache data chunk by chunk
         for i, user_chunk in enumerate(user_chunks):
@@ -307,8 +327,8 @@ class GlobalModeOptimized:
                 labels_dict[label_config['name']] = processed_chunk_df[target_col].values.astype(np.float32)
             
             # Cache the processed numpy arrays using dataset-specific keys
-            self.cache_manager.save(features_array, self._get_cache_key(f"processed_features_chunk_{i}"))
-            self.cache_manager.save(labels_dict, self._get_cache_key(f"processed_labels_chunk_{i}"))
+            self.cache_manager.save(features_array, f"processed_features_chunk_{i}")
+            self.cache_manager.save(labels_dict, f"processed_labels_chunk_{i}")
             logger.info(f"Chunk {i+1} processed and cached successfully.")
         
     def load_and_prepare_data(self):
@@ -323,7 +343,7 @@ class GlobalModeOptimized:
             # 检查所有块是否都已缓存
             all_chunks_cached = True
             for i in range(num_chunks):
-                if not self.cache_manager.exists(self._get_cache_key(f"processed_features_chunk_{i}")):
+                if not self.cache_manager.exists(f"processed_features_chunk_{i}"):
                     all_chunks_cached = False
                     break
             
@@ -332,13 +352,13 @@ class GlobalModeOptimized:
                 # 即使跳过处理，仍然需要初始化模型
                 logger.info("[特征处理] 从缓存加载特征维度信息...")
                 # 假设第一个块的特征处理器信息是通用的
-                self.feature_processor.load_processors(self.config['dataset']['cache_path'])
+                self.feature_processor.load_processors(self.run_cache_dir)
                 input_dim = self.feature_processor.total_numerical_dim + self.feature_processor.total_categorical_dim
 
                 self.multi_label_model = MultiLabelModel(config=self.config, input_dim=input_dim, device=self.device)
                 self._apply_model_optimizations() # 应用模型优化
                 # 加载用户列表以便进行仿真
-                self.train_users, self.val_users = self.cache_manager.load(self._get_cache_key("user_split"))
+                self.train_users, self.val_users = self.cache_manager.load("user_split")
                 logger.info(f"从缓存加载用户划分: {len(self.train_users)} 训练用户, {len(self.val_users)} 验证用户")
 
                 return # 提前退出
@@ -348,7 +368,7 @@ class GlobalModeOptimized:
             self.data_loader_wrapper.load_and_prepare_data()
         
         # 缓存用户划分信息
-        self.cache_manager.save((self.train_users, self.val_users), self._get_cache_key("user_split"))
+        self.cache_manager.save((self.train_users, self.val_users), "user_split")
 
         stats = self.data_loader_wrapper.get_dataset_stats()
         for key, value in stats.items():
@@ -369,7 +389,7 @@ class GlobalModeOptimized:
             del fit_sample_data
             
             # 保存处理器（scaler, mappings）
-            self.feature_processor.save_processors(self.config['dataset']['cache_path'])
+            self.feature_processor.save_processors(self.run_cache_dir)
 
             # 2. 将用户分块
             all_users = self.merged_data['user_id'].unique()
@@ -393,8 +413,8 @@ class GlobalModeOptimized:
                     labels_dict[label_config['name']] = processed_chunk_df[target_col].values.astype(np.float32)
                 
                 # 缓存处理好的 NumPy 数组
-                self.cache_manager.save(features_array, self._get_cache_key(f"processed_features_chunk_{i}"))
-                self.cache_manager.save(labels_dict, self._get_cache_key(f"processed_labels_chunk_{i}"))
+                self.cache_manager.save(features_array, f"processed_features_chunk_{i}")
+                self.cache_manager.save(labels_dict, f"processed_labels_chunk_{i}")
                 logger.info(f"块 {i+1} 已处理并缓存。")
 
             # 4. 释放内存
@@ -420,7 +440,7 @@ class GlobalModeOptimized:
         # Ensure user_video_lists is loaded for the global simulation phase if not loaded already
         if self.user_video_lists is None:
             logger.info("为 Global 仿真阶段加载 user_video_lists...")
-            self.user_video_lists = self.cache_manager.load(self._get_cache_key("user_video_lists"))
+            self.user_video_lists = self.cache_manager.load("user_video_lists")
             if self.user_video_lists is None:
                  logger.error("无法加载 user_video_lists，Global 仿真阶段可能会失败！")
         
@@ -549,12 +569,11 @@ class GlobalModeOptimized:
                 plt.close(fig)
             
     def _update_best_checkpoints(self, val_metrics: Dict[str, float], iteration: int):
-        """根据验证指标，更新并保存最佳模型检查点"""
+        """根据验证指标，更新并保存最佳模型检查点，同时删除旧版本。"""
         checkpoint_dir = os.path.join(self.exp_dir, "checkpoints")
         
-        # --- Update best metric for each tracked value ---
+        # --- 更新每个指标的最佳检查点 ---
         for key, value in val_metrics.items():
-            # --- New: Skip saving useless inf_count checkpoints ---
             if 'inf_count' in key:
                 continue
 
@@ -563,10 +582,27 @@ class GlobalModeOptimized:
 
             if (is_loss and value < current_best) or (not is_loss and value > current_best):
                 self.best_metrics[key] = value
-                logger.info(f"[Checkpoint] New best for '{key}': {value:.6f}. Saving model...")
-                self.multi_label_model.save_models(checkpoint_dir, f"pretrain_best_{key.replace('val_','')}", iteration)
-        
-        # --- New: Calculate and check weighted overall score ---
+                
+                base_name = f"pretrain_best_{key.replace('val_','')}"
+                logger.info(f"[Checkpoint] New best for '{key}': {value:.6f}. Saving model and removing old version...")
+
+                # 1. 删除旧的检查点文件（如果存在）
+                if base_name in self.overwritable_checkpoint_paths:
+                    old_path = self.overwritable_checkpoint_paths[base_name]
+                    try:
+                        if os.path.exists(old_path):
+                            os.remove(old_path)
+                            logger.debug(f"Removed old checkpoint: {old_path}")
+                    except OSError as e:
+                        logger.error(f"Error removing old checkpoint {old_path}: {e}")
+                
+                # 2. 保存新的检查点并获取其路径
+                new_path = self.multi_label_model.save_models(checkpoint_dir, base_name, iteration)
+                
+                # 3. 更新追踪字典中的路径
+                self.overwritable_checkpoint_paths[base_name] = new_path
+
+        # --- 更新加权总分的最佳检查点 ---
         if self.best_overall_score_config:
             current_overall_score = 0
             is_score_valid = True
@@ -574,17 +610,28 @@ class GlobalModeOptimized:
                 if metric_name in val_metrics:
                     current_overall_score += weight * val_metrics[metric_name]
                 else:
-                    logger.warning(f"[Checkpoint] Metric '{metric_name}' for overall score not found in validation results. Skipping overall score check.")
                     is_score_valid = False
                     break
             
             if is_score_valid:
-                # For the overall score, higher is always better
                 current_best_overall = self.best_metrics.get('overall_score', float('-inf'))
                 if current_overall_score > current_best_overall:
                     self.best_metrics['overall_score'] = current_overall_score
-                    logger.info(f"[Checkpoint] New best OVERALL weighted score: {current_overall_score:.6f}. Saving model...")
-                    self.multi_label_model.save_models(checkpoint_dir, "pretrain_best_overall", iteration)
+                    
+                    base_name = "pretrain_best_overall"
+                    logger.info(f"[Checkpoint] New best OVERALL score: {current_overall_score:.6f}. Saving model...")
+
+                    if base_name in self.overwritable_checkpoint_paths:
+                        old_path = self.overwritable_checkpoint_paths[base_name]
+                        try:
+                            if os.path.exists(old_path):
+                                os.remove(old_path)
+                                logger.debug(f"Removed old overall best checkpoint: {old_path}")
+                        except OSError as e:
+                            logger.error(f"Error removing old overall best checkpoint {old_path}: {e}")
+                    
+                    new_path = self.multi_label_model.save_models(checkpoint_dir, base_name, iteration)
+                    self.overwritable_checkpoint_paths[base_name] = new_path
 
     def pretrain_models_optimized(self):
         """
@@ -616,7 +663,7 @@ class GlobalModeOptimized:
                     self.merged_data, self.user_video_lists, self.train_users, self.val_users = \
                         self.data_loader_wrapper.load_and_prepare_data()
                     # 2. Re-cache the new user split
-                    self.cache_manager.save((self.train_users, self.val_users), self._get_cache_key("user_split"))
+                    self.cache_manager.save((self.train_users, self.val_users), "user_split")
                     # 3. Re-chunk and re-cache data based on the new split
                     self._chunk_and_cache_data()
                     # 4. Clean up memory
@@ -635,8 +682,8 @@ class GlobalModeOptimized:
             
             try:
                 if chunk_config.get('enabled'):
-                    features_array = self.cache_manager.load(self._get_cache_key(f"processed_features_chunk_{current_chunk_index}"))
-                    labels_dict = self.cache_manager.load(self._get_cache_key(f"processed_labels_chunk_{current_chunk_index}"))
+                    features_array = self.cache_manager.load(f"processed_features_chunk_{current_chunk_index}")
+                    labels_dict = self.cache_manager.load(f"processed_labels_chunk_{current_chunk_index}")
                     if features_array is None or labels_dict is None:
                         logger.error(f"无法从缓存加载块 {current_chunk_index}。")
                         continue
@@ -705,11 +752,22 @@ class GlobalModeOptimized:
                         self._plot_pretrain_metrics()
 
                     checkpoint_dir = os.path.join(self.exp_dir, "checkpoints")
-                    self.multi_label_model.save_models(checkpoint_dir, "pretrain_latest", self.global_iteration_step)
+                    base_name = "pretrain_latest"
+                    if base_name in self.overwritable_checkpoint_paths:
+                        old_path = self.overwritable_checkpoint_paths[base_name]
+                        try:
+                            if os.path.exists(old_path):
+                                os.remove(old_path)
+                        except OSError as e:
+                            logger.error(f"Error removing old latest checkpoint {old_path}: {e}")
+                    
+                    new_path = self.multi_label_model.save_models(checkpoint_dir, base_name, self.global_iteration_step)
+                    self.overwritable_checkpoint_paths[base_name] = new_path
                     
                     # --- 新增：每10000次迭代无条件保存一次 ---
                     if self.global_iteration_step > 0 and self.global_iteration_step % 10000 == 0:
                         logger.info(f"[Checkpoint] 达到 {self.global_iteration_step} 次迭代，执行无条件保存...")
+                        # 无条件保存，不追踪也不删除旧版本
                         self.multi_label_model.save_models(checkpoint_dir, "unconditional_save", self.global_iteration_step)
 
                     self.multi_label_model.set_train_mode()
