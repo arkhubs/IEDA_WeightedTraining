@@ -19,7 +19,7 @@ from typing import Dict, List, Tuple, Any
 from tqdm import tqdm
 import random
 import time
-import itertools  # 新增：用于限制验证批次
+import itertools  # 新增：用于限制验证批次和高效生成组合对
 # 新增的库
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
@@ -515,12 +515,67 @@ class GlobalModeOptimized:
 
                 except Exception as e:
                     logger.warning(f"无法计算 {label_name} 的AUC: {e}")
-                # --- 新增：数值型标签如 play_time 的 MAPE 计算 ---
-                if label_config['type'] == 'numerical':
-                    non_zero_mask = targets != 0
-                    if np.any(non_zero_mask):
-                        mape = np.mean(np.abs((targets[non_zero_mask] - preds[non_zero_mask]) / targets[non_zero_mask])) * 100
-                        val_metrics[f'val_{label_name}_mape'] = mape
+            
+            # --- ADD: Rank-AUC calculation for numerical labels like play_time ---
+            if label_config['type'] == 'numerical':
+                num_samples = len(targets)
+                if num_samples < 2:
+                    rank_auc = 0.5  # Not enough samples to compare
+                else:
+                    n_concordant = 0
+                    n_discordant = 0
+                    n_tied = 0
+                    # Efficiently iterate through all unique pairs
+                    for i, j in itertools.combinations(range(num_samples), 2):
+                        # Only consider pairs with different actual values
+                        if targets[i] == targets[j]:
+                            continue
+                        
+                        # Check for ties in prediction
+                        if preds[i] == preds[j]:
+                            n_tied += 1
+                        # Check for concordance
+                        elif (preds[i] > preds[j] and targets[i] > targets[j]) or \
+                             (preds[i] < preds[j] and targets[i] < targets[j]):
+                            n_concordant += 1
+                        # Otherwise, it's discordant
+                        else:
+                            n_discordant += 1
+                    
+                    denominator = n_concordant + n_discordant + n_tied
+                    if denominator == 0:
+                        rank_auc = 0.5  # Default if no valid pairs with different targets
+                    else:
+                        rank_auc = (n_concordant + 0.5 * n_tied) / denominator
+                
+                val_metrics[f'val_{label_name}_rank_auc'] = rank_auc
+
+        # --- ADD: Logging for prediction vs. actuals comparison ---
+        try:
+            logger.info("--- Validation Prediction vs. Actuals (Sample) ---")
+            num_samples_to_log = min(8, len(all_targets['click'][0]))
+
+            if num_samples_to_log > 0 and 'click' in all_preds and 'play_time' in all_preds:
+                # Get click predictions (as probabilities) and targets
+                click_preds_tensor = torch.cat(all_preds['click'])[:num_samples_to_log]
+                click_probs = torch.sigmoid(click_preds_tensor).cpu().numpy().flatten()
+                click_targets = torch.cat(all_targets['click'])[:num_samples_to_log].cpu().numpy().flatten()
+
+                # Get playtime predictions and targets
+                play_time_preds = torch.cat(all_preds['play_time'])[:num_samples_to_log].cpu().numpy().flatten()
+                play_time_targets = torch.cat(all_targets['play_time'])[:num_samples_to_log].cpu().numpy().flatten()
+
+                log_message = "\n"
+                log_message += "  Idx | Pred Click | Real Click | Pred Time | Real Time \n"
+                log_message += " -----|------------|------------|-----------|----------- \n"
+                for i in range(num_samples_to_log):
+                    log_message += (f"  {i:<4}| {click_probs[i]: >10.4f} | {click_targets[i]: >10.0f} | "
+                                    f"{play_time_preds[i]: >9.1f} | {play_time_targets[i]: >9.1f}\n")
+                
+                logger.info(log_message)
+        except Exception as e:
+            logger.warning(f"Could not log prediction samples: {e}")
+        # --- END of logging block ---
 
         return val_metrics
 

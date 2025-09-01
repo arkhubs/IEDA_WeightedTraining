@@ -178,5 +178,5 @@ validation:
     # A weight of +0.2 means that an increase of 0.1 in accuracy will increase the score by 0.02.
     val_click_accuracy: 0.2
     val_click_auc: 0.3
-    val_play_time_mape: -0.2 # Added the new MAPE metric
+    val_play_time_rank_auc: 0.3
 

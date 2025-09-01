@@ -47,6 +47,7 @@ conda activate E:\MyDocument\Codes_notnut\_notpad\IEDA\.conda
 conda activate intelxpu
 conda activate pytorchDML
 python main.py --config configs/experiment_optimized.yaml
+python main.py --config configs/experiment_ipex.yaml
 
 conda create -n ieda python=3.12  
 python -m ipykernel install --user --name coquiTTS --display-name "coquiTTS"                                              
@@ -68,12 +69,44 @@ python -m ipykernel install --user --name coquiTTS --display-name "coquiTTS"
 我要提交commit了，取一个英文标题
 
 
-val_click_accuracy不动，一直是同一个很低的值，可能是由于预测值全为极端值，需要打log检查诊断，寻找解决方法
+val_click_accuracy不动，一直是同一个很低的值，我试着打印了一些log，可能可以看出问题来
+可能是因为分界值不应该为0.5；另外造成的原因可能也是不平衡样本问题；
+  Idx | Pred Click | Real Click | Pred Time | Real Time
+ -----|------------|------------|-----------|-----------
+  0   |     0.5771 |          0 |    4808.0 |     762.0
+  1   |     0.6313 |          1 |    5732.0 |  120097.0
+  2   |     0.5645 |          0 |    3896.0 |    1576.0
+  3   |     0.6328 |          1 |    6868.0 |   16311.0
+  4   |     0.6162 |          0 |    2512.0 |    1126.0
+  5   |     0.6372 |          1 |    3700.0 |   33386.0
+  6   |     0.6602 |          0 |    5980.0 |     877.0
+  7   |     0.5894 |          1 |    1578.0 |    3811.0
+考虑把F1的图画在一起
+
+另外pred time的值似乎过于“平庸”，也就是都集中在1000-7000，没有适应real time的大方差，有无解决办法
+比如log变换
+
+大约在44000次迭代后，全部变成了nan
+--- 迭代 44000: 运行验证 ---                                                                                                                      2025-09-01 15:06:56 - libs.modes.global_mode_optimized - INFO - --- Validation Prediction vs. Actuals (Sample) ---      
+2025-09-01 15:06:56 - libs.modes.global_mode_optimized - INFO - 
+  Idx | Pred Click | Real Click | Pred Time | Real Time
+ -----|------------|------------|-----------|-----------
+  0   |     0.5635 |          0 |       nan |     762.0
+  1   |     0.6333 |          1 |       nan |  120097.0
+  2   |     0.5645 |          0 |       nan |    1576.0
+  3   |     0.6377 |          1 |       nan |   16311.0
+  4   |     0.6235 |          0 |       nan |    1126.0
+  5   |     0.6382 |          1 |       nan |   33386.0
+  6   |     0.6611 |          0 |       nan |     877.0
+  7   |     0.5908 |          1 |       nan |    3811.0
+
 改模型结构 叫做什么双什么结构
-删除val_play_time_mape，换成别的连续指标（playtime auc）
+
+发现问题：一个epoch内总是用同一批数据做validation，这有失公正，也许就是造成跨chunk时曲线剧烈波动的元凶
 
 某次训练过程，我没有操作，但出现了调度器状态丢失，呈现为突然的爆炸
 为仿真服务 -> 索引数据库 (SQLite)：我们将把所有处理好的数据，额外存储到一个SQLite数据库文件中。通过为 (user_id, video_id) 创建索引，我们可以实现毫秒级的随机查询，完美满足仿真阶段的需求。
 linux torch。compile报错
 
 A800价格：每小时8元左右
+8 new Nvidia RTX5880 GPU nodes (each node with 6x RTX5880) have been added to  HPC4                                                                                                    HPC4.
