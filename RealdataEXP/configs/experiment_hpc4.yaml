@@ -21,6 +21,8 @@ optimization:
     enabled: true  # Set to true to enable torch.compile where supported
     backend: "inductor" # Options: default, inductor, ipex
 
+# 启用混合精度训练
+use_amp: true
 
 # 数据集配置
 dataset:
@@ -38,9 +40,6 @@ dataset:
     # 这有助于在处理非常大的数据集时避免将所有数据加载到内存中进行拟合
     fit_sample_ratio: 0.2
     rechunk_every_n_epochs: 8
-
-# 启用混合精度训练
-use_amp: true
 
 # 特征配置（27K数据集特征）
 feature:
