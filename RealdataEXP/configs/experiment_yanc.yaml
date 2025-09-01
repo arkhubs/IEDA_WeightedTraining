@@ -34,11 +34,11 @@ dataset:
   # --- 新增: 数据分块配置 ---
   chunking:
     enabled: true  # 设置为 true 来启用分块功能
-    num_chunks: 8  # 将用户数据分割成8个块
+    num_chunks: 4  # 将用户数据分割成8个块
     # 用于拟合特征处理器的采样比例（例如，使用20%的数据来学习标准化参数）
     # 这有助于在处理非常大的数据集时避免将所有数据加载到内存中进行拟合
     fit_sample_ratio: 0.2
-    rechunk_every_n_epochs: 16 # 每 16 个 epoch 重新分块一次。设置为 0 或 null 则禁用。
+    rechunk_every_n_epochs: 32 # 每 16 个 epoch 重新分块一次。设置为 0 或 null 则禁用。
 
 # dataset:
 #   name: "KuaiRand-Pure"
@@ -137,10 +137,10 @@ labels:
 pretrain:
   enabled: true
   batch_size: 1024  # 增加batch size以更好利用GPU
-  epochs: 1200  
+  epochs: 600  
   # learning_rate and weight_decay removed here in favor of per-label optimizer blocks
   # (Use label.optimizer.learning_rate and label.optimizer.weight_decay)
-  early_stopping: 50
+  early_stopping: 20
   # --- 新增配置 ---
   # 指定要加载的预训练权重文件路径，如果为null则不加载
   load_checkpoint_path: null  # "results/YYYYMMDD_HHMM/checkpoints/pretrain_latest.pt"
